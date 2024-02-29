@@ -1,11 +1,17 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:todo_app/config/app_theme.dart';
+import 'package:todo_app/app_theme.dart';
 import 'package:todo_app/features/home_screen.dart';
 import 'package:todo_app/features/splash_screen.dart';
+import 'package:todo_app/firebase_options.dart';
 import 'package:todo_app/providers/my_provider.dart';
 
-void main() {
+void main()async {
+WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(
     ChangeNotifierProvider<MyProvider>(
       create: (context) => MyProvider(),

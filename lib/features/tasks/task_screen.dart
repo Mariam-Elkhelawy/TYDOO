@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:todo_app/config/app_theme.dart';
+import 'package:todo_app/app_theme.dart';
 import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:todo_app/features/tasks/task_item.dart';
 import 'package:todo_app/providers/my_provider.dart';
