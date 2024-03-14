@@ -1,12 +1,16 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/app_theme.dart';
 import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:todo_app/features/tasks/task_item.dart';
+import 'package:todo_app/features/models/task_model.dart';
+import 'package:todo_app/firebase/firebase_functions.dart';
 import 'package:todo_app/providers/my_provider.dart';
 
 class TaskScreen extends StatefulWidget {
   const TaskScreen({super.key});
+  static const String routeName = 'TaskScreen';
 
   @override
   State<TaskScreen> createState() => _TaskScreenState();
@@ -40,7 +44,7 @@ class _TaskScreenState extends State<TaskScreen> {
             Padding(
               padding: const EdgeInsetsDirectional.fromSTEB(16, 165, 0, 30),
               child: EasyInfiniteDateTimeLine(
-                timeLineProps: EasyTimeLineProps(separatorPadding: 24),
+                timeLineProps: const EasyTimeLineProps(separatorPadding: 24),
                 showTimelineHeader: false,
                 dayProps: EasyDayProps(
                   todayStyle: DayStyle(
@@ -51,7 +55,6 @@ class _TaskScreenState extends State<TaskScreen> {
                           : Colors.white,
                     ),
                     dayNumStyle: theme.textTheme.bodyMedium,
-
                     monthStrStyle: theme.textTheme.bodyMedium,
                     dayStrStyle: theme.textTheme.bodyMedium,
                   ),
@@ -67,7 +70,8 @@ class _TaskScreenState extends State<TaskScreen> {
                     ),
                   ),
                   activeDayStyle: DayStyle(
-                    dayNumStyle: theme.textTheme.bodyMedium?.copyWith(color: theme.primaryColor),
+                    dayNumStyle: theme.textTheme.bodyMedium
+                        ?.copyWith(color: theme.primaryColor),
                     monthStrStyle: theme.textTheme.bodyMedium
                         ?.copyWith(color: AppTheme.primaryColor),
                     dayStrStyle: theme.textTheme.bodyMedium
@@ -94,21 +98,39 @@ class _TaskScreenState extends State<TaskScreen> {
           ],
         ),
         Expanded(
-          child: ListView(
-            padding: EdgeInsets.zero,
-            children: [
-              TaskItem(),
-              TaskItem(),
-              TaskItem(),
-              TaskItem(),
-              TaskItem(),
-              TaskItem(),
-              TaskItem(),
-              TaskItem(),
-              TaskItem(),
-              TaskItem(),
-              TaskItem(),
-            ],
+          child: StreamBuilder<QuerySnapshot<TaskModel>>(
+            stream: FirebaseFunctions.getTask(focusDate),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                  child: CircularProgressIndicator(
+                    color: AppTheme.primaryColor,
+                  ),
+                );
+              }
+
+              if (snapshot.hasError) {
+                return const Center(
+                  child: Text('Something went wrong..'),
+                );
+              }
+              var tasks =
+                  snapshot.data?.docs.map((e) => e.data()).toList() ?? [];
+              if (tasks.isEmpty) {
+                return const Center(
+                  child: Text('There is no tasks yet!'),
+                );
+              }
+              return ListView.builder(
+                itemBuilder: (context, index) {
+                  return TaskItem(
+                    taskModel: tasks[index],
+                  );
+                },
+                itemCount: tasks.length,
+                padding: EdgeInsets.zero,
+              );
+            },
           ),
         )
       ],

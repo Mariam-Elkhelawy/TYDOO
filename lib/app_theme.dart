@@ -17,11 +17,11 @@ class AppTheme {
       bodyMedium: GoogleFonts.roboto(
         fontSize: 15,
         fontWeight: FontWeight.bold,
-        color: Color(0xFF363636),
+        color: const Color(0xFF363636),
       ),
       bodySmall: GoogleFonts.roboto(
         fontSize: 12,
-        color: Color(0xFF363636),
+        color: const Color(0xFF363636),
       ),
     ),
     scaffoldBackgroundColor: const Color(0xFFDFECDB),
@@ -35,14 +35,15 @@ class AppTheme {
       ),
       backgroundColor: primaryColor,
     ),
-    bottomSheetTheme: BottomSheetThemeData(backgroundColor: Colors.white),
+    appBarTheme: AppBarTheme(iconTheme: IconThemeData(color: Colors.white),),
+    bottomSheetTheme: const BottomSheetThemeData(backgroundColor: Colors.white),
   );
   static ThemeData darkTheme = ThemeData(
     primaryColor: primaryColor,
     brightness: Brightness.dark,
     textTheme: TextTheme(
       titleLarge: GoogleFonts.poppins(
-          fontSize: 22, color: Color(0xFF060E1E), fontWeight: FontWeight.bold),
+          fontSize: 22, color: const Color(0xFF060E1E), fontWeight: FontWeight.bold),
       bodyLarge: GoogleFonts.poppins(
           fontSize: 18, color: primaryColor, fontWeight: FontWeight.bold),
       bodyMedium: GoogleFonts.roboto(
@@ -55,7 +56,8 @@ class AppTheme {
         color: Colors.white,
       ),
     ),
-    bottomSheetTheme: BottomSheetThemeData(backgroundColor: blackColor),
+    appBarTheme: AppBarTheme(iconTheme: IconThemeData(color: blackColor),),
+    bottomSheetTheme: const BottomSheetThemeData(backgroundColor: blackColor),
     scaffoldBackgroundColor: const Color(0xFF060E1E),
     bottomAppBarTheme: const BottomAppBarTheme(
       color: blackColor,
