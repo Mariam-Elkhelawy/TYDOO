@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
@@ -48,6 +49,7 @@ class TaskItem extends StatelessWidget {
                     context,
                     EditTaskScreen.routeName,
                     arguments: TaskModel(
+                        userId: FirebaseAuth.instance.currentUser!.uid,
                         title: taskModel.title,
                         date: taskModel.date,
                         description: taskModel.description),

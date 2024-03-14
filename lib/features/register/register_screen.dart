@@ -7,7 +7,7 @@ import 'package:todo_app/providers/my_provider.dart';
 import 'package:todo_app/widgets/custom_text_form_field.dart';
 
 class RegisterScreen extends StatefulWidget {
-  RegisterScreen({super.key});
+  const RegisterScreen({super.key});
   static const String routeName = 'RegisterScreen';
 
   @override
@@ -63,7 +63,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     suffixIcon: const Icon(Icons.person),
                     keyboardType: TextInputType.name,
                     onValidate: (value) {
-                      if (value!.trim().isEmpty || value == null) {
+                      if (value!.trim().isEmpty) {
                         return 'You must Enter your Name';
                       }
                       return null;
@@ -77,8 +77,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     suffixIcon: const Icon(Icons.email_outlined),
                     keyboardType: TextInputType.emailAddress,
                     onValidate: (value) {
-                      if (value!.trim().isEmpty || value == null) {
+                      if (value!.trim().isEmpty) {
                         return 'You must Enter your E-mail';
+                      }
+                      bool emailValid =
+                      RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                          .hasMatch(value);
+                      if (!emailValid) {
+                        return """Invalid Email , please Enter a valid one
+EX :XX@XX.XX""";
                       }
                       return null;
                     },
@@ -99,8 +106,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         }),
                     obscureText: isPassword,
                     onValidate: (value) {
-                      if (value!.trim().isEmpty || value == null) {
+                      if (value!.trim().isEmpty) {
                         return 'You must Enter your Password';
+                      }
+                      RegExp regex = RegExp(
+                          r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
+                      if (!regex.hasMatch(value)) {
+                        return """Enter valid password..
+Password should be more than 8 characters long 
+It should contain :
+at least one Uppercase ( Capital ) letter 
+at least one lowercase character 
+at least one number and 
+special character EX:  ! @ # \$ & * ~""";
                       }
                       return null;
                     },
@@ -121,7 +139,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         }),
                     obscureText: isPassword,
                     onValidate: (value) {
-                      if (value!.trim().isEmpty || value == null) {
+                      if (value!.trim().isEmpty) {
                         return 'You must Enter your Confirm Password';
                       }
                       if (value != passwordController.text) {
@@ -141,9 +159,32 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                     onPressed: () {
                       if (formKey.currentState!.validate()) {
-                        FirebaseFunctions.register(emailController.text,
-                            passwordController.text, nameController.text);
-                        // Navigator.pushNamed(context, HomeScreen.routeName);
+                        FirebaseFunctions.register(
+                            email: emailController.text,
+                            password: passwordController.text,
+                            userName: nameController.text,
+                            onSuccess: () {
+                              Navigator.pushNamed(
+                                  context, HomeScreen.routeName);
+                            },
+                            onError: (errorMessage) {
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: Text('Error !'),
+                                    content: Text(errorMessage),
+                                    actions: [
+                                      ElevatedButton(
+                                        onPressed: () {Navigator.pop(context);},
+                                        child: Text('OK'),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            },
+                        );
                       }
                     },
                     child: Row(

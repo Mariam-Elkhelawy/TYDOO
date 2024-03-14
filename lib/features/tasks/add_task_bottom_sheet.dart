@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -50,7 +51,7 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
                   myController: titleController,
                   hintText: 'enter your task title',
                   onValidate: (value) {
-                    if (value!.trim().isEmpty || value == null) {
+                    if (value!.trim().isEmpty) {
                       return "Task title can't be empty!";
                     }
                     return null;
@@ -61,7 +62,7 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
                   hintText: 'enter your task description',
                   myController: descriptionController,
                   onValidate: (value) {
-                    if (value!.trim().isEmpty || value == null) {
+                    if (value!.trim().isEmpty) {
                       return "Task description can't be empty!";
                     }
                     return null;
@@ -96,6 +97,7 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
                   onTap: () {
                     if (formKey.currentState!.validate()) {
                       TaskModel taskModel = TaskModel(
+                          userId: FirebaseAuth.instance.currentUser!.uid,
                           title: titleController.text,
                           date: DateUtils.dateOnly(editProvider.chosenDate),
                           description: descriptionController.text);

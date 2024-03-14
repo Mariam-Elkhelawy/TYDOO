@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:todo_app/app_theme.dart';
 import 'package:todo_app/features/home_screen.dart';
 import 'package:todo_app/features/register/register_screen.dart';
-import 'package:todo_app/features/tasks/task_screen.dart';
+import 'package:todo_app/firebase/firebase_functions.dart';
 import 'package:todo_app/providers/my_provider.dart';
 import 'package:todo_app/widgets/custom_text_form_field.dart';
 
@@ -17,6 +17,8 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool isPassword = true;
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
@@ -62,7 +64,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     suffixIcon: const Icon(Icons.email_outlined),
                     keyboardType: TextInputType.emailAddress,
                     onValidate: (value) {
-                      if (value!.trim().isEmpty || value == null) {
+                      if (value!.trim().isEmpty) {
                         return 'You must Enter your E-mail';
                       }
                       return null;
@@ -74,16 +76,17 @@ class _LoginScreenState extends State<LoginScreen> {
                   CustomTextFormField(
                     hintText: 'Enter your password',
                     suffixIcon: IconButton(
-                        icon: isPassword
-                            ? const Icon(Icons.visibility)
-                            : const Icon(Icons.visibility_off),
-                        onPressed: () {
-                          isPassword = !isPassword;
-                          setState(() {});
-                        }),
+                      icon: isPassword
+                          ? const Icon(Icons.visibility)
+                          : const Icon(Icons.visibility_off),
+                      onPressed: () {
+                        isPassword = !isPassword;
+                        setState(() {});
+                      },
+                    ),
                     obscureText: isPassword,
                     onValidate: (value) {
-                      if (value!.trim().isEmpty || value == null) {
+                      if (value!.trim().isEmpty) {
                         return 'You must Enter your Password';
                       }
                       return null;
@@ -92,7 +95,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(height: 40),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.symmetric(horizontal: 40),
+                      padding: const EdgeInsets.symmetric(horizontal: 40),
                       backgroundColor: AppTheme.primaryColor,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(4),
@@ -100,7 +103,32 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     onPressed: () {
                       if (formKey.currentState!.validate()) {
-                        Navigator.pushNamed(context, HomeScreen.routeName);
+                        FirebaseFunctions.login(
+                          email: emailController.text,
+                          password: passwordController.text,
+                          onSuccess: () {
+                            Navigator.pushNamed(context, HomeScreen.routeName);
+                          },
+                          onError: (errorMessage) {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: Text('Error !'),
+                                  content: Text(errorMessage),
+                                  actions: [
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text('OK'),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          },
+                        );
                       }
                     },
                     child: Row(
@@ -111,7 +139,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           style: theme.textTheme.bodySmall
                               ?.copyWith(fontSize: 14, color: Colors.white),
                         ),
-                        Icon(
+                        const Icon(
                           Icons.arrow_forward_outlined,
                           size: 18,
                           color: Colors.white,
@@ -119,7 +147,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Text(
                     'OR',
                     textAlign: TextAlign.center,
