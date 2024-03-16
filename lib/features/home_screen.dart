@@ -64,4 +64,4 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
-List<Widget> screens = [const TaskScreen(), const SettingsScreen()];
+List<Widget> screens = [const TaskScreen(),  SettingsScreen()];

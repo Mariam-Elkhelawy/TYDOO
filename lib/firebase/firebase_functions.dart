@@ -60,7 +60,7 @@ class FirebaseFunctions {
     return getTaskCollection().doc(model.id).update(model.toJson());
   }
 
-  static void register(
+  static Future<void>  register(
       {required String email,
       required String password,
       required String userName,
@@ -89,14 +89,14 @@ class FirebaseFunctions {
     }
   }
 
-  static void resetPassword(String email) async{
+  static Future<void> resetPassword(String email) async{
     await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
   }
 
-  static void signOut() async{
+  static Future<void> signOut() async{
    await FirebaseAuth.instance.signOut();
   }
-  static void login(
+  static Future<void> login(
       {required String email,
       required String password,
       required Function onSuccess,
@@ -105,7 +105,7 @@ class FirebaseFunctions {
       final credential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
       // if (credential.user!.emailVerified) {
-      //   onSuccess();
+         onSuccess();
       // } else {
       //   onError('Please check your email verification');
       // }

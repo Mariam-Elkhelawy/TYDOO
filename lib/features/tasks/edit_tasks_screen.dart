@@ -19,13 +19,12 @@ class EditTaskScreen extends StatefulWidget {
 }
 
 class _EditTaskScreenState extends State<EditTaskScreen> {
-  bool isTapped = false;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
   TaskModel? model;
-  DateTime? chosenDate;
+  late DateTime chosenDate;
   @override
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context).size;
@@ -35,8 +34,8 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
     return ChangeNotifierProvider<EditProvider>(
       create: (context) => EditProvider(),
       builder: (context, child) {
-        var editProvider = Provider.of<EditProvider>(context);
-         chosenDate = editProvider.chosenDate;
+        var editProvider = Provider.of<EditProvider>(context, listen: false);
+        chosenDate = editProvider.chosenDate;
         if (model == null) {
           model = ModalRoute.of(context)!.settings.arguments as TaskModel;
           titleController.text = model!.title;
@@ -124,13 +123,11 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                               setState(
                                 () {
                                   editProvider.selectDate(context);
-                                  isTapped = true;
                                 },
                               );
                             },
                             child: Text(
-                              DateFormat.yMMMEd()
-                                  .format(isTapped ? chosenDate! : model!.date),
+                              DateFormat.yMMMEd().format(chosenDate),
                               style: GoogleFonts.inter(
                                   fontSize: 18, fontWeight: FontWeight.w400),
                             ),
@@ -156,7 +153,7 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                                 }
                                 model!.title = titleController.text;
                                 model!.description = descriptionController.text;
-                                model!.date = chosenDate!;
+                                model!.date = DateUtils.dateOnly(editProvider.chosenDate);
                                 try {
                                   await FirebaseFunctions.updateTask(model!);
                                   showDialog(

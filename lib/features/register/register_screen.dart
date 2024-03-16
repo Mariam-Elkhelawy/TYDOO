@@ -106,6 +106,11 @@ EX :XX@XX.XX""";
                       if (value!.trim().isEmpty) {
                         return 'You must Enter your Phone';
                       }
+                      RegExp regex =
+                          RegExp(  r'^(?:[+0]2)?01[0125][0-9]{8}$');
+                      if (!regex.hasMatch(value)) {
+                        return 'Enter Valid Phone Number';
+                      }
                       return null;
                     },
                   ),
@@ -176,14 +181,18 @@ special character EX:  ! @ # \$ & * ~""";
                         borderRadius: BorderRadius.circular(4),
                       ),
                     ),
-                    onPressed: () {
+                    onPressed: () async {
                       if (formKey.currentState!.validate()) {
-                        FirebaseFunctions.register(
+                        await FirebaseFunctions.register(
                           email: emailController.text,
                           password: passwordController.text,
                           userName: nameController.text,
                           onSuccess: () {
-                            Navigator.pushNamedAndRemoveUntil(context, HomeScreen.routeName,(route) => false,);
+                            Navigator.pushNamedAndRemoveUntil(
+                              context,
+                              HomeScreen.routeName,
+                              (route) => false,
+                            );
                           },
                           onError: (errorMessage) {
                             showDialog(

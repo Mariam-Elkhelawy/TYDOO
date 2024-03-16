@@ -45,9 +45,13 @@ class _TaskScreenState extends State<TaskScreen> {
                     ),
                     Spacer(),
                     InkWell(
-                      onTap: () {
-                        FirebaseFunctions.signOut();
-                        Navigator.pushNamed(context, LoginScreen.routeName);
+                      onTap: () async{
+                       await FirebaseFunctions.signOut();
+                        Navigator.pushNamedAndRemoveUntil(
+                          context,
+                          LoginScreen.routeName,
+                          (route) => false,
+                        );
                       },
                       child: Row(
                         children: [

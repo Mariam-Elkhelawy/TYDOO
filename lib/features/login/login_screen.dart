@@ -95,21 +95,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       return null;
                     },
                   ),
-                  const SizedBox(height: 10),
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: TextButton(
-                      onPressed: () {
-                        FirebaseFunctions.resetPassword(emailController.text);
-                      },
-                      child: Text(
-                        'Forgot password?',
-                        style:
-                            theme.textTheme.bodyMedium?.copyWith(fontSize: 12),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: 30),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(horizontal: 40),
@@ -118,9 +104,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         borderRadius: BorderRadius.circular(4),
                       ),
                     ),
-                    onPressed: () {
+                    onPressed: () async {
                       if (formKey.currentState!.validate()) {
-                        FirebaseFunctions.login(
+                        await FirebaseFunctions.login(
                           email: emailController.text,
                           password: passwordController.text,
                           onSuccess: () {
@@ -159,13 +145,30 @@ class _LoginScreenState extends State<LoginScreen> {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 10),
+                  SizedBox(height: 6),
+                  InkWell(
+                    onTap: () async {
+                      await FirebaseFunctions.resetPassword(
+                          emailController.text);
+                    },
+                    child: Text(
+                      'Forgot password?',
+                      textAlign: TextAlign.center,
+                      style: theme.textTheme.bodyMedium?.copyWith(fontSize: 14),
+                    ),
+                  ),
+                  SizedBox(height: 15),
                   Text(
                     'OR',
                     textAlign: TextAlign.center,
                     style: theme.textTheme.bodyMedium,
                   ),
+                  // SizedBox(height: 85),
                   TextButton(
+                    // style: ElevatedButton.styleFrom(
+                    //     // backgroundColor: AppTheme.primaryColor,
+                    //     // shape: RoundedRectangleBorder(
+                    //     //     borderRadius: BorderRadius.circular(4))),
                     onPressed: () {
                       Navigator.pushNamed(context, RegisterScreen.routeName);
                     },

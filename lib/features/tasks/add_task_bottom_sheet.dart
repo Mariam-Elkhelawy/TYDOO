@@ -95,15 +95,15 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
                 ),
                 const SizedBox(height: 35),
                 InkWell(
-                  onTap: () {
+                  onTap: () async {
                     if (formKey.currentState!.validate()) {
                       TaskModel taskModel = TaskModel(
-                           userId: FirebaseAuth.instance.currentUser!.uid,
+                          userId: FirebaseAuth.instance.currentUser!.uid,
                           id: '',
                           title: titleController.text,
                           date: DateUtils.dateOnly(editProvider.chosenDate),
                           description: descriptionController.text);
-                      FirebaseFunctions.addTask(taskModel);
+                      await FirebaseFunctions.addTask(taskModel);
                       showDialog(
                         context: context,
                         builder: (context) {

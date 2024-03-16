@@ -41,13 +41,14 @@ class TaskItem extends StatelessWidget {
                 showDialog(
                   context: context,
                   builder: (context) {
-                    return CustomDialog(is2Actions: true,
+                    return CustomDialog(
+                        is2Actions: true,
                         icon: Icon(
                           Icons.warning,
                           color: Colors.amberAccent,
                         ),
-                        actionRequired: () {
-                          FirebaseFunctions.deleteTask(taskModel.id);
+                        actionRequired: () async {
+                          await FirebaseFunctions.deleteTask(taskModel.id);
                         },
                         dialogContent:
                             'Are you sure you want to delete this task?',
@@ -67,7 +68,7 @@ class TaskItem extends StatelessWidget {
                     context,
                     EditTaskScreen.routeName,
                     arguments: TaskModel(
-                         userId: FirebaseAuth.instance.currentUser!.uid,
+                        userId: FirebaseAuth.instance.currentUser!.uid,
                         id: taskModel.id,
                         title: taskModel.title,
                         date: taskModel.date,
@@ -143,9 +144,9 @@ class TaskItem extends StatelessWidget {
               ),
               const Spacer(),
               InkWell(
-                onTap: () {
+                onTap: () async {
                   taskModel.isDone = true;
-                  FirebaseFunctions.updateTask(taskModel);
+                  await FirebaseFunctions.updateTask(taskModel);
                 },
                 child: taskModel.isDone
                     ? Text(
