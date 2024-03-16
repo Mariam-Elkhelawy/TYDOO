@@ -7,6 +7,7 @@ import 'package:todo_app/features/models/task_model.dart';
 import 'package:todo_app/firebase/firebase_functions.dart';
 import 'package:todo_app/providers/edit_provider.dart';
 import 'package:todo_app/providers/my_provider.dart';
+import 'package:todo_app/widgets/custom_dialog.dart';
 import 'package:todo_app/widgets/custom_text_form_field.dart';
 
 class EditTaskScreen extends StatefulWidget {
@@ -21,18 +22,27 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
   bool isTapped = false;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
+  TextEditingController titleController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
+  TaskModel? model;
+  DateTime? chosenDate;
   @override
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context).size;
     var theme = Theme.of(context);
-    var model = ModalRoute.of(context)!.settings.arguments as TaskModel;
     var provider = Provider.of<MyProvider>(context);
+
     return ChangeNotifierProvider<EditProvider>(
       create: (context) => EditProvider(),
       builder: (context, child) {
         var editProvider = Provider.of<EditProvider>(context);
-        DateTime chosenDate = editProvider.chosenDate;
-
+         chosenDate = editProvider.chosenDate;
+        if (model == null) {
+          model = ModalRoute.of(context)!.settings.arguments as TaskModel;
+          titleController.text = model!.title;
+          descriptionController.text = model!.description;
+           chosenDate = model!.date;
+        }
         return Drawer(
           child: Form(
             key: formKey,
@@ -76,14 +86,25 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                           ),
                           SizedBox(height: mediaQuery.height * .04),
                           CustomTextFormField(
-                            myController:
-                                TextEditingController(text: model.title),
+                            myController: titleController,
+                            hintText: 'enter your task title',
+                            onValidate: (value) {
+                              if (value!.trim().isEmpty) {
+                                return "Task title can't be empty!";
+                              }
+                              return null;
+                            },
                           ),
                           SizedBox(height: mediaQuery.height * .025),
                           CustomTextFormField(
-                            myController:
-                                TextEditingController(text: model.description),
-                          ),
+                              hintText: 'enter your task description',
+                              onValidate: (value) {
+                                if (value == null || value.trim().isEmpty) {
+                                  return "Task description can't be empty!";
+                                }
+                                return null;
+                              },
+                              myController: descriptionController),
                           SizedBox(height: mediaQuery.height * .025),
                           Container(
                             alignment: Alignment.centerLeft,
@@ -100,27 +121,82 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                           SizedBox(height: mediaQuery.height * .025),
                           InkWell(
                             onTap: () {
-                              setState(() {
-                                editProvider.selectDate(context);
-                                isTapped = true;
-                              });
+                              setState(
+                                () {
+                                  editProvider.selectDate(context);
+                                  isTapped = true;
+                                },
+                              );
                             },
                             child: Text(
                               DateFormat.yMMMEd()
-                                  .format(isTapped ? chosenDate : model.date),
+                                  .format(isTapped ? chosenDate! : model!.date),
                               style: GoogleFonts.inter(
                                   fontSize: 18, fontWeight: FontWeight.w400),
                             ),
                           ),
                           SizedBox(height: mediaQuery.height * .1),
                           InkWell(
-                            onTap: () {
+                            onTap: () async {
                               if (formKey.currentState!.validate()) {
-                                model.date = chosenDate;
-                                FirebaseFunctions.updateTask(model)
-                                    .then((value) {
-                                  Navigator.pop(context);
-                                });
+                                if (descriptionController.text ==
+                                        model!.description &&
+                                    titleController.text == model!.title &&
+                                    chosenDate == model!.date) {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return CustomDialog(
+                                          dialogContent:
+                                              'There is no changes !',
+                                          dialogTitle: 'Alert !');
+                                    },
+                                  );
+                                  return;
+                                }
+                                model!.title = titleController.text;
+                                model!.description = descriptionController.text;
+                                model!.date = chosenDate!;
+                                try {
+                                  await FirebaseFunctions.updateTask(model!);
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return CustomDialog(
+                                          actionRequired: () {
+                                            Navigator.pop(context);
+                                          },
+                                          dialogContent:
+                                              'Task Updated Successfully!',
+                                          dialogTitle: 'Congratulations !');
+                                    },
+                                  );
+                                } catch (e) {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        title: Text('Error !'),
+                                        content: Text('$e'),
+                                        actions: [
+                                          ElevatedButton(
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                            child: Text(
+                                              'OK',
+                                              style: theme.textTheme.bodyLarge
+                                                  ?.copyWith(
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      fontSize: 14),
+                                            ),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                }
                               }
                             },
                             child: Container(

@@ -8,6 +8,7 @@ import 'package:todo_app/features/models/task_model.dart';
 import 'package:todo_app/firebase/firebase_functions.dart';
 import 'package:todo_app/providers/edit_provider.dart';
 import 'package:todo_app/providers/my_provider.dart';
+import 'package:todo_app/widgets/custom_dialog.dart';
 import 'package:todo_app/widgets/custom_text_form_field.dart';
 
 class AddTaskBottomSheet extends StatefulWidget {
@@ -18,8 +19,8 @@ class AddTaskBottomSheet extends StatefulWidget {
 }
 
 class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
-  var titleController = TextEditingController();
-  var descriptionController = TextEditingController();
+  TextEditingController titleController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
@@ -97,13 +98,22 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
                   onTap: () {
                     if (formKey.currentState!.validate()) {
                       TaskModel taskModel = TaskModel(
-                          userId: FirebaseAuth.instance.currentUser!.uid,
+                           userId: FirebaseAuth.instance.currentUser!.uid,
+                          id: '',
                           title: titleController.text,
                           date: DateUtils.dateOnly(editProvider.chosenDate),
                           description: descriptionController.text);
-                      FirebaseFunctions.addTask(taskModel).then(
-                        (value) {
-                          Navigator.pop(context);
+                      FirebaseFunctions.addTask(taskModel);
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return CustomDialog(
+                            dialogContent: 'Task added Successfully!',
+                            dialogTitle: 'Congratulations !',
+                            actionRequired: () {
+                              Navigator.pop(context);
+                            },
+                          );
                         },
                       );
                     }

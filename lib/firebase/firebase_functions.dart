@@ -46,7 +46,7 @@ class FirebaseFunctions {
 
   static Stream<QuerySnapshot<TaskModel>> getTask(DateTime date) {
     return getTaskCollection()
-        .where('userId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+         .where('userId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
         .where('date',
             isEqualTo: DateUtils.dateOnly(date).millisecondsSinceEpoch)
         .snapshots();
@@ -89,6 +89,13 @@ class FirebaseFunctions {
     }
   }
 
+  static void resetPassword(String email) async{
+    await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+  }
+
+  static void signOut() async{
+   await FirebaseAuth.instance.signOut();
+  }
   static void login(
       {required String email,
       required String password,
@@ -102,8 +109,11 @@ class FirebaseFunctions {
       // } else {
       //   onError('Please check your email verification');
       // }
-    } on FirebaseAuthException catch (e) {
+    } on FirebaseAuthException catch(e){
       onError('email or password is wrong');
+      print(e);
+
     }
+
   }
 }

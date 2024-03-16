@@ -8,6 +8,7 @@ import 'package:todo_app/features/tasks/edit_tasks_screen.dart';
 import 'package:todo_app/features/models/task_model.dart';
 import 'package:todo_app/firebase/firebase_functions.dart';
 import 'package:todo_app/providers/my_provider.dart';
+import 'package:todo_app/widgets/custom_dialog.dart';
 
 class TaskItem extends StatelessWidget {
   const TaskItem({super.key, required this.taskModel});
@@ -22,7 +23,9 @@ class TaskItem extends StatelessWidget {
           const EdgeInsetsDirectional.symmetric(horizontal: 20, vertical: 10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
-        color: taskModel.isDone ? const Color(0xFFFE4A49) : const Color(0xFF21B7CA),
+        color: taskModel.isDone
+            ? const Color(0xFFFE4A49)
+            : const Color(0xFF21B7CA),
       ),
       child: Slidable(
         startActionPane: ActionPane(
@@ -35,7 +38,22 @@ class TaskItem extends StatelessWidget {
                 topLeft: Radius.circular(15),
               ),
               onPressed: (context) {
-                FirebaseFunctions.deleteTask(taskModel.id);
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return CustomDialog(is2Actions: true,
+                        icon: Icon(
+                          Icons.warning,
+                          color: Colors.amberAccent,
+                        ),
+                        actionRequired: () {
+                          FirebaseFunctions.deleteTask(taskModel.id);
+                        },
+                        dialogContent:
+                            'Are you sure you want to delete this task?',
+                        dialogTitle: "Alert !!");
+                  },
+                );
               },
               backgroundColor: const Color(0xFFFE4A49),
               icon: Icons.delete,
@@ -49,7 +67,8 @@ class TaskItem extends StatelessWidget {
                     context,
                     EditTaskScreen.routeName,
                     arguments: TaskModel(
-                        userId: FirebaseAuth.instance.currentUser!.uid,
+                         userId: FirebaseAuth.instance.currentUser!.uid,
+                        id: taskModel.id,
                         title: taskModel.title,
                         date: taskModel.date,
                         description: taskModel.description),

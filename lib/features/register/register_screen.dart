@@ -4,6 +4,7 @@ import 'package:todo_app/app_theme.dart';
 import 'package:todo_app/features/home_screen.dart';
 import 'package:todo_app/firebase/firebase_functions.dart';
 import 'package:todo_app/providers/my_provider.dart';
+import 'package:todo_app/widgets/custom_dialog.dart';
 import 'package:todo_app/widgets/custom_text_form_field.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -18,6 +19,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   bool isPassword = true;
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -59,6 +61,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   const Text('Full Name'),
                   const SizedBox(height: 6),
                   CustomTextFormField(
+                    myController: nameController,
                     hintText: 'Enter your Full Name',
                     suffixIcon: const Icon(Icons.person),
                     keyboardType: TextInputType.name,
@@ -73,6 +76,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   const Text('E-mail'),
                   const SizedBox(height: 6),
                   CustomTextFormField(
+                    myController: emailController,
                     hintText: 'Enter your e-mail address',
                     suffixIcon: const Icon(Icons.email_outlined),
                     keyboardType: TextInputType.emailAddress,
@@ -80,12 +84,27 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       if (value!.trim().isEmpty) {
                         return 'You must Enter your E-mail';
                       }
-                      bool emailValid =
-                      RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                      bool emailValid = RegExp(
+                              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                           .hasMatch(value);
                       if (!emailValid) {
                         return """Invalid Email , please Enter a valid one
 EX :XX@XX.XX""";
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 20),
+                  const Text('Phone Number'),
+                  const SizedBox(height: 6),
+                  CustomTextFormField(
+                    myController: phoneController,
+                    hintText: 'Enter your Phone Number',
+                    suffixIcon: const Icon(Icons.phone),
+                    keyboardType: TextInputType.phone,
+                    onValidate: (value) {
+                      if (value!.trim().isEmpty) {
+                        return 'You must Enter your Phone';
                       }
                       return null;
                     },
@@ -160,30 +179,22 @@ special character EX:  ! @ # \$ & * ~""";
                     onPressed: () {
                       if (formKey.currentState!.validate()) {
                         FirebaseFunctions.register(
-                            email: emailController.text,
-                            password: passwordController.text,
-                            userName: nameController.text,
-                            onSuccess: () {
-                              Navigator.pushNamed(
-                                  context, HomeScreen.routeName);
-                            },
-                            onError: (errorMessage) {
-                              showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return AlertDialog(
-                                    title: Text('Error !'),
-                                    content: Text(errorMessage),
-                                    actions: [
-                                      ElevatedButton(
-                                        onPressed: () {Navigator.pop(context);},
-                                        child: Text('OK'),
-                                      ),
-                                    ],
-                                  );
-                                },
-                              );
-                            },
+                          email: emailController.text,
+                          password: passwordController.text,
+                          userName: nameController.text,
+                          onSuccess: () {
+                            Navigator.pushNamedAndRemoveUntil(context, HomeScreen.routeName,(route) => false,);
+                          },
+                          onError: (errorMessage) {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return CustomDialog(
+                                    dialogContent: errorMessage,
+                                    dialogTitle: 'Error !');
+                              },
+                            );
+                          },
                         );
                       }
                     },

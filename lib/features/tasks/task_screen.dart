@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/app_theme.dart';
 import 'package:easy_date_timeline/easy_date_timeline.dart';
+import 'package:todo_app/features/home_screen.dart';
+import 'package:todo_app/features/login/login_screen.dart';
 import 'package:todo_app/features/tasks/task_item.dart';
 import 'package:todo_app/features/models/task_model.dart';
 import 'package:todo_app/firebase/firebase_functions.dart';
@@ -34,10 +36,38 @@ class _TaskScreenState extends State<TaskScreen> {
               width: mediaQuery.width,
               height: mediaQuery.height * .24,
               child: Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(45, 85, 0, 0),
-                child: Text(
-                  'To Do List',
-                  style: theme.textTheme.titleLarge,
+                padding: const EdgeInsetsDirectional.fromSTEB(45, 0, 20, 0),
+                child: Row(
+                  children: [
+                    Text(
+                      'To Do List',
+                      style: theme.textTheme.titleLarge,
+                    ),
+                    Spacer(),
+                    InkWell(
+                      onTap: () {
+                        FirebaseFunctions.signOut();
+                        Navigator.pushNamed(context, LoginScreen.routeName);
+                      },
+                      child: Row(
+                        children: [
+                          Text(
+                            'Log Out',
+                            style: theme.textTheme.titleLarge
+                                ?.copyWith(fontSize: 14),
+                          ),
+                          SizedBox(width: 6),
+                          Icon(
+                            Icons.logout,
+                            color: provider.themeMode == ThemeMode.dark
+                                ? const Color(0xFF060E1E)
+                                : Colors.white,
+                            size: 22,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),

@@ -13,12 +13,16 @@ class SplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     var provider = Provider.of<MyProvider>(context);
     return FlutterSplashScreen.fadeIn(
-        duration: const Duration(seconds: 4),
-        backgroundImage:
-            provider.themeMode == ThemeMode.light?
-        const Image(image: AssetImage('assets/images/splash.png')):
-        const Image(image: AssetImage('assets/images/splash_dark.png')),
-        nextScreen: LoginScreen(),
-        childWidget: const SizedBox());
+      duration: const Duration(seconds: 4),
+      backgroundImage: provider.themeMode == ThemeMode.light
+          ? const Image(
+              image: AssetImage('assets/images/splash.png'),
+            )
+          : const Image(
+              image: AssetImage('assets/images/splash_dark.png'),
+            ),
+      nextScreen: const LoginScreen(),
+      childWidget: const SizedBox(),
+    );
   }
 }

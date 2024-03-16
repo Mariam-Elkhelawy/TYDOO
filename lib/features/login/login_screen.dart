@@ -5,6 +5,7 @@ import 'package:todo_app/features/home_screen.dart';
 import 'package:todo_app/features/register/register_screen.dart';
 import 'package:todo_app/firebase/firebase_functions.dart';
 import 'package:todo_app/providers/my_provider.dart';
+import 'package:todo_app/widgets/custom_dialog.dart';
 import 'package:todo_app/widgets/custom_text_form_field.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -60,6 +61,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   const Text('E-mail'),
                   const SizedBox(height: 6),
                   CustomTextFormField(
+                    myController: emailController,
                     hintText: 'Enter your e-mail address',
                     suffixIcon: const Icon(Icons.email_outlined),
                     keyboardType: TextInputType.emailAddress,
@@ -74,6 +76,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   const Text('Password'),
                   const SizedBox(height: 6),
                   CustomTextFormField(
+                    myController: passwordController,
                     hintText: 'Enter your password',
                     suffixIcon: IconButton(
                       icon: isPassword
@@ -92,7 +95,21 @@ class _LoginScreenState extends State<LoginScreen> {
                       return null;
                     },
                   ),
-                  const SizedBox(height: 40),
+                  const SizedBox(height: 10),
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: TextButton(
+                      onPressed: () {
+                        FirebaseFunctions.resetPassword(emailController.text);
+                      },
+                      child: Text(
+                        'Forgot password?',
+                        style:
+                            theme.textTheme.bodyMedium?.copyWith(fontSize: 12),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(horizontal: 40),
@@ -107,24 +124,19 @@ class _LoginScreenState extends State<LoginScreen> {
                           email: emailController.text,
                           password: passwordController.text,
                           onSuccess: () {
-                            Navigator.pushNamed(context, HomeScreen.routeName);
+                            Navigator.pushNamedAndRemoveUntil(
+                              context,
+                              HomeScreen.routeName,
+                              (route) => false,
+                            );
                           },
                           onError: (errorMessage) {
                             showDialog(
                               context: context,
                               builder: (context) {
-                                return AlertDialog(
-                                  title: Text('Error !'),
-                                  content: Text(errorMessage),
-                                  actions: [
-                                    ElevatedButton(
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                      child: Text('OK'),
-                                    ),
-                                  ],
-                                );
+                                return CustomDialog(
+                                    dialogContent: errorMessage,
+                                    dialogTitle: 'Error !');
                               },
                             );
                           },
