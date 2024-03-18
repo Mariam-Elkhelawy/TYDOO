@@ -109,10 +109,10 @@ packages:
     dependency: "direct main"
     description:
       name: easy_date_timeline
-      sha256: "136421614a27f6807fd23a2991b31c953de60ef287496bb7db4879bed62a3b7a"
+      sha256: "645b2021f921f79f29c8ca56d7fbf93b119261bf8c62a0fa0a2ce28c4e17070d"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.6"
+    version: "1.0.3"
   fake_async:
     dependency: transitive
     description:
@@ -198,6 +198,11 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.1"
+  flutter_localizations:
+    dependency: "direct main"
+    description: flutter
+    source: sdk
+    version: "0.0.0"
   flutter_slidable:
     dependency: "direct main"
     description:
@@ -244,10 +249,10 @@ packages:
     dependency: "direct main"
     description:
       name: intl
-      sha256: d6f56758b7d3014a48af9701c085700aac781a92a87a62b1333b46d8879661cf
+      sha256: "3bc132a9dbce73a7e4a21a17d06e1878839ffbf975568bc875c60537824b0c4d"
       url: "https://pub.dev"
     source: hosted
-    version: "0.19.0"
+    version: "0.18.1"
   js:
     dependency: transitive
     description:

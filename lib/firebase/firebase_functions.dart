@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:todo_app/features/models/task_model.dart';
 import 'package:todo_app/features/models/user_model.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class FirebaseFunctions {
   static CollectionReference<TaskModel> getTaskCollection() {
@@ -65,7 +66,9 @@ class FirebaseFunctions {
       required String password,
       required String userName,
       required Function onSuccess,
-      required Function onError}) async {
+      required Function onError,required BuildContext context}) async {
+    var local = AppLocalizations.of(context)!;
+
     try {
       final credential =
           await FirebaseAuth.instance.createUserWithEmailAndPassword(
@@ -78,14 +81,15 @@ class FirebaseFunctions {
       await addUser(userModel);
       onSuccess();
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        onError(e.message);
-      } else if (e.code == 'email-already-in-use') {
-        onError(e.message);
+
+      if (e.code == 'email-already-in-use') {
+        onError(local.emailInUse);
+
       }
-      onError(e.message);
+      onError(local.wrongMessage);
     } catch (e) {
-      onError('Something Went Wrong');
+      onError(local.wrongMessage);
+
     }
   }
 
@@ -100,20 +104,23 @@ class FirebaseFunctions {
       {required String email,
       required String password,
       required Function onSuccess,
-      required Function onError}) async {
+      required Function onError,required BuildContext context}) async {
+    var local = AppLocalizations.of(context)!;
+
     try {
       final credential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
-      // if (credential.user!.emailVerified) {
+       if (credential.user!.emailVerified) {
          onSuccess();
-      // } else {
-      //   onError('Please check your email verification');
-      // }
-    } on FirebaseAuthException catch(e){
-      onError('email or password is wrong');
-      print(e);
+      } else {
+        onError(local.emailVerification);
+      }
+    } on FirebaseAuthException {
+      onError(local.wrongLogin);
 
     }
-
+  }
+ static bool isLoggedBefore() {
+    return FirebaseAuth.instance.currentUser != null;
   }
 }

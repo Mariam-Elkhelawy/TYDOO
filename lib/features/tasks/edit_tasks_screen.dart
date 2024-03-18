@@ -9,6 +9,7 @@ import 'package:todo_app/providers/edit_provider.dart';
 import 'package:todo_app/providers/my_provider.dart';
 import 'package:todo_app/widgets/custom_dialog.dart';
 import 'package:todo_app/widgets/custom_text_form_field.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class EditTaskScreen extends StatefulWidget {
   const EditTaskScreen({super.key});
@@ -20,27 +21,28 @@ class EditTaskScreen extends StatefulWidget {
 
 class _EditTaskScreenState extends State<EditTaskScreen> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
   TaskModel? model;
-  late DateTime chosenDate;
+  DateTime? chosenDate;
+  bool isTapped =false;
   @override
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context).size;
     var theme = Theme.of(context);
     var provider = Provider.of<MyProvider>(context);
+    var local = AppLocalizations.of(context)!;
 
     return ChangeNotifierProvider<EditProvider>(
       create: (context) => EditProvider(),
       builder: (context, child) {
-        var editProvider = Provider.of<EditProvider>(context, listen: false);
-        chosenDate = editProvider.chosenDate;
+        var editProvider = Provider.of<EditProvider>(context);
+        chosenDate = DateUtils.dateOnly(editProvider.chosenDate);
         if (model == null) {
           model = ModalRoute.of(context)!.settings.arguments as TaskModel;
           titleController.text = model!.title;
           descriptionController.text = model!.description;
-           chosenDate = model!.date;
+          chosenDate = model!.date;
         }
         return Drawer(
           child: Form(
@@ -56,7 +58,7 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                   child: Padding(
                     padding: const EdgeInsetsDirectional.fromSTEB(45, 85, 0, 0),
                     child: Text(
-                      'To Do List',
+                      local.todoList,
                       style: theme.textTheme.titleLarge,
                     ),
                   ),
@@ -76,7 +78,7 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                       child: Column(
                         children: [
                           Text(
-                            'Edit Task',
+                            local.editTask,
                             style: theme.textTheme.bodyLarge?.copyWith(
                               color: provider.themeMode == ThemeMode.dark
                                   ? Colors.white
@@ -86,29 +88,29 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                           SizedBox(height: mediaQuery.height * .04),
                           CustomTextFormField(
                             myController: titleController,
-                            hintText: 'enter your task title',
+                            hintText: local.enterTitle,
                             onValidate: (value) {
                               if (value!.trim().isEmpty) {
-                                return "Task title can't be empty!";
+                                return local.validateTitle;
                               }
                               return null;
                             },
                           ),
                           SizedBox(height: mediaQuery.height * .025),
                           CustomTextFormField(
-                              hintText: 'enter your task description',
+                              hintText: local.enterDescription,
                               onValidate: (value) {
                                 if (value == null || value.trim().isEmpty) {
-                                  return "Task description can't be empty!";
+                                  return local.validateDescription;
                                 }
                                 return null;
                               },
                               myController: descriptionController),
                           SizedBox(height: mediaQuery.height * .025),
                           Container(
-                            alignment: Alignment.centerLeft,
+                            alignment: AlignmentDirectional.centerStart,
                             child: Text(
-                              'Select date',
+                              local.selectDate,
                               style: theme.textTheme.bodyMedium?.copyWith(
                                 fontSize: 18,
                                 color: provider.themeMode == ThemeMode.dark
@@ -123,14 +125,18 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                               setState(
                                 () {
                                   editProvider.selectDate(context);
+                                  isTapped = true;
                                 },
                               );
                             },
-                            child: Text(
-                              DateFormat.yMMMEd().format(chosenDate),
-                              style: GoogleFonts.inter(
-                                  fontSize: 18, fontWeight: FontWeight.w400),
-                            ),
+                            child: chosenDate == null
+                                ? null
+                                : Text(
+                                    DateFormat.yMMMEd(provider.languageCode == 'en' ? 'en' : 'ar').format(isTapped?chosenDate!:model!.date),
+                                    style: GoogleFonts.inter(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w400),
+                                  ),
                           ),
                           SizedBox(height: mediaQuery.height * .1),
                           InkWell(
@@ -145,15 +151,16 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                                     builder: (context) {
                                       return CustomDialog(
                                           dialogContent:
-                                              'There is no changes !',
-                                          dialogTitle: 'Alert !');
+                                             local.noChanges,
+                                          dialogTitle: local.alert);
                                     },
                                   );
                                   return;
                                 }
                                 model!.title = titleController.text;
                                 model!.description = descriptionController.text;
-                                model!.date = DateUtils.dateOnly(editProvider.chosenDate);
+                                model!.date =
+                                    DateUtils.dateOnly(editProvider.chosenDate);
                                 try {
                                   await FirebaseFunctions.updateTask(model!);
                                   showDialog(
@@ -164,8 +171,8 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                                             Navigator.pop(context);
                                           },
                                           dialogContent:
-                                              'Task Updated Successfully!',
-                                          dialogTitle: 'Congratulations !');
+                                             local.editTaskSuccess,
+                                          dialogTitle: local.success);
                                     },
                                   );
                                 } catch (e) {
@@ -173,7 +180,7 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                                     context: context,
                                     builder: (context) {
                                       return AlertDialog(
-                                        title: Text('Error !'),
+                                        title: Text(local.error),
                                         content: Text('$e'),
                                         actions: [
                                           ElevatedButton(
@@ -181,7 +188,7 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                                               Navigator.pop(context);
                                             },
                                             child: Text(
-                                              'OK',
+                                              local.ok,
                                               style: theme.textTheme.bodyLarge
                                                   ?.copyWith(
                                                       fontWeight:
@@ -205,7 +212,7 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                               height: 55,
                               child: Center(
                                 child: Text(
-                                  'Save changes',
+                                  local.saveEdit,
                                   style: theme.textTheme.bodyMedium
                                       ?.copyWith(color: Colors.white),
                                 ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CustomDialog extends StatelessWidget {
   CustomDialog(
@@ -14,6 +15,8 @@ class CustomDialog extends StatelessWidget {
   bool is2Actions ;
   @override
   Widget build(BuildContext context) {
+    var local = AppLocalizations.of(context)!;
+
     var theme = Theme.of(context);
     return AlertDialog(
       title: icon != null
@@ -35,7 +38,7 @@ class CustomDialog extends StatelessWidget {
             Navigator.pop(context);
           },
           child: Text(
-            'OK',
+            local.ok,
             style: theme.textTheme.bodyLarge
                 ?.copyWith(fontWeight: FontWeight.w500, fontSize: 14),
           ),
@@ -46,7 +49,7 @@ class CustomDialog extends StatelessWidget {
               Navigator.pop(context);
             },
             child: Text(
-              'Cancel',
+              local.cancel,
               style: theme.textTheme.bodyLarge
                   ?.copyWith(fontWeight: FontWeight.w500, fontSize: 14),
             ),

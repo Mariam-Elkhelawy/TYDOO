@@ -7,6 +7,7 @@ import 'package:todo_app/firebase/firebase_functions.dart';
 import 'package:todo_app/providers/my_provider.dart';
 import 'package:todo_app/widgets/custom_dialog.dart';
 import 'package:todo_app/widgets/custom_text_form_field.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -27,6 +28,8 @@ class _LoginScreenState extends State<LoginScreen> {
     var mediaQuery = MediaQuery.of(context).size;
     var theme = Theme.of(context);
     var provider = Provider.of<MyProvider>(context);
+    var local = AppLocalizations.of(context)!;
+
     return Container(
       decoration: BoxDecoration(
         color: provider.themeMode == ThemeMode.light
@@ -48,36 +51,36 @@ class _LoginScreenState extends State<LoginScreen> {
                   SizedBox(height: mediaQuery.height * .11),
                   Text(
                     textAlign: TextAlign.center,
-                    'Login',
+                    local.login,
                     style: theme.textTheme.titleLarge,
                   ),
                   SizedBox(height: mediaQuery.height * .2),
                   Text(
                     textAlign: TextAlign.start,
-                    'Welcome back!',
+                    local.welcome,
                     style: theme.textTheme.bodyMedium?.copyWith(fontSize: 24),
                   ),
                   const SizedBox(height: 35),
-                  const Text('E-mail'),
+                  Text(local.email),
                   const SizedBox(height: 6),
                   CustomTextFormField(
                     myController: emailController,
-                    hintText: 'Enter your e-mail address',
+                    hintText: local.emailHint,
                     suffixIcon: const Icon(Icons.email_outlined),
                     keyboardType: TextInputType.emailAddress,
                     onValidate: (value) {
                       if (value!.trim().isEmpty) {
-                        return 'You must Enter your E-mail';
+                        return local.validateEmail;
                       }
                       return null;
                     },
                   ),
                   const SizedBox(height: 20),
-                  const Text('Password'),
+                  Text(local.password),
                   const SizedBox(height: 6),
                   CustomTextFormField(
                     myController: passwordController,
-                    hintText: 'Enter your password',
+                    hintText: local.passwordHint,
                     suffixIcon: IconButton(
                       icon: isPassword
                           ? const Icon(Icons.visibility)
@@ -90,7 +93,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     obscureText: isPassword,
                     onValidate: (value) {
                       if (value!.trim().isEmpty) {
-                        return 'You must Enter your Password';
+                        return local.validatePassword;
                       }
                       return null;
                     },
@@ -107,6 +110,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     onPressed: () async {
                       if (formKey.currentState!.validate()) {
                         await FirebaseFunctions.login(
+                          context: context,
                           email: emailController.text,
                           password: passwordController.text,
                           onSuccess: () {
@@ -122,7 +126,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               builder: (context) {
                                 return CustomDialog(
                                     dialogContent: errorMessage,
-                                    dialogTitle: 'Error !');
+                                    dialogTitle: local.error);
                               },
                             );
                           },
@@ -133,7 +137,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Login',
+                          local.login,
                           style: theme.textTheme.bodySmall
                               ?.copyWith(fontSize: 14, color: Colors.white),
                         ),
@@ -150,30 +154,32 @@ class _LoginScreenState extends State<LoginScreen> {
                     onTap: () async {
                       await FirebaseFunctions.resetPassword(
                           emailController.text);
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return CustomDialog(
+                              dialogContent: local.resetPassword, dialogTitle: local.reset);
+                        },
+                      );
                     },
                     child: Text(
-                      'Forgot password?',
+                      local.forgetPassword,
                       textAlign: TextAlign.center,
                       style: theme.textTheme.bodyMedium?.copyWith(fontSize: 14),
                     ),
                   ),
                   SizedBox(height: 15),
                   Text(
-                    'OR',
+                    local.or,
                     textAlign: TextAlign.center,
                     style: theme.textTheme.bodyMedium,
                   ),
-                  // SizedBox(height: 85),
                   TextButton(
-                    // style: ElevatedButton.styleFrom(
-                    //     // backgroundColor: AppTheme.primaryColor,
-                    //     // shape: RoundedRectangleBorder(
-                    //     //     borderRadius: BorderRadius.circular(4))),
                     onPressed: () {
                       Navigator.pushNamed(context, RegisterScreen.routeName);
                     },
                     child: Text(
-                      ' Create New Account..',
+                      local.createAccount,
                       textAlign: TextAlign.center,
                       style: theme.textTheme.bodyMedium,
                     ),

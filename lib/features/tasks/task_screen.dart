@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/app_theme.dart';
 import 'package:easy_date_timeline/easy_date_timeline.dart';
-import 'package:todo_app/features/home_screen.dart';
 import 'package:todo_app/features/login/login_screen.dart';
 import 'package:todo_app/features/tasks/task_item.dart';
 import 'package:todo_app/features/models/task_model.dart';
 import 'package:todo_app/firebase/firebase_functions.dart';
 import 'package:todo_app/providers/my_provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class TaskScreen extends StatefulWidget {
   const TaskScreen({super.key});
@@ -26,6 +26,8 @@ class _TaskScreenState extends State<TaskScreen> {
     var mediaQuery = MediaQuery.of(context).size;
     var theme = Theme.of(context);
     var provider = Provider.of<MyProvider>(context);
+    var local = AppLocalizations.of(context)!;
+
     return Column(
       children: [
         Stack(
@@ -40,13 +42,13 @@ class _TaskScreenState extends State<TaskScreen> {
                 child: Row(
                   children: [
                     Text(
-                      'To Do List',
+                      local.todoList,
                       style: theme.textTheme.titleLarge,
                     ),
                     Spacer(),
                     InkWell(
-                      onTap: () async{
-                       await FirebaseFunctions.signOut();
+                      onTap: () async {
+                        await FirebaseFunctions.signOut();
                         Navigator.pushNamedAndRemoveUntil(
                           context,
                           LoginScreen.routeName,
@@ -56,7 +58,7 @@ class _TaskScreenState extends State<TaskScreen> {
                       child: Row(
                         children: [
                           Text(
-                            'Log Out',
+                            local.logout,
                             style: theme.textTheme.titleLarge
                                 ?.copyWith(fontSize: 14),
                           ),
@@ -78,6 +80,7 @@ class _TaskScreenState extends State<TaskScreen> {
             Padding(
               padding: const EdgeInsetsDirectional.fromSTEB(16, 165, 0, 30),
               child: EasyInfiniteDateTimeLine(
+                locale: provider.languageCode == 'ar' ? 'ar' : 'en',
                 timeLineProps: const EasyTimeLineProps(separatorPadding: 24),
                 showTimelineHeader: false,
                 dayProps: EasyDayProps(
@@ -144,15 +147,15 @@ class _TaskScreenState extends State<TaskScreen> {
               }
 
               if (snapshot.hasError) {
-                return const Center(
-                  child: Text('Something went wrong..'),
+                return Center(
+                  child: Text(local.isError),
                 );
               }
               var tasks =
                   snapshot.data?.docs.map((e) => e.data()).toList() ?? [];
               if (tasks.isEmpty) {
-                return const Center(
-                  child: Text('There is no tasks yet!'),
+                return Center(
+                  child: Text(local.noTasks,style: TextStyle(fontSize: 18),),
                 );
               }
               return ListView.builder(

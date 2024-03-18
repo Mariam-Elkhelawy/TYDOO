@@ -1,20 +1,23 @@
-import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/app_theme.dart';
 import 'package:todo_app/features/login/login_screen.dart';
+import 'package:todo_app/features/settings/DropDownWidget.dart';
 import 'package:todo_app/firebase/firebase_functions.dart';
 import 'package:todo_app/providers/my_provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SettingsScreen extends StatelessWidget {
   SettingsScreen({super.key});
-  List<String> langList = ['English', 'العربيه'];
-  List<String> themeList = ['dark', 'light'];
+
   @override
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context).size;
     var theme = Theme.of(context);
     var provider = Provider.of<MyProvider>(context);
+    var local = AppLocalizations.of(context)!;
+    List<String> langList = [local.english, local.arabic];
+    List<String> themeList = [local.dark, local.light];
     return Column(
       children: [
         Container(
@@ -26,7 +29,7 @@ class SettingsScreen extends StatelessWidget {
             child: Row(
               children: [
                 Text(
-                  'Settings',
+                  local.settings,
                   style: theme.textTheme.titleLarge,
                 ),
                 Spacer(),
@@ -42,7 +45,7 @@ class SettingsScreen extends StatelessWidget {
                   child: Row(
                     children: [
                       Text(
-                        'Log Out',
+                        local.logout,
                         style:
                             theme.textTheme.titleLarge?.copyWith(fontSize: 14),
                       ),
@@ -67,47 +70,42 @@ class SettingsScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(
-                'Language',
+                local.language,
                 style: theme.textTheme.bodyMedium,
               ),
               SizedBox(height: 14),
-              CustomDropdown(hintText: 'Select Language',
-                decoration: CustomDropdownDecoration(
-                    closedBorderRadius: BorderRadius.zero,
-                    expandedBorderRadius: BorderRadius.zero,
-                    headerStyle: theme.textTheme.bodyMedium
-                        ?.copyWith(color: AppTheme.primaryColor),
-                    listItemStyle: theme.textTheme.bodyMedium
-                        ?.copyWith(color: AppTheme.primaryColor),
-                    closedBorder: Border.all(color: AppTheme.primaryColor),
-                  closedFillColor:provider.themeMode==ThemeMode.dark? AppTheme.blackColor:Colors.white,
-                  expandedFillColor: provider.themeMode==ThemeMode.dark? AppTheme.blackColor:Colors.white,
-                ),
-                items: langList,
-                onChanged: (value) {},
-              ),
+              CustomDropDownWidget(
+                  initialItem: provider.languageCode == 'en'
+                      ? local.english
+                      : local.arabic,
+                  onChanged: (value) {
+                    if (value == local.arabic) {
+                      provider.changeLanguageCode('ar');
+                    } else if (value == local.english) {
+                      provider.changeLanguageCode('en');
+                    }
+                  },
+                  hintText: local.selectLanguage,
+                  items: langList),
               SizedBox(height: 20),
               Text(
-                'Theme',
+                local.theme,
                 style: theme.textTheme.bodyMedium,
               ),
               SizedBox(height: 14),
-              CustomDropdown(hintText: 'Select Theme',
-                decoration: CustomDropdownDecoration(
-                    // expandedBorder: Border.all(color: AppTheme.primaryColor),
-                    closedBorderRadius: BorderRadius.zero,
-                    expandedBorderRadius: BorderRadius.zero,
-                    headerStyle: theme.textTheme.bodyMedium
-                        ?.copyWith(color: AppTheme.primaryColor),
-                    listItemStyle: theme.textTheme.bodyMedium
-                        ?.copyWith(color: AppTheme.primaryColor),
-                    closedBorder: Border.all(color: AppTheme.primaryColor),
-                    closedFillColor:provider.themeMode==ThemeMode.dark? AppTheme.blackColor:Colors.white,
-                    expandedFillColor: provider.themeMode==ThemeMode.dark? AppTheme.blackColor:Colors.white,
-                ),
-                items: themeList,
-                onChanged: (value) {},
-              )
+              CustomDropDownWidget(
+                  initialItem: provider.themeMode == ThemeMode.light
+                      ? local.light
+                      : local.dark,
+                  onChanged: (value) {
+                    if (value == local.dark) {
+                      provider.changeThemeMode(ThemeMode.dark);
+                    } else if (value == local.light) {
+                      provider.changeThemeMode(ThemeMode.light);
+                    }
+                  },
+                  hintText: local.selectTheme,
+                  items: themeList),
             ],
           ),
         )

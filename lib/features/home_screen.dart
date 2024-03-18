@@ -39,7 +39,7 @@ class HomeScreen extends StatelessWidget {
       bottomNavigationBar: BottomAppBar(
         notchMargin: 12,
         shape: const CircularNotchedRectangle(),
-        elevation: 0,
+         elevation: 0,
         padding: EdgeInsets.zero,
         child: BottomNavigationBar(
           currentIndex: provider.index,
@@ -64,4 +64,4 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
-List<Widget> screens = [const TaskScreen(),  SettingsScreen()];
+List<Widget> screens = [const TaskScreen(), SettingsScreen()];

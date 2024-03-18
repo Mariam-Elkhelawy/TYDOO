@@ -9,6 +9,7 @@ import 'package:todo_app/features/models/task_model.dart';
 import 'package:todo_app/firebase/firebase_functions.dart';
 import 'package:todo_app/providers/my_provider.dart';
 import 'package:todo_app/widgets/custom_dialog.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class TaskItem extends StatelessWidget {
   const TaskItem({super.key, required this.taskModel});
@@ -18,6 +19,8 @@ class TaskItem extends StatelessWidget {
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
     var provider = Provider.of<MyProvider>(context);
+    var local = AppLocalizations.of(context)!;
+
     return Container(
       margin:
           const EdgeInsetsDirectional.symmetric(horizontal: 20, vertical: 10),
@@ -25,7 +28,7 @@ class TaskItem extends StatelessWidget {
         borderRadius: BorderRadius.circular(15),
         color: taskModel.isDone
             ? const Color(0xFFFE4A49)
-            : const Color(0xFF21B7CA),
+            :provider.languageCode=='en'? const Color(0xFF21B7CA):const Color(0xFFFE4A49),
       ),
       child: Slidable(
         startActionPane: ActionPane(
@@ -51,14 +54,14 @@ class TaskItem extends StatelessWidget {
                           await FirebaseFunctions.deleteTask(taskModel.id);
                         },
                         dialogContent:
-                            'Are you sure you want to delete this task?',
-                        dialogTitle: "Alert !!");
+                            local.deleteAlert,
+                        dialogTitle: local.alert);
                   },
                 );
               },
               backgroundColor: const Color(0xFFFE4A49),
               icon: Icons.delete,
-              label: 'Delete',
+              label: local.delete,
             ),
             if (!taskModel.isDone)
               SlidableAction(
@@ -77,7 +80,7 @@ class TaskItem extends StatelessWidget {
                 },
                 backgroundColor: const Color(0xFF21B7CA),
                 icon: Icons.edit,
-                label: 'Edit',
+                label: local.edit,
               ),
           ],
         ),
@@ -133,7 +136,7 @@ class TaskItem extends StatelessWidget {
                         const Icon(Icons.timer_outlined, size: 18),
                         const SizedBox(width: 5),
                         Text(
-                          DateFormat.yMMMd().format(taskModel.date),
+                          DateFormat.yMMMd(provider.languageCode == 'en' ? 'en' : 'ar').format(taskModel.date),
                           style: theme.textTheme.bodySmall?.copyWith(
                               fontSize: 13, fontWeight: FontWeight.w500),
                         )
@@ -150,7 +153,7 @@ class TaskItem extends StatelessWidget {
                 },
                 child: taskModel.isDone
                     ? Text(
-                        'Done!',
+                        local.done,
                         style: theme.textTheme.titleLarge?.copyWith(
                           color: const Color(0xFF61E757),
                         ),

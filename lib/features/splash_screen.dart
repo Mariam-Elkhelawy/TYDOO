@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/features/home_screen.dart';
 import 'package:todo_app/features/login/login_screen.dart';
+import 'package:todo_app/firebase/firebase_functions.dart';
 import 'package:todo_app/providers/my_provider.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -21,7 +22,8 @@ class SplashScreen extends StatelessWidget {
           : const Image(
               image: AssetImage('assets/images/splash_dark.png'),
             ),
-      nextScreen: const LoginScreen(),
+      nextScreen:
+          FirebaseFunctions.isLoggedBefore() ? HomeScreen() : LoginScreen(),
       childWidget: const SizedBox(),
     );
   }

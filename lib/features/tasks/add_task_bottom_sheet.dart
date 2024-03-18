@@ -10,6 +10,7 @@ import 'package:todo_app/providers/edit_provider.dart';
 import 'package:todo_app/providers/my_provider.dart';
 import 'package:todo_app/widgets/custom_dialog.dart';
 import 'package:todo_app/widgets/custom_text_form_field.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AddTaskBottomSheet extends StatefulWidget {
   const AddTaskBottomSheet({super.key});
@@ -27,6 +28,8 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
     var provider = Provider.of<MyProvider>(context);
+    var local = AppLocalizations.of(context)!;
+
     return ChangeNotifierProvider<EditProvider>(
       create: (context) => EditProvider(),
       builder: (context, child) {
@@ -40,7 +43,7 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'Add New Task',
+                  local.addTask,
                   style: theme.textTheme.bodyLarge?.copyWith(
                     color: provider.themeMode == ThemeMode.dark
                         ? Colors.white
@@ -50,30 +53,29 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
                 const SizedBox(height: 20),
                 CustomTextFormField(
                   myController: titleController,
-                  hintText: 'enter your task title',
+                  hintText: local.enterTitle,
                   onValidate: (value) {
                     if (value!.trim().isEmpty) {
-                      return "Task title can't be empty!";
+                      return local.validateTitle;
                     }
                     return null;
                   },
                 ),
                 const SizedBox(height: 20),
                 CustomTextFormField(
-                  hintText: 'enter your task description',
+                  hintText: local.enterDescription,
                   myController: descriptionController,
                   onValidate: (value) {
                     if (value!.trim().isEmpty) {
-                      return "Task description can't be empty!";
+                      return local.validateDescription;
                     }
                     return null;
                   },
                 ),
                 const SizedBox(height: 20),
-                Container(
-                  alignment: Alignment.centerLeft,
+                Container(alignment: AlignmentDirectional.centerStart,
                   child: Text(
-                    'Select date',
+                    local.selectDate,
                     style: theme.textTheme.bodyMedium?.copyWith(
                       fontSize: 18,
                       color: provider.themeMode == ThemeMode.dark
@@ -88,7 +90,7 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
                     editProvider.selectDate(context);
                   },
                   child: Text(
-                    DateFormat.yMMMEd().format(editProvider.chosenDate),
+                    DateFormat.yMMMd(provider.languageCode == 'en' ? 'en' : 'ar').format(editProvider.chosenDate),
                     style: GoogleFonts.inter(
                         fontSize: 18, fontWeight: FontWeight.w400),
                   ),
@@ -108,8 +110,8 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
                         context: context,
                         builder: (context) {
                           return CustomDialog(
-                            dialogContent: 'Task added Successfully!',
-                            dialogTitle: 'Congratulations !',
+                            dialogContent: local.addTaskSuccess,
+                            dialogTitle: local.success,
                             actionRequired: () {
                               Navigator.pop(context);
                             },
@@ -127,7 +129,7 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
                     height: 35,
                     child: Center(
                       child: Text(
-                        'Add Task',
+                        local.addTaskButton,
                         style: theme.textTheme.bodyMedium
                             ?.copyWith(color: Colors.white),
                       ),

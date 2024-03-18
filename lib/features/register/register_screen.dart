@@ -6,6 +6,7 @@ import 'package:todo_app/firebase/firebase_functions.dart';
 import 'package:todo_app/providers/my_provider.dart';
 import 'package:todo_app/widgets/custom_dialog.dart';
 import 'package:todo_app/widgets/custom_text_form_field.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -29,6 +30,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
     var mediaQuery = MediaQuery.of(context).size;
     var theme = Theme.of(context);
     var provider = Provider.of<MyProvider>(context);
+    var local = AppLocalizations.of(context)!;
+
     return Container(
       decoration: BoxDecoration(
         color: provider.themeMode == ThemeMode.light
@@ -44,7 +47,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           centerTitle: true,
           toolbarHeight: 125,
           title: Text(
-            'Create Account',
+            local.create,
             style: theme.textTheme.titleLarge,
           ),
         ),
@@ -58,68 +61,66 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   SizedBox(height: mediaQuery.height * .16),
-                  const Text('Full Name'),
+                  Text(local.fullName),
                   const SizedBox(height: 6),
                   CustomTextFormField(
                     myController: nameController,
-                    hintText: 'Enter your Full Name',
+                    hintText: local.nameHint,
                     suffixIcon: const Icon(Icons.person),
                     keyboardType: TextInputType.name,
                     onValidate: (value) {
                       if (value!.trim().isEmpty) {
-                        return 'You must Enter your Name';
+                        return local.validateName;
                       }
                       return null;
                     },
                   ),
                   const SizedBox(height: 20),
-                  const Text('E-mail'),
+                  Text(local.email),
                   const SizedBox(height: 6),
                   CustomTextFormField(
                     myController: emailController,
-                    hintText: 'Enter your e-mail address',
+                    hintText: local.emailHint,
                     suffixIcon: const Icon(Icons.email_outlined),
                     keyboardType: TextInputType.emailAddress,
                     onValidate: (value) {
                       if (value!.trim().isEmpty) {
-                        return 'You must Enter your E-mail';
+                        return local.validateEmail;
                       }
                       bool emailValid = RegExp(
                               r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                           .hasMatch(value);
                       if (!emailValid) {
-                        return """Invalid Email , please Enter a valid one
-EX :XX@XX.XX""";
+                        return local.validateEmail2;
                       }
                       return null;
                     },
                   ),
                   const SizedBox(height: 20),
-                  const Text('Phone Number'),
+                  Text(local.phoneNumber),
                   const SizedBox(height: 6),
                   CustomTextFormField(
                     myController: phoneController,
-                    hintText: 'Enter your Phone Number',
+                    hintText: local.phoneHint,
                     suffixIcon: const Icon(Icons.phone),
                     keyboardType: TextInputType.phone,
                     onValidate: (value) {
                       if (value!.trim().isEmpty) {
-                        return 'You must Enter your Phone';
+                        return local.validatePhone;
                       }
-                      RegExp regex =
-                          RegExp(  r'^(?:[+0]2)?01[0125][0-9]{8}$');
+                      RegExp regex = RegExp(r'^(?:[+0]2)?01[0125][0-9]{8}$');
                       if (!regex.hasMatch(value)) {
-                        return 'Enter Valid Phone Number';
+                        return local.validatePhone2;
                       }
                       return null;
                     },
                   ),
                   const SizedBox(height: 20),
-                  const Text('Password'),
+                  Text(local.password),
                   const SizedBox(height: 6),
                   CustomTextFormField(
                     myController: passwordController,
-                    hintText: 'Enter your password',
+                    hintText: local.passwordHint,
                     suffixIcon: IconButton(
                         icon: isPassword
                             ? const Icon(Icons.visibility)
@@ -131,28 +132,22 @@ EX :XX@XX.XX""";
                     obscureText: isPassword,
                     onValidate: (value) {
                       if (value!.trim().isEmpty) {
-                        return 'You must Enter your Password';
+                        return local.validatePassword;
                       }
                       RegExp regex = RegExp(
                           r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
                       if (!regex.hasMatch(value)) {
-                        return """Enter valid password..
-Password should be more than 8 characters long 
-It should contain :
-at least one Uppercase ( Capital ) letter 
-at least one lowercase character 
-at least one number and 
-special character EX:  ! @ # \$ & * ~""";
+                        return local.validatePassword2;
                       }
                       return null;
                     },
                   ),
                   const SizedBox(height: 20),
-                  const Text('Confirm Password'),
+                  Text(local.confirmPassword),
                   const SizedBox(height: 6),
                   CustomTextFormField(
                     myController: confirmPasswordController,
-                    hintText: 'Enter your Confirm password',
+                    hintText: local.confirmHint,
                     suffixIcon: IconButton(
                         icon: isPassword
                             ? const Icon(Icons.visibility)
@@ -164,10 +159,10 @@ special character EX:  ! @ # \$ & * ~""";
                     obscureText: isPassword,
                     onValidate: (value) {
                       if (value!.trim().isEmpty) {
-                        return 'You must Enter your Confirm Password';
+                        return local.validateConfirm;
                       }
                       if (value != passwordController.text) {
-                        return 'Password Not matched';
+                        return local.validateConfirm2;
                       }
                       return null;
                     },
@@ -184,6 +179,7 @@ special character EX:  ! @ # \$ & * ~""";
                     onPressed: () async {
                       if (formKey.currentState!.validate()) {
                         await FirebaseFunctions.register(
+                          context: context,
                           email: emailController.text,
                           password: passwordController.text,
                           userName: nameController.text,
@@ -200,7 +196,7 @@ special character EX:  ! @ # \$ & * ~""";
                               builder: (context) {
                                 return CustomDialog(
                                     dialogContent: errorMessage,
-                                    dialogTitle: 'Error !');
+                                    dialogTitle: local.error);
                               },
                             );
                           },
@@ -211,7 +207,7 @@ special character EX:  ! @ # \$ & * ~""";
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Create Account',
+                          local.create,
                           style: theme.textTheme.bodySmall
                               ?.copyWith(fontSize: 14, color: Colors.white),
                         ),
@@ -223,7 +219,7 @@ special character EX:  ! @ # \$ & * ~""";
                       ],
                     ),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                 ],
               ),
             ),
