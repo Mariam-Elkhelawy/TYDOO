@@ -1,14 +1,26 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:todo_app/config/app_theme.dart';
+import 'package:todo_app/app_theme.dart';
 import 'package:todo_app/features/home_screen.dart';
+import 'package:todo_app/features/login/login_screen.dart';
+import 'package:todo_app/features/register/register_screen.dart';
 import 'package:todo_app/features/splash_screen.dart';
+import 'package:todo_app/features/tasks/edit_tasks_screen.dart';
+import 'package:todo_app/firebase_options.dart';
 import 'package:todo_app/providers/my_provider.dart';
-
-void main() {
+import 'package:flutter_localizations/flutter_localizations.dart';
+ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  MyProvider myProvider =MyProvider();
+  await myProvider.setItems();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(
     ChangeNotifierProvider<MyProvider>(
-      create: (context) => MyProvider(),
+      create: (context) => myProvider,
       child: const TodoApp(),
     ),
   );
@@ -22,14 +34,28 @@ class TodoApp extends StatelessWidget {
     var provider = Provider.of<MyProvider>(context);
 
     return MaterialApp(
+      locale: Locale(provider.languageCode),
+      localizationsDelegates: [
+         AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('en'),
+        Locale('ar'),
+      ],
       debugShowCheckedModeBanner: false,
       initialRoute: SplashScreen.routeName,
       themeMode: provider.themeMode,
       darkTheme: AppTheme.darkTheme,
       theme: AppTheme.lightTheme,
       routes: {
-        SplashScreen.routeName: (context) => SplashScreen(),
-        HomeScreen.routeName: (context) => HomeScreen()
+        SplashScreen.routeName: (context) => const SplashScreen(),
+        HomeScreen.routeName: (context) => const HomeScreen(),
+        EditTaskScreen.routeName: (context) => const EditTaskScreen(),
+        LoginScreen.routeName: (context) => const LoginScreen(),
+        RegisterScreen.routeName: (context) => RegisterScreen(),
       },
     );
   }
