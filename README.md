@@ -1,11 +1,9 @@
 # Do It Now
 
 Welcome to DoIt Now, your personal task management application designed to help you stay organized and efficient.
-
 Below is a guide to help you understand and utilize the features of DoIt Now effectively.
 
 Features:
-
 🔒 Authentication with Firebase:
 
 Securely log in to DoIt Now with your Firebase account for a seamless and personalized experience.
