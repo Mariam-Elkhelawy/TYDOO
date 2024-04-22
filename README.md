@@ -1,9 +1,11 @@
 # Do It Now
 
 Welcome to DoIt Now, your personal task management application designed to help you stay organized and efficient.
+ 
 Below is a guide to help you understand and utilize the features of DoIt Now effectively.
 
-Features:
+# Features:
+
 🔒 Authentication with Firebase:
 
 Securely log in to DoIt Now with your Firebase account for a seamless and personalized experience.
@@ -24,7 +26,7 @@ Local Settings: Choose your preferred language and date/time format.
 
 Theme Settings: Select from a range of themes to customize the app's appearance.
 
-Installation:
+# Installation:
 
 💻 Download and Install:
 
@@ -38,7 +40,7 @@ Set up Firebase authentication by following the instructions provided in the REA
 
 Configure Firebase authentication settings in the app to enable secure login.
 
-🚀 Getting Started:
+# 🚀 Getting Started:
 
 Launch the DoIt Now app on your device.
 
@@ -46,11 +48,11 @@ Log in using your Firebase account credentials.
 
 Start managing your tasks efficiently by adding, editing, and completing them as needed.
 
-Contribution:
+# Contribution:
 
 DoIt Now is an open-source project hosted on GitHub. You are welcome to contribute to its development by forking the repository, making changes, and submitting pull requests.
 
-Support:
+# Support:
 
 If you encounter any issues, have suggestions for improvement, or need assistance, please create a new issue on the GitHub repository.
 
