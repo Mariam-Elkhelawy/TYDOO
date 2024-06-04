@@ -28,7 +28,9 @@ class TaskItem extends StatelessWidget {
         borderRadius: BorderRadius.circular(15),
         color: taskModel.isDone
             ? const Color(0xFFFE4A49)
-            :provider.languageCode=='en'? const Color(0xFF21B7CA):const Color(0xFFFE4A49),
+            : provider.languageCode == 'en'
+                ? const Color(0xFF21B7CA)
+                : const Color(0xFFFE4A49),
       ),
       child: Slidable(
         startActionPane: ActionPane(
@@ -46,15 +48,14 @@ class TaskItem extends StatelessWidget {
                   builder: (context) {
                     return CustomDialog(
                         is2Actions: true,
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.warning,
                           color: Colors.amberAccent,
                         ),
                         actionRequired: () async {
                           await FirebaseFunctions.deleteTask(taskModel.id);
                         },
-                        dialogContent:
-                            local.deleteAlert,
+                        dialogContent: local.deleteAlert,
                         dialogTitle: local.alert);
                   },
                 );
@@ -136,7 +137,9 @@ class TaskItem extends StatelessWidget {
                         const Icon(Icons.timer_outlined, size: 18),
                         const SizedBox(width: 5),
                         Text(
-                          DateFormat.yMMMd(provider.languageCode == 'en' ? 'en' : 'ar').format(taskModel.date),
+                          DateFormat.yMMMd(
+                                  provider.languageCode == 'en' ? 'en' : 'ar')
+                              .format(taskModel.date),
                           style: theme.textTheme.bodySmall?.copyWith(
                               fontSize: 13, fontWeight: FontWeight.w500),
                         )

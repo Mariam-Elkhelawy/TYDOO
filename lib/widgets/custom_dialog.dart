@@ -7,15 +7,17 @@ class CustomDialog extends StatelessWidget {
       required this.dialogContent,
       required this.dialogTitle,
       this.actionRequired,
-      this.icon,this.is2Actions=false});
+      this.icon,
+      this.is2Actions = false});
   String dialogTitle;
   String dialogContent;
   VoidCallback? actionRequired;
   Widget? icon;
-  bool is2Actions ;
+  bool is2Actions;
   @override
   Widget build(BuildContext context) {
     var local = AppLocalizations.of(context)!;
+
 
     var theme = Theme.of(context);
     return AlertDialog(
@@ -23,9 +25,7 @@ class CustomDialog extends StatelessWidget {
           ? Row(
               children: [
                 SizedBox(child: icon),
-                SizedBox(
-                  width: 8
-                ),
+                SizedBox(width: 8),
                 Text(dialogTitle),
               ],
             )
@@ -43,7 +43,7 @@ class CustomDialog extends StatelessWidget {
                 ?.copyWith(fontWeight: FontWeight.w500, fontSize: 14),
           ),
         ),
-        if(is2Actions)
+        if (is2Actions)
           ElevatedButton(
             onPressed: () {
               Navigator.pop(context);

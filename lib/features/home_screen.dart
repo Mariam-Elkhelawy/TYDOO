@@ -37,25 +37,31 @@ class HomeScreen extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: BottomAppBar(
-        notchMargin: 12,
+        notchMargin: 0, // المسافه بين ال+ و ال navbar
         shape: const CircularNotchedRectangle(),
-         elevation: 0,
+        elevation: 0,
         padding: EdgeInsets.zero,
         child: BottomNavigationBar(
           currentIndex: provider.index,
           onTap: provider.changeIndex,
           backgroundColor: Colors.transparent,
-          selectedItemColor: AppTheme.primaryColor,
-          unselectedItemColor: AppTheme.greyColor,
-          iconSize: 33,
+          type: BottomNavigationBarType.fixed,
+          selectedItemColor: provider.themeMode == ThemeMode.light
+              ? AppTheme.primaryColor
+              : Colors.white,
+          unselectedItemColor: AppTheme.secondaryColor,
+          iconSize: 24,
+          selectedFontSize: 12,
           elevation: 0,
-          showUnselectedLabels: false,
-          showSelectedLabels: false,
-          items: [
-            const BottomNavigationBarItem(
-                icon: Icon(Icons.format_list_bulleted), label: ''),
-            const BottomNavigationBarItem(
-                icon: Icon(Icons.settings_outlined), label: ''),
+          showUnselectedLabels: true,
+          showSelectedLabels: true,
+          items: const [
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.format_list_bulleted), label: 'Category'),
+            BottomNavigationBarItem(icon: Icon(Icons.star), label: 'Important'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.settings_outlined), label: 'Settings'),
           ],
         ),
       ),

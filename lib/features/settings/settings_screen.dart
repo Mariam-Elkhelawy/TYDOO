@@ -32,7 +32,7 @@ class SettingsScreen extends StatelessWidget {
                   local.settings,
                   style: theme.textTheme.titleLarge,
                 ),
-                Spacer(),
+                const Spacer(),
                 InkWell(
                   onTap: () async {
                     await FirebaseFunctions.signOut();
@@ -49,7 +49,7 @@ class SettingsScreen extends StatelessWidget {
                         style:
                             theme.textTheme.titleLarge?.copyWith(fontSize: 14),
                       ),
-                      SizedBox(width: 6),
+                      const SizedBox(width: 6),
                       Icon(
                         Icons.logout,
                         color: provider.themeMode == ThemeMode.dark
@@ -73,7 +73,7 @@ class SettingsScreen extends StatelessWidget {
                 local.language,
                 style: theme.textTheme.bodyMedium,
               ),
-              SizedBox(height: 14),
+              const SizedBox(height: 14),
               CustomDropDownWidget(
                   initialItem: provider.languageCode == 'en'
                       ? local.english
@@ -87,12 +87,12 @@ class SettingsScreen extends StatelessWidget {
                   },
                   hintText: local.selectLanguage,
                   items: langList),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Text(
                 local.theme,
                 style: theme.textTheme.bodyMedium,
               ),
-              SizedBox(height: 14),
+              const SizedBox(height: 14),
               CustomDropDownWidget(
                   initialItem: provider.themeMode == ThemeMode.light
                       ? local.light
