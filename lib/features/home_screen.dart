@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/app_theme.dart';
+import 'package:todo_app/features/home/home_tab.dart';
 import 'package:todo_app/features/settings/settings_screen.dart';
 import 'package:todo_app/features/tasks/add_task_bottom_sheet.dart';
 import 'package:todo_app/features/tasks/task_screen.dart';
@@ -27,7 +28,7 @@ class HomeScreen extends StatelessWidget {
                 return Container(
                     padding: EdgeInsets.only(
                         bottom: MediaQuery.of(context).viewInsets.bottom),
-                    child: AddTaskBottomSheet());
+                    child: const AddTaskBottomSheet());
               });
         },
         child: const Icon(
@@ -39,6 +40,7 @@ class HomeScreen extends StatelessWidget {
       bottomNavigationBar: BottomAppBar(
         notchMargin: 0, // المسافه بين ال+ و ال navbar
         shape: const CircularNotchedRectangle(),
+        // shadowColor: Colors.black.withOpacity(.3),
         elevation: 0,
         padding: EdgeInsets.zero,
         child: BottomNavigationBar(
@@ -59,6 +61,7 @@ class HomeScreen extends StatelessWidget {
             BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
             BottomNavigationBarItem(
                 icon: Icon(Icons.format_list_bulleted), label: 'Category'),
+            BottomNavigationBarItem(icon: Icon(Icons.add,color: Colors.white,), label: ''),
             BottomNavigationBarItem(icon: Icon(Icons.star), label: 'Important'),
             BottomNavigationBarItem(
                 icon: Icon(Icons.settings_outlined), label: 'Settings'),
@@ -70,4 +73,9 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
-List<Widget> screens = [const TaskScreen(), SettingsScreen()];
+List<Widget> screens = [
+  const HomeTab(),
+  const TaskScreen(),
+  SettingsScreen(),
+  SettingsScreen(),
+];

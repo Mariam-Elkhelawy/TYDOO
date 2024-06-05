@@ -18,7 +18,6 @@ class CustomDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     var local = AppLocalizations.of(context)!;
 
-
     var theme = Theme.of(context);
     return AlertDialog(
       title: icon != null

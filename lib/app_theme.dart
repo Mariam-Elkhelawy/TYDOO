@@ -8,39 +8,39 @@ class AppTheme {
   static const Color greyColor = Color(0xFFC8C9CB);
   static const Color blackColor = Color(0xFF141922);
   static const Color darkColor = Color(0xFF383838);
+  static const Color whiteColor = Colors.white;
   static ThemeData lightTheme = ThemeData(
     primaryColor: primaryColor,
     brightness: Brightness.light,
     textTheme: TextTheme(
       titleLarge: GoogleFonts.poppins(
-          fontSize: 22, color: Colors.white, fontWeight: FontWeight.bold),
-      bodyLarge: GoogleFonts.poppins(
-          fontSize: 18, color: primaryColor, fontWeight: FontWeight.bold),
-      bodyMedium: GoogleFonts.roboto(
-        fontSize: 15,
-        fontWeight: FontWeight.bold,
-        color: const Color(0xFF363636),
+          fontSize: 22, color: whiteColor, fontWeight: FontWeight.bold),
+      bodyLarge: GoogleFonts.inter(
+          fontSize: 24, color: whiteColor, fontWeight: FontWeight.w800),
+      bodyMedium: GoogleFonts.inter(
+        fontSize: 20,
+        color: const Color(0xFFEFEFEF),
       ),
-      bodySmall: GoogleFonts.roboto(
-        fontSize: 12,
-        color: const Color(0xFF363636),
+      bodySmall: GoogleFonts.inter(
+        fontSize: 14,
+        color: whiteColor
       ),
     ),
-    scaffoldBackgroundColor: const Color(0xFFDFECDB),
+    scaffoldBackgroundColor:Colors.white,
     bottomAppBarTheme: const BottomAppBarTheme(
-      color: Colors.white,
+      color: whiteColor,
     ),
     floatingActionButtonTheme: FloatingActionButtonThemeData(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(50),
-        side: const BorderSide(color: Colors.white, width: 4),
+        borderRadius: BorderRadius.circular(100),
+        side: const BorderSide(color: whiteColor, width: 4),
       ),
       backgroundColor: primaryColor,
     ),
     appBarTheme: const AppBarTheme(
-      iconTheme: IconThemeData(color: Colors.white),
+      iconTheme: IconThemeData(color: whiteColor),
     ),
-    bottomSheetTheme: const BottomSheetThemeData(backgroundColor: Colors.white),
+    bottomSheetTheme: const BottomSheetThemeData(backgroundColor: whiteColor),
   );
   static ThemeData darkTheme = ThemeData(
     primaryColor: primaryColor,
@@ -55,7 +55,7 @@ class AppTheme {
       bodyMedium: GoogleFonts.roboto(
         fontSize: 15,
         fontWeight: FontWeight.bold,
-        color: Colors.white,
+        color: whiteColor,
       ),
       bodySmall: GoogleFonts.roboto(
         fontSize: 12,
