@@ -45,7 +45,7 @@ class _TaskScreenState extends State<TaskScreen> {
                       local.todoList,
                       style: theme.textTheme.titleLarge,
                     ),
-                    Spacer(),
+                    const Spacer(),
                     InkWell(
                       onTap: () async {
                         await FirebaseFunctions.signOut();
@@ -62,7 +62,7 @@ class _TaskScreenState extends State<TaskScreen> {
                             style: theme.textTheme.titleLarge
                                 ?.copyWith(fontSize: 14),
                           ),
-                          SizedBox(width: 6),
+                          const SizedBox(width: 6),
                           Icon(
                             Icons.logout,
                             color: provider.themeMode == ThemeMode.dark
@@ -82,7 +82,11 @@ class _TaskScreenState extends State<TaskScreen> {
               child: EasyInfiniteDateTimeLine(
                 locale: provider.languageCode == 'ar' ? 'ar' : 'en',
                 timeLineProps: const EasyTimeLineProps(separatorPadding: 24),
-                showTimelineHeader: false,
+                showTimelineHeader: true,
+                headerBuilder: (context, date) {
+                  return Text(date.year.toString());
+                },
+                activeColor: AppTheme.primaryColor,
                 dayProps: EasyDayProps(
                   todayStyle: DayStyle(
                     decoration: BoxDecoration(
@@ -92,7 +96,7 @@ class _TaskScreenState extends State<TaskScreen> {
                           : Colors.white,
                     ),
                     dayNumStyle: theme.textTheme.bodyMedium,
-                    monthStrStyle: theme.textTheme.bodyMedium,
+                     monthStrStyle: theme.textTheme.bodyMedium,
                     dayStrStyle: theme.textTheme.bodyMedium,
                   ),
                   inactiveDayStyle: DayStyle(
@@ -100,10 +104,10 @@ class _TaskScreenState extends State<TaskScreen> {
                     monthStrStyle: theme.textTheme.bodyMedium,
                     dayStrStyle: theme.textTheme.bodyMedium,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
+                      borderRadius: BorderRadius.circular(8),
                       color: provider.themeMode == ThemeMode.dark
                           ? AppTheme.blackColor
-                          : Colors.white,
+                          : Color(0xFFEDEDED),
                     ),
                   ),
                   activeDayStyle: DayStyle(
@@ -114,13 +118,13 @@ class _TaskScreenState extends State<TaskScreen> {
                     dayStrStyle: theme.textTheme.bodyMedium
                         ?.copyWith(color: AppTheme.primaryColor),
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
+                      borderRadius: BorderRadius.circular(8),
                       color: provider.themeMode == ThemeMode.dark
                           ? AppTheme.blackColor
                           : Colors.white,
                     ),
                   ),
-                  height: 85,
+                  height: 88,
                 ),
                 firstDate: DateTime.now(),
                 focusDate: focusDate,
@@ -155,7 +159,10 @@ class _TaskScreenState extends State<TaskScreen> {
                   snapshot.data?.docs.map((e) => e.data()).toList() ?? [];
               if (tasks.isEmpty) {
                 return Center(
-                  child: Text(local.noTasks,style: TextStyle(fontSize: 18),),
+                  child: Text(
+                    local.noTasks,
+                    style: const TextStyle(fontSize: 18),
+                  ),
                 );
               }
               return ListView.builder(
