@@ -4,7 +4,7 @@ import 'package:todo_app/app_theme.dart';
 import 'package:todo_app/features/home/home_tab.dart';
 import 'package:todo_app/features/settings/settings_screen.dart';
 import 'package:todo_app/features/tasks/add_task_bottom_sheet.dart';
-import 'package:todo_app/features/tasks/task_screen.dart';
+import 'package:todo_app/features/tasks/category_tab.dart';
 import 'package:todo_app/providers/my_provider.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -61,7 +61,7 @@ class HomeScreen extends StatelessWidget {
             BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
             BottomNavigationBarItem(
                 icon: Icon(Icons.format_list_bulleted), label: 'Category'),
-            BottomNavigationBarItem(icon: Icon(Icons.add,color: Colors.white,), label: ''),
+            // BottomNavigationBarItem(icon: Icon(Icons.add,color: Colors.white,), label: ''),
             BottomNavigationBarItem(icon: Icon(Icons.star), label: 'Important'),
             BottomNavigationBarItem(
                 icon: Icon(Icons.settings_outlined), label: 'Settings'),
@@ -75,7 +75,7 @@ class HomeScreen extends StatelessWidget {
 
 List<Widget> screens = [
   const HomeTab(),
-  const TaskScreen(),
+  const CategoryTab(),
   SettingsScreen(),
   SettingsScreen(),
 ];

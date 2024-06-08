@@ -10,15 +10,15 @@ import 'package:todo_app/firebase/firebase_functions.dart';
 import 'package:todo_app/providers/my_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class TaskScreen extends StatefulWidget {
-  const TaskScreen({super.key});
+class CategoryTab extends StatefulWidget {
+  const CategoryTab({super.key});
   static const String routeName = 'TaskScreen';
 
   @override
-  State<TaskScreen> createState() => _TaskScreenState();
+  State<CategoryTab> createState() => _CategoryTabState();
 }
 
-class _TaskScreenState extends State<TaskScreen> {
+class _CategoryTabState extends State<CategoryTab> {
   DateTime focusDate = DateTime.now();
 
   @override

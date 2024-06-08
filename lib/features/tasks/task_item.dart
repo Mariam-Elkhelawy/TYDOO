@@ -1,9 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/app_theme.dart';
+import 'package:todo_app/core/utils/app_colors.dart';
 import 'package:todo_app/features/tasks/edit_tasks_screen.dart';
 import 'package:todo_app/features/models/task_model.dart';
 import 'package:todo_app/firebase/firebase_functions.dart';
@@ -26,6 +28,13 @@ class TaskItem extends StatelessWidget {
           const EdgeInsetsDirectional.symmetric(horizontal: 20, vertical: 10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
+        boxShadow: [
+          BoxShadow(
+              color: AppColor.blackColor.withOpacity(.11),
+              spreadRadius: 0,
+              offset: Offset(0, 0),
+              blurRadius: 16)
+        ],
         color: taskModel.isDone
             ? const Color(0xFFFE4A49)
             : provider.languageCode == 'en'
@@ -76,6 +85,7 @@ class TaskItem extends StatelessWidget {
                         id: taskModel.id,
                         title: taskModel.title,
                         date: taskModel.date,
+                        taskColor: Colors.red,
                         description: taskModel.description),
                   );
                 },
@@ -86,28 +96,54 @@ class TaskItem extends StatelessWidget {
           ],
         ),
         child: Container(
-          padding: const EdgeInsetsDirectional.symmetric(
-              horizontal: 20, vertical: 10),
-          height: MediaQuery.of(context).size.height * .14,
+
+          // height: MediaQuery.of(context).size.height * .14,
           decoration: BoxDecoration(
             color: provider.themeMode == ThemeMode.light
                 ? Colors.white
                 : AppTheme.blackColor,
-            borderRadius: BorderRadius.circular(15),
+            borderRadius: BorderRadius.circular(12.r),
           ),
           child: Row(
             children: [
               Container(
-                width: 5,
-                height: 70,
+                width: 8.w,
+                height: 83.h,
                 decoration: BoxDecoration(
-                  color: taskModel.isDone
-                      ? const Color(0xFF61E757)
-                      : AppTheme.primaryColor,
-                  borderRadius: BorderRadius.circular(10),
+                  color: AppColor.primaryColor,
+                  borderRadius:BorderRadius.only(topLeft: Radius.circular(12.r),bottomLeft: Radius.circular(12.r)),
                 ),
               ),
-              const SizedBox(width: 16),
+              SizedBox(width: 10.w),
+              InkWell(
+                onTap: () async {
+                  taskModel.isDone = !taskModel.isDone;
+                  await FirebaseFunctions.updateTask(taskModel);
+                },
+                child: taskModel.isDone
+                    ? Container(
+                        width: 20.w,
+                        height: 20.h,
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Color(0xFF00C400),
+                        ),
+                        child: const Icon(
+                          Icons.check,
+                          size: 16,
+                          color: AppColor.whiteColor,
+                        ),
+                      )
+                    : Container(
+                        width: 20.w,
+                        height: 20.h,
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: AppColor.whiteColor,
+                            border: Border.all(color: AppColor.primaryColor)),
+                      ),
+              ),
+              SizedBox(width: 20.w),
               Expanded(
                 flex: 5,
                 child: Column(
@@ -119,19 +155,17 @@ class TaskItem extends StatelessWidget {
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: theme.textTheme.bodyLarge?.copyWith(
-                        color: taskModel.isDone
-                            ? const Color(0xFF61E757)
-                            : AppTheme.primaryColor,
+                        color: AppColor.primaryColor,
                       ),
                     ),
-                    Text(
-                      taskModel.description,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: theme.textTheme.bodyMedium
-                          ?.copyWith(fontWeight: FontWeight.w500),
-                    ),
-                    const SizedBox(height: 6),
+                    // Text(
+                    //   taskModel.description,
+                    //   maxLines: 2,
+                    //   overflow: TextOverflow.ellipsis,
+                    //   style: theme.textTheme.bodyMedium
+                    //       ?.copyWith(fontWeight: FontWeight.w500),
+                    // ),
+                    SizedBox(height: 8.h),
                     Row(
                       children: [
                         const Icon(Icons.timer_outlined, size: 18),
@@ -147,33 +181,6 @@ class TaskItem extends StatelessWidget {
                     )
                   ],
                 ),
-              ),
-              const Spacer(),
-              InkWell(
-                onTap: () async {
-                  taskModel.isDone = true;
-                  await FirebaseFunctions.updateTask(taskModel);
-                },
-                child: taskModel.isDone
-                    ? Text(
-                        local.done,
-                        style: theme.textTheme.titleLarge?.copyWith(
-                          color: const Color(0xFF61E757),
-                        ),
-                      )
-                    : Container(
-                        height: 35,
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        decoration: BoxDecoration(
-                          color: theme.primaryColor,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: const Icon(
-                          Icons.check_rounded,
-                          size: 35,
-                          color: Colors.white,
-                        ),
-                      ),
               ),
             ],
           ),
