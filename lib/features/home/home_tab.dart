@@ -24,13 +24,17 @@ class HomeTab extends StatefulWidget {
 class _HomeTabState extends State<HomeTab> {
   DateTime focusDate = DateTime.now();
 
+  Stream<QuerySnapshot<TaskModel>> _getTasksStream() {
+    return FirebaseFunctions.getTask(focusDate);
+  }
+
   @override
   Widget build(BuildContext context) {
     var local = AppLocalizations.of(context)!;
     var provider = Provider.of<MyProvider>(context);
 
     return StreamBuilder<QuerySnapshot<TaskModel>>(
-      stream: FirebaseFunctions.getTask(focusDate),
+      stream: _getTasksStream(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(
@@ -48,161 +52,115 @@ class _HomeTabState extends State<HomeTab> {
 
         return Padding(
           padding: EdgeInsets.only(bottom: 76.h),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Stack(
-                children: [
-                  Image.asset(
-                    AppImages.homeHeadline,
-                    fit: BoxFit.cover,
-                    width: double.infinity,
-                  ),
-                  Positioned(
-                    top: 110.h,
-                    left: 24.w,
-                    child: Text(
-                      'Hello,',
-                      style: AppStyles.regularText.copyWith(
-                          color: AppColor.helloColor, fontSize: 20.sp),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Stack(
+                  children: [
+                    Image.asset(
+                      AppImages.homeHeadline,
+                      fit: BoxFit.cover,
+                      width: double.infinity,
                     ),
-                  ),
-                  Positioned(
-                    top: 135.h,
-                    left: 24.w,
-                    child: Text(
-                      'Lara Alaa 👋🏻',
-                      style: AppStyles.titleL,
-                    ),
-                  ),
-                  Positioned(
-                    top: 180.h,
-                    left: 24.w,
-                    child: Text(
-                      'You have ${tasks.length} task(s) for today',
-                      style: AppStyles.regularText.copyWith(
-                          fontSize: 14.sp, color: AppColor.whiteColor),
-                    ),
-                  ),
-                ],
-              ),
-              EasyDateTimeLine(
-                locale: provider.languageCode == 'ar' ? 'ar' : 'en',
-                headerProps: EasyHeaderProps(
-                  selectedDateStyle: AppStyles.regularText,
-                  monthStyle: AppStyles.bodyL.copyWith(fontSize: 17.sp),
-                ),
-                initialDate: DateTime.now(),
-                disabledDates: List.generate(
-                  DateTime.now().difference(DateTime(2023)).inDays,
-                  (index) => DateTime.now().subtract(Duration(days: index + 1)),
-                ),
-                onDateChange: (selectedDate) {
-                  setState(() {
-                    focusDate = selectedDate;
-                  });
-                },
-                dayProps: EasyDayProps(
-                  dayStructure: DayStructure.dayStrDayNum,
-                  height: 88.h,
-                  width: 62.w,
-                  inactiveDayStyle: DayStyle(
-                    dayNumStyle: AppStyles.bodyS
-                        .copyWith(color: AppColor.thirdColor, fontSize: 14.sp),
-                    dayStrStyle: AppStyles.bodyS.copyWith(
-                        color: AppColor.inactiveDayColor,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 12.sp),
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      color: AppColor.inactiveColor,
-                    ),
-                  ),
-                  activeDayStyle: DayStyle(
-                    dayNumStyle: AppStyles.bodyS,
-                    dayStrStyle: AppStyles.bodyS.copyWith(
-                        color: AppColor.activeDayColor,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 13.sp),
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      color: AppColor.primaryColor,
-                    ),
-                  ),
-                ),
-              ),
-              // Padding(
-              //   padding: EdgeInsetsDirectional.fromSTEB(24.w, 22.h, 0, 30.h),
-              //   child: EasyInfiniteDateTimeLine(
-              //     locale: provider.languageCode == 'ar' ? 'ar' : 'en',
-              //     // timeLineProps: const EasyTimeLineProps(separatorPadding: 24),
-              //     activeColor: AppTheme.primaryColor,
-              //     dayProps: EasyDayProps(
-              //       // dayStructure: DayStructure.dayStrDayNum,
-              //       height: 88.h,
-              //       width: 62.w,
-              //       todayStyle: DayStyle(
-              //         decoration: BoxDecoration(
-              //           borderRadius: BorderRadius.circular(8),
-              //           color: provider.themeMode == ThemeMode.dark
-              //               ? AppTheme.blackColor
-              //               : Colors.white,
-              //         ),
-              //         // dayNumStyle: theme.textTheme.bodyMedium,
-              //         // monthStrStyle: theme.textTheme.bodyMedium,
-              //         // dayStrStyle: theme.textTheme.bodyMedium,
-              //       ),
-              //       // inactiveDayStyle: DayStyle(
-              //       //   dayNumStyle: theme.textTheme.bodyMedium,
-              //       //   monthStrStyle: theme.textTheme.bodyMedium,
-              //       //   dayStrStyle: theme.textTheme.bodyMedium,
-              //       //   decoration: BoxDecoration(
-              //       //     borderRadius: BorderRadius.circular(8),
-              //       //     color: provider.themeMode == ThemeMode.dark
-              //       //         ? AppTheme.blackColor
-              //       //         : Color(0xFFEDEDED),
-              //       //   ),
-              //       // ),
-              //       // activeDayStyle: DayStyle(
-              //       //   dayNumStyle: theme.textTheme.bodyMedium
-              //       //       ?.copyWith(color: theme.primaryColor),
-              //       //   monthStrStyle: theme.textTheme.bodyMedium
-              //       //       ?.copyWith(color: AppTheme.primaryColor),
-              //       //   dayStrStyle: theme.textTheme.bodyMedium
-              //       //       ?.copyWith(color: AppTheme.primaryColor),
-              //       //   decoration: BoxDecoration(
-              //       //     borderRadius: BorderRadius.circular(8),
-              //       //     color: provider.themeMode == ThemeMode.dark
-              //       //         ? AppTheme.blackColor
-              //       //         : Colors.white,
-              //       //   ),
-              //       // ),
-              //     ),
-              //     firstDate: DateTime.now(),
-              //     focusDate: focusDate,
-              //     lastDate: DateTime(2025),
-              //     onDateChange: (selectedDate) {
-              //       setState(() {
-              //         focusDate = selectedDate;
-              //       });
-              //     },
-              //   ),
-              // ),
-              Padding(
-                padding: EdgeInsets.only(left: 16.w, top: 24.h,bottom: 18.h),
-                child: Text(
-                    '${DateFormat('d MMMM').format(DateUtils.dateOnly(focusDate))} Tasks',
-                    style: AppStyles.bodyL),
-              ),
-              tasks.isEmpty
-                  ? Center(
+                    Positioned(
+                      top: 110.h,
+                      left: 24.w,
                       child: Text(
-                      local.noTasks,
-                      style: const TextStyle(
-                          fontSize: 18, color: AppColor.blackColor),
-                    ))
-                  : Expanded(
-                      child: ListView.builder(
+                        'Hello,',
+                        style: AppStyles.regularText.copyWith(
+                            color: AppColor.helloColor, fontSize: 20.sp),
+                      ),
+                    ),
+                    Positioned(
+                      top: 135.h,
+                      left: 24.w,
+                      child: Text(
+                        'Lara Alaa 👋🏻',
+                        style: AppStyles.titleL,
+                      ),
+                    ),
+                    Positioned(
+                      top: 180.h,
+                      left: 24.w,
+                      child: Text(
+                        'You have ${tasks.length} task(s) for today',
+                        style: AppStyles.regularText.copyWith(
+                            fontSize: 14.sp, color: AppColor.whiteColor),
+                      ),
+                    ),
+                  ],
+                ),
+                EasyDateTimeLine(
+                  initialDate: focusDate,
+                  disabledDates: List.generate(
+                    DateTime.now().difference(DateTime(2023)).inDays,
+                    (index) =>
+                        DateTime.now().subtract(Duration(days: index + 1)),
+                  ),
+                  onDateChange: (selectedDate) {
+                    setState(() {
+                      focusDate = selectedDate;
+                    });
+                  },
+                  dayProps: EasyDayProps(
+                    todayStyle: DayStyle(
+                      dayNumStyle: AppStyles.bodyS.copyWith(
+                          color: AppColor.thirdColor, fontSize: 14.sp),
+                      dayStrStyle: AppStyles.bodyS.copyWith(
+                          color: AppColor.inactiveDayColor,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 12.sp),
+                      decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                        color: AppColor.inactiveColor,
+                      ),
+                    ),
+                    height: 88.h,
+                    width: 62.w,
+                    dayStructure: DayStructure.dayStrDayNum,
+                    inactiveDayStyle: DayStyle(
+                      dayNumStyle: AppStyles.bodyS.copyWith(
+                          color: AppColor.thirdColor, fontSize: 14.sp),
+                      dayStrStyle: AppStyles.bodyS.copyWith(
+                          color: AppColor.inactiveDayColor,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 12.sp),
+                      decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                        color: AppColor.inactiveColor,
+                      ),
+                    ),
+                    activeDayStyle: DayStyle(
+                      dayNumStyle: AppStyles.bodyS,
+                      dayStrStyle: AppStyles.bodyS.copyWith(
+                          color: AppColor.activeDayColor,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 13.sp),
+                      decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                        color: AppColor.primaryColor,
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 16.w, top: 24.h, bottom: 18.h),
+                  child: Text(
+                      '${DateFormat('d MMMM').format(DateUtils.dateOnly(focusDate))} Tasks',
+                      style: AppStyles.bodyL),
+                ),
+                tasks.isEmpty
+                    ? Center(
+                        child: Text(
+                          local.noTasks,
+                          style: const TextStyle(
+                              fontSize: 18, color: AppColor.blackColor),
+                        ),
+                      )
+                    : ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
                         itemBuilder: (context, index) {
                           return TaskItem(
                             taskModel: tasks[index],
@@ -210,9 +168,9 @@ class _HomeTabState extends State<HomeTab> {
                         },
                         itemCount: tasks.length,
                         padding: EdgeInsets.zero,
-                      ),
-                    )
-            ],
+                      )
+              ],
+            ),
           ),
         );
       },
