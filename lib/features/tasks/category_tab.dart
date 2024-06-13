@@ -3,22 +3,22 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/app_theme.dart';
 import 'package:easy_date_timeline/easy_date_timeline.dart';
+import 'package:todo_app/features/home/task_item.dart';
 import 'package:todo_app/features/login/login_screen.dart';
-import 'package:todo_app/features/tasks/task_item.dart';
 import 'package:todo_app/features/models/task_model.dart';
 import 'package:todo_app/firebase/firebase_functions.dart';
 import 'package:todo_app/providers/my_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class TaskScreen extends StatefulWidget {
-  const TaskScreen({super.key});
+class CategoryTab extends StatefulWidget {
+  const CategoryTab({super.key});
   static const String routeName = 'TaskScreen';
 
   @override
-  State<TaskScreen> createState() => _TaskScreenState();
+  State<CategoryTab> createState() => _CategoryTabState();
 }
 
-class _TaskScreenState extends State<TaskScreen> {
+class _CategoryTabState extends State<CategoryTab> {
   DateTime focusDate = DateTime.now();
 
   @override

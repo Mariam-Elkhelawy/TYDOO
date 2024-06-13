@@ -9,8 +9,8 @@ import 'package:todo_app/app_theme.dart';
 import 'package:todo_app/core/utils/app_colors.dart';
 import 'package:todo_app/core/utils/app_images.dart';
 import 'package:todo_app/core/utils/styles.dart';
+import 'package:todo_app/features/home/task_item.dart';
 import 'package:todo_app/features/models/task_model.dart';
-import 'package:todo_app/features/tasks/task_item.dart';
 import 'package:todo_app/firebase/firebase_functions.dart';
 import 'package:todo_app/providers/my_provider.dart';
 
@@ -26,7 +26,6 @@ class _HomeTabState extends State<HomeTab> {
 
   @override
   Widget build(BuildContext context) {
-    var theme = Theme.of(context);
     var local = AppLocalizations.of(context)!;
     var provider = Provider.of<MyProvider>(context);
 
@@ -40,7 +39,6 @@ class _HomeTabState extends State<HomeTab> {
             ),
           );
         }
-
         if (snapshot.hasError) {
           return Center(
             child: Text(local.isError),
@@ -65,11 +63,12 @@ class _HomeTabState extends State<HomeTab> {
                     left: 24.w,
                     child: Text(
                       'Hello,',
-                      style: AppStyles.bodyL.copyWith(fontWeight: FontWeight.w400,color: AppColor.helloColor)
+                      style: AppStyles.regularText.copyWith(
+                          color: AppColor.helloColor, fontSize: 20.sp),
                     ),
                   ),
                   Positioned(
-                    top: 132.h,
+                    top: 135.h,
                     left: 24.w,
                     child: Text(
                       'Lara Alaa 👋🏻',
@@ -77,11 +76,12 @@ class _HomeTabState extends State<HomeTab> {
                     ),
                   ),
                   Positioned(
-                    top: 175.h,
+                    top: 180.h,
                     left: 24.w,
                     child: Text(
                       'You have ${tasks.length} task(s) for today',
-                      style: AppStyles.regularText.copyWith(fontSize: 14.sp,color: AppColor.whiteColor),
+                      style: AppStyles.regularText.copyWith(
+                          fontSize: 14.sp, color: AppColor.whiteColor),
                     ),
                   ),
                 ],
@@ -189,7 +189,7 @@ class _HomeTabState extends State<HomeTab> {
               //   ),
               // ),
               Padding(
-                padding: EdgeInsets.only(left: 16.w, top: 29.h),
+                padding: EdgeInsets.only(left: 16.w, top: 24.h,bottom: 18.h),
                 child: Text(
                     '${DateFormat('d MMMM').format(DateUtils.dateOnly(focusDate))} Tasks',
                     style: AppStyles.bodyL),

@@ -4,7 +4,8 @@ import 'package:todo_app/app_theme.dart';
 import 'package:todo_app/features/home/home_tab.dart';
 import 'package:todo_app/features/settings/settings_screen.dart';
 import 'package:todo_app/features/tasks/add_task_bottom_sheet.dart';
-import 'package:todo_app/features/tasks/task_screen.dart';
+import 'package:todo_app/features/tasks/add_task_screen.dart';
+import 'package:todo_app/features/tasks/category_tab.dart';
 import 'package:todo_app/providers/my_provider.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -21,15 +22,16 @@ class HomeScreen extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         backgroundColor: AppTheme.primaryColor,
         onPressed: () {
-          showModalBottomSheet(
-              isScrollControlled: true,
-              context: context,
-              builder: (context) {
-                return Container(
-                    padding: EdgeInsets.only(
-                        bottom: MediaQuery.of(context).viewInsets.bottom),
-                    child: const AddTaskBottomSheet());
-              });
+          Navigator.pushNamed(context, AddTaskScreen.routeName);
+          // showModalBottomSheet(
+          //     isScrollControlled: true,
+          //     context: context,
+          //     builder: (context) {
+          //       return Container(
+          //           padding: EdgeInsets.only(
+          //               bottom: MediaQuery.of(context).viewInsets.bottom),
+          //           child: const AddTaskBottomSheet());
+          //     });
         },
         child: const Icon(
           Icons.add,
@@ -38,7 +40,7 @@ class HomeScreen extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: BottomAppBar(
-        notchMargin: 0, // المسافه بين ال+ و ال navbar
+        notchMargin:0,
         shape: const CircularNotchedRectangle(),
         // shadowColor: Colors.black.withOpacity(.3),
         elevation: 0,
@@ -61,7 +63,7 @@ class HomeScreen extends StatelessWidget {
             BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
             BottomNavigationBarItem(
                 icon: Icon(Icons.format_list_bulleted), label: 'Category'),
-            BottomNavigationBarItem(icon: Icon(Icons.add,color: Colors.white,), label: ''),
+            // BottomNavigationBarItem(icon: Icon(Icons.add,color: Colors.white,), label: ''),
             BottomNavigationBarItem(icon: Icon(Icons.star), label: 'Important'),
             BottomNavigationBarItem(
                 icon: Icon(Icons.settings_outlined), label: 'Settings'),
@@ -75,7 +77,7 @@ class HomeScreen extends StatelessWidget {
 
 List<Widget> screens = [
   const HomeTab(),
-  const TaskScreen(),
+  const CategoryTab(),
   SettingsScreen(),
   SettingsScreen(),
 ];

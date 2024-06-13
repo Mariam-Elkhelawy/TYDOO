@@ -92,7 +92,7 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
                   },
                   child: Text(
                     DateFormat.yMMMd(
-                            provider.languageCode == 'en' ? 'en' : 'ar')
+                        provider.languageCode == 'en' ? 'en' : 'ar')
                         .format(editProvider.chosenDate),
                     style: GoogleFonts.inter(
                         fontSize: 18, fontWeight: FontWeight.w400),
@@ -106,6 +106,7 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
                           userId: FirebaseAuth.instance.currentUser!.uid,
                           id: '',
                           title: titleController.text,
+                          taskColor: Colors.blue,
                           date: DateUtils.dateOnly(editProvider.chosenDate),
                           description: descriptionController.text);
                       await FirebaseFunctions.addTask(taskModel);

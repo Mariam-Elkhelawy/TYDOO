@@ -11,5 +11,6 @@ class AppColor {
   static const Color inactiveDayColor = Color(0xFF454545);
   static const Color inactiveColor = Color(0xFFEDEDED);
   static const Color helloColor = Color(0xFFEFEFEF);
+  static const Color iconColor =  Color(0xFF484C52);
   static const Color whiteColor = Colors.white;
 }
