@@ -9,8 +9,8 @@ import 'package:todo_app/app_theme.dart';
 import 'package:todo_app/core/utils/app_colors.dart';
 import 'package:todo_app/core/utils/app_images.dart';
 import 'package:todo_app/core/utils/styles.dart';
+import 'package:todo_app/features/home/task_item.dart';
 import 'package:todo_app/features/models/task_model.dart';
-import 'package:todo_app/features/tasks/task_item.dart';
 import 'package:todo_app/firebase/firebase_functions.dart';
 import 'package:todo_app/providers/my_provider.dart';
 
