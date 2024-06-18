@@ -88,7 +88,7 @@ class TodoApp extends StatelessWidget {
           EditTaskScreen.routeName: (context) => const EditTaskScreen(),
           LoginScreen.routeName: (context) => const LoginScreen(),
           RegisterScreen.routeName: (context) => const RegisterScreen(),
-          AddTaskScreen.routeName: (context) => const AddTaskScreen(),
+          AddTaskScreen.routeName: (context) =>  AddTaskScreen(),
         },
       ),
     );
