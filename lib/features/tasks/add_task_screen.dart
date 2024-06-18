@@ -6,7 +6,9 @@ import 'package:provider/provider.dart';
 import 'package:todo_app/core/components/reusable_components.dart';
 import 'package:todo_app/core/utils/app_colors.dart';
 import 'package:todo_app/core/utils/app_images.dart';
+import 'package:todo_app/core/utils/app_strings.dart';
 import 'package:todo_app/core/utils/styles.dart';
+import 'package:todo_app/features/home/text_widget.dart';
 import 'package:todo_app/features/models/task_model.dart';
 import 'package:todo_app/firebase/firebase_functions.dart';
 import 'package:todo_app/providers/edit_provider.dart';
@@ -15,13 +17,26 @@ import 'package:todo_app/widgets/custom_dialog.dart';
 import 'package:todo_app/widgets/custom_text_form_field.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class AddTaskScreen extends StatelessWidget {
-  AddTaskScreen({super.key});
+class AddTaskScreen extends StatefulWidget {
+  const AddTaskScreen({super.key});
   static const String routeName = 'AddTask';
-  TextEditingController titleController = TextEditingController();
-  TextEditingController descriptionController = TextEditingController();
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
+  @override
+  State<AddTaskScreen> createState() => _AddTaskScreenState();
+}
+
+class _AddTaskScreenState extends State<AddTaskScreen> {
+  TextEditingController titleController = TextEditingController();
+
+  TextEditingController descriptionController = TextEditingController();
+
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  String startTime = DateFormat('hh:mm a').format(DateTime.now()).toString();
+  String endTime = DateFormat('hh:mm a')
+      .format(DateTime.now().add(const Duration(minutes: 15)))
+      .toString();
+
+  int color = 0;
   @override
   Widget build(BuildContext context) {
     var provider = Provider.of<MyProvider>(context);
@@ -35,6 +50,7 @@ class AddTaskScreen extends StatelessWidget {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
+          elevation: 0,
           backgroundColor: Colors.transparent,
           leading: Padding(
             padding: EdgeInsets.only(left: 24.w),
@@ -68,7 +84,6 @@ class AddTaskScreen extends StatelessWidget {
           create: (context) => EditProvider(),
           builder: (context, child) {
             var editProvider = Provider.of<EditProvider>(context);
-
             return Padding(
               padding: EdgeInsets.symmetric(horizontal: 24.w),
               child: Form(
@@ -83,10 +98,7 @@ class AddTaskScreen extends StatelessWidget {
                         width: 187.w,
                         height: 187.h,
                       ),
-                      Text(
-                        local.addTask,
-                      ),
-                      const SizedBox(height: 20),
+                      const TextWidget(text: 'Title'),
                       CustomTextFormField(
                         myController: titleController,
                         hintText: local.enterTitle,
@@ -97,27 +109,7 @@ class AddTaskScreen extends StatelessWidget {
                           return null;
                         },
                       ),
-                      SizedBox(height: 11.h),
-                      customTextFormField(
-                        borderColor: AppColor.borderColor,
-                        cursorColor: AppColor.primaryColor,
-                        radius: 8.r,
-                        contentPadding: EdgeInsets.symmetric(
-                            horizontal: 16.w, vertical: 10.h),
-                        hintStyle: AppStyles.hintText,
-                        fillColor: Colors.transparent,
-                        controller: titleController,
-                        hintText: local.enterTitle,
-                        textStyle:
-                            AppStyles.generalText.copyWith(fontSize: 15.sp),
-                        onValidate: (value) {
-                          if (value!.trim().isEmpty) {
-                            return local.validateTitle;
-                          }
-                          return null;
-                        },
-                      ),
-                      const SizedBox(height: 20),
+                      const TextWidget(text: 'Description'),
                       CustomTextFormField(
                         hintText: local.enterDescription,
                         myController: descriptionController,
@@ -128,23 +120,16 @@ class AddTaskScreen extends StatelessWidget {
                           return null;
                         },
                       ),
-                      const SizedBox(height: 20),
-                      Text(
-                        local.selectDate,
-                        style: AppStyles.titleL.copyWith(
-                            color: AppColor.blackColor, fontSize: 13.sp),
-                      ),
-                      SizedBox(height: 7.h),
+                      const TextWidget(text: 'Date'),
                       InkWell(
                         onTap: () {
                           editProvider.selectDate(context);
                         },
-                        child: Container(
+                        child: customButton(
+                          borderColor: AppColor.borderColor,
+                          borderRadius: BorderRadius.circular(8.r),
                           padding: EdgeInsetsDirectional.only(
                               start: 16.w, top: 10.h, bottom: 10.h, end: 13.w),
-                          decoration: BoxDecoration(
-                              border: Border.all(color: AppColor.borderColor),
-                              borderRadius: BorderRadius.circular(8.r)),
                           child: Row(
                             children: [
                               Text(
@@ -152,25 +137,163 @@ class AddTaskScreen extends StatelessWidget {
                                         ? 'en'
                                         : 'ar')
                                     .format(editProvider.chosenDate),
-                                style: AppStyles.generalText,
+                                style: AppStyles.generalText
+                                    .copyWith(fontSize: 12.sp),
                               ),
                               const Spacer(),
-                              const ImageIcon(AssetImage(AppImages.calendar))
+                              const ImageIcon(
+                                AssetImage(AppImages.calendar),
+                                color: AppColor.primaryColor,
+                              )
                             ],
                           ),
                         ),
                       ),
-                      SizedBox(height: 11.h),
-
-                      Text(
-                        'Color',
-                        style: AppStyles.titleL.copyWith(
-                            color: AppColor.blackColor, fontSize: 13.sp),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const TextWidget(text: 'Start Time'),
+                                InkWell(
+                                  onTap: () {},
+                                  child: customButton(
+                                    borderColor: AppColor.borderColor,
+                                    borderRadius: BorderRadius.circular(8.r),
+                                    padding: EdgeInsetsDirectional.only(
+                                        start: 16.w,
+                                        top: 9.h,
+                                        bottom: 9.h,
+                                        end: 8.w),
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          startTime,
+                                          style: AppStyles.generalText
+                                              .copyWith(fontSize: 12.sp),
+                                        ),
+                                        const Spacer(),
+                                        const ImageIcon(
+                                          AssetImage(AppImages.clock),
+                                          color: AppColor.primaryColor,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(width: 16.w),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const TextWidget(text: 'End Time'),
+                                InkWell(
+                                  onTap: () {},
+                                  child: customButton(
+                                    borderColor: AppColor.borderColor,
+                                    borderRadius: BorderRadius.circular(8.r),
+                                    padding: EdgeInsetsDirectional.only(
+                                        start: 16.w,
+                                        top: 9.h,
+                                        bottom: 9.h,
+                                        end: 8.w),
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          endTime,
+                                          style: AppStyles.generalText
+                                              .copyWith(fontSize: 12.sp),
+                                        ),
+                                        const Spacer(),
+                                        const ImageIcon(
+                                          AssetImage(AppImages.clock),
+                                          color: AppColor.primaryColor,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
-                      SizedBox(height: 7.h),
-
+                      const TextWidget(text: 'Remind'),
+                      customButton(
+                          padding: EdgeInsetsDirectional.only(start: 16.w,end: 9.w),
+                          borderRadius: BorderRadius.circular(8.r),
+                          borderColor: AppColor.borderColor,
+                          child: DropdownButton(
+                            hint: Text(
+                              AppStrings.remind ,
+                              style: AppStyles.generalText
+                                  .copyWith(fontSize: 12.sp),
+                            ),
+                            underline: Container(height: 0.h),
+                            isExpanded: true,borderRadius: BorderRadius.circular(8.r),dropdownColor: AppColor.whiteColor,
+                            icon: const Icon(
+                              Icons.keyboard_arrow_down,
+                              color: AppColor.primaryColor,
+                              size: 28,
+                            ),
+                            items:AppStrings. remindList
+                                .map<DropdownMenuItem<String>>(
+                                  (e) => DropdownMenuItem<String>(
+                                    value: e,
+                                    child: Text(
+                                      e,
+                                      style: AppStyles.generalText
+                                          .copyWith(fontSize: 12.sp),
+                                    ),
+                                  ),
+                                )
+                                .toList(),
+                            onChanged: (value) {
+                              AppStrings. remind = value!;
+                              setState(() {});
+                            },
+                          )),
+                      const TextWidget(text: 'Repeat'),
+                      customButton(
+                          padding: EdgeInsetsDirectional.only(start: 16.w,end: 9.w),
+                          borderRadius: BorderRadius.circular(8.r),
+                          borderColor: AppColor.borderColor,
+                          child: DropdownButton(
+                            hint: Text(
+                              AppStrings.repeat ,
+                              style: AppStyles.generalText
+                                  .copyWith(fontSize: 12.sp),
+                            ),
+                            underline: Container(height: 0.h),
+                            isExpanded: true,borderRadius: BorderRadius.circular(8.r),dropdownColor: AppColor.whiteColor,
+                            icon: const Icon(
+                              Icons.keyboard_arrow_down,
+                              color: AppColor.primaryColor,
+                              size: 28,
+                            ),
+                            items: AppStrings.repeatList
+                                .map<DropdownMenuItem<String>>(
+                                  (e) => DropdownMenuItem<String>(
+                                    value: e,
+                                    child: Text(
+                                      e,
+                                      style: AppStyles.generalText
+                                          .copyWith(fontSize: 12.sp),
+                                    ),
+                                  ),
+                                )
+                                .toList(),
+                            onChanged: (value) {
+                              AppStrings.repeat = value!;
+                              setState(() {});
+                            },
+                          )),
+                      const TextWidget(text: 'Color'),
                       SizedBox(height: 20.h),
-
                       InkWell(
                         onTap: () async {
                           if (formKey.currentState!.validate()) {
@@ -208,7 +331,7 @@ class AddTaskScreen extends StatelessWidget {
                                   color: AppColor.whiteColor, fontSize: 16.sp),
                             )),
                       ),
-                      const SizedBox(height: 12),
+                      SizedBox(height: 22.h),
                     ],
                   ),
                 ),

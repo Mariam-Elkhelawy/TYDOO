@@ -31,13 +31,11 @@ Widget customTextFormField(
   return TextFormField(
     textDirection:
     langCode == 'ar' ? TextDirection.rtl : TextDirection.ltr,
-    onChanged: onChanged,
     keyboardType: keyboardType,
     validator: onValidate,
     style: textStyle,
     obscureText: isPassword,
     cursorColor: cursorColor,
-    // cursorHeight: 30.h,
     controller: controller,
     decoration: InputDecoration(
       contentPadding: contentPadding,
@@ -47,7 +45,7 @@ Widget customTextFormField(
       fillColor: fillColor,
       prefixIcon: prefixIcon,
       suffixIcon: suffixIcon,
-      errorMaxLines: 8,
+       errorMaxLines: 8,
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(radius),
         borderSide: BorderSide(color: borderColor),
