@@ -2,10 +2,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:intl/intl.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/app_theme.dart';
 import 'package:todo_app/core/utils/app_colors.dart';
+import 'package:todo_app/core/utils/styles.dart';
 import 'package:todo_app/features/tasks/edit_tasks_screen.dart';
 import 'package:todo_app/features/models/task_model.dart';
 import 'package:todo_app/firebase/firebase_functions.dart';
@@ -19,20 +20,18 @@ class TaskItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var theme = Theme.of(context);
     var provider = Provider.of<MyProvider>(context);
     var local = AppLocalizations.of(context)!;
 
     return Container(
-      margin:
-          const EdgeInsetsDirectional.symmetric(horizontal: 20, vertical: 10),
+      margin: EdgeInsetsDirectional.symmetric(horizontal: 25.w, vertical: 10.h),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
         boxShadow: [
           BoxShadow(
               color: AppColor.blackColor.withOpacity(.11),
               spreadRadius: 0,
-              offset: Offset(0, 0),
+              offset: const Offset(0, 0),
               blurRadius: 16)
         ],
         color: taskModel.isDone
@@ -47,9 +46,9 @@ class TaskItem extends StatelessWidget {
           motion: const DrawerMotion(),
           children: [
             SlidableAction(
-              borderRadius: const BorderRadius.only(
-                bottomLeft: Radius.circular(15),
-                topLeft: Radius.circular(15),
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(15.r),
+                topLeft: Radius.circular(15.r),
               ),
               onPressed: (context) {
                 showDialog(
@@ -73,9 +72,8 @@ class TaskItem extends StatelessWidget {
               icon: Icons.delete,
               label: local.delete,
             ),
-            if (!taskModel.isDone)
               SlidableAction(
-                borderRadius: BorderRadius.circular(15),
+                borderRadius: BorderRadius.circular(15.r),
                 onPressed: (context) {
                   Navigator.pushNamed(
                     context,
@@ -85,22 +83,22 @@ class TaskItem extends StatelessWidget {
                         id: taskModel.id,
                         title: taskModel.title,
                         date: taskModel.date,
-                        taskColor: Colors.red,
-                        description: taskModel.description),
+                        description: taskModel.description,
+                        startTime: taskModel.startTime,
+                        endTime: taskModel.endTime),
                   );
                 },
                 backgroundColor: const Color(0xFF21B7CA),
-                icon: Icons.edit,
+                icon: Icons.star_border,
                 label: local.edit,
               ),
           ],
         ),
         child: Container(
-
           // height: MediaQuery.of(context).size.height * .14,
           decoration: BoxDecoration(
             color: provider.themeMode == ThemeMode.light
-                ? Colors.white
+                ? AppColor.whiteColor
                 : AppTheme.blackColor,
             borderRadius: BorderRadius.circular(12.r),
           ),
@@ -110,8 +108,10 @@ class TaskItem extends StatelessWidget {
                 width: 8.w,
                 height: 83.h,
                 decoration: BoxDecoration(
-                  color: AppColor.primaryColor,
-                  borderRadius:BorderRadius.only(topLeft: Radius.circular(12.r),bottomLeft: Radius.circular(12.r)),
+                  color: taskModel.taskColor,
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(12.r),
+                      bottomLeft: Radius.circular(12.r)),
                 ),
               ),
               SizedBox(width: 10.w),
@@ -120,28 +120,25 @@ class TaskItem extends StatelessWidget {
                   taskModel.isDone = !taskModel.isDone;
                   await FirebaseFunctions.updateTask(taskModel);
                 },
-                child: taskModel.isDone
-                    ? Container(
-                        width: 20.w,
-                        height: 20.h,
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Color(0xFF00C400),
-                        ),
-                        child: const Icon(
-                          Icons.check,
-                          size: 16,
-                          color: AppColor.whiteColor,
-                        ),
-                      )
-                    : Container(
-                        width: 20.w,
-                        height: 20.h,
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: AppColor.whiteColor,
-                            border: Border.all(color: AppColor.primaryColor)),
-                      ),
+                child: Container(
+                  width: 20.w,
+                  height: 20.h,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: taskModel.isDone
+                        ? AppColor.doneColor
+                        : AppColor.whiteColor,
+                    border: Border.all(
+                        color: taskModel.isDone
+                            ? Colors.transparent
+                            : AppColor.primaryColor),
+                  ),
+                  child: const Icon(
+                    Icons.check,
+                    size: 16,
+                    color: AppColor.whiteColor,
+                  ),
+                ),
               ),
               SizedBox(width: 20.w),
               Expanded(
@@ -154,34 +151,50 @@ class TaskItem extends StatelessWidget {
                       taskModel.title,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      style: theme.textTheme.bodyLarge?.copyWith(
-                        color: AppColor.primaryColor,
-                      ),
+                      style: AppStyles.titleL.copyWith(
+                          fontSize: 14.sp, color: AppColor.primaryColor),
                     ),
                     // Text(
                     //   taskModel.description,
                     //   maxLines: 2,
                     //   overflow: TextOverflow.ellipsis,
-                    //   style: theme.textTheme.bodyMedium
-                    //       ?.copyWith(fontWeight: FontWeight.w500),
-                    // ),
+                    //    style: AppStyles.generalText.copyWith(
+                    // fontSize: 12.sp, color: AppColor.taskGreyColor,
+                    // ),),
                     SizedBox(height: 8.h),
-                    Row(
-                      children: [
-                        const Icon(Icons.timer_outlined, size: 18),
-                        const SizedBox(width: 5),
-                        Text(
-                          DateFormat.yMMMd(
-                                  provider.languageCode == 'en' ? 'en' : 'ar')
-                              .format(taskModel.date),
-                          style: theme.textTheme.bodySmall?.copyWith(
-                              fontSize: 13, fontWeight: FontWeight.w500),
-                        )
-                      ],
-                    )
+                    Text(
+                      '${taskModel.startTime ?? ''} - ${taskModel.endTime ?? ''}',
+                      style: AppStyles.generalText.copyWith(
+                          fontSize: 12.sp, color: AppColor.taskGreyColor),
+                    ),
                   ],
                 ),
               ),
+              InkWell(
+                onTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    EditTaskScreen.routeName,
+                    arguments: TaskModel(
+                        userId: FirebaseAuth.instance.currentUser!.uid,
+                        id: taskModel.id,
+                        title: taskModel.title,
+                        date: taskModel.date,
+                        description: taskModel.description,
+                        startTime: taskModel.startTime,
+                        endTime: taskModel.endTime),
+                  );
+                },
+                child: Padding(
+                  padding: EdgeInsets.only(right: 16.w),
+                  child: const ImageIcon(
+                    AssetImage(
+                      'assets/images/Edit.png',
+                    ),
+                    color: AppColor.taskGreyColor,
+                  ),
+                ),
+              )
             ],
           ),
         ),

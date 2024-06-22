@@ -106,7 +106,6 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
                           userId: FirebaseAuth.instance.currentUser!.uid,
                           id: '',
                           title: titleController.text,
-                          taskColor: Colors.blue,
                           date: DateUtils.dateOnly(editProvider.chosenDate),
                           description: descriptionController.text);
                       await FirebaseFunctions.addTask(taskModel);

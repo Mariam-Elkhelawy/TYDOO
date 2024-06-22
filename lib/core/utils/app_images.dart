@@ -7,6 +7,9 @@ class AppImages {
   static const String arrow = 'assets/images/ic_arrow.png';
   static const String calendar = 'assets/images/ic_calendar.png';
   static const String clock = 'assets/images/ic_clock.png';
+  static const String home = 'assets/images/ic_home.svg';
+  static const String settings = 'assets/images/ic_settings.svg';
+  static const String category = 'assets/images/ic_category.svg';
 
 
 }
