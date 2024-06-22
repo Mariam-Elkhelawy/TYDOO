@@ -8,8 +8,8 @@ import 'package:todo_app/core/utils/app_colors.dart';
 import 'package:todo_app/core/utils/app_images.dart';
 import 'package:todo_app/core/utils/app_strings.dart';
 import 'package:todo_app/core/utils/styles.dart';
+import 'package:todo_app/features/data/models/task_model.dart';
 import 'package:todo_app/features/home/text_widget.dart';
-import 'package:todo_app/features/models/task_model.dart';
 import 'package:todo_app/firebase/firebase_functions.dart';
 import 'package:todo_app/providers/edit_provider.dart';
 import 'package:todo_app/providers/my_provider.dart';
@@ -308,7 +308,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                               setState(() {});
                             },
                             child: Padding(
-                              padding: EdgeInsetsDirectional.only(end: 11.w),
+                              padding: EdgeInsetsDirectional.only(end: 11.w,top: 5.h),
                               child: CircleAvatar(
                                 backgroundColor: AppColor.colorPalette[index],
                                 radius: 16.r,
