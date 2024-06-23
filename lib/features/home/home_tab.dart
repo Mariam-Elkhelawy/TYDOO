@@ -5,12 +5,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:todo_app/app_theme.dart';
 import 'package:todo_app/core/utils/app_colors.dart';
 import 'package:todo_app/core/utils/app_images.dart';
+import 'package:todo_app/core/utils/app_strings.dart';
 import 'package:todo_app/core/utils/styles.dart';
+import 'package:todo_app/features/data/models/task_model.dart';
 import 'package:todo_app/features/home/task_item.dart';
-import 'package:todo_app/features/models/task_model.dart';
 import 'package:todo_app/firebase/firebase_functions.dart';
 import 'package:todo_app/providers/my_provider.dart';
 
@@ -39,7 +39,7 @@ class _HomeTabState extends State<HomeTab> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(
             child: CircularProgressIndicator(
-              color: AppTheme.primaryColor,
+              color: AppColor.primaryColor,
             ),
           );
         }
@@ -49,9 +49,8 @@ class _HomeTabState extends State<HomeTab> {
           );
         }
         var tasks = snapshot.data?.docs.map((e) => e.data()).toList() ?? [];
-
         return Padding(
-          padding: EdgeInsets.only(bottom: 76.h),
+          padding: EdgeInsets.only(bottom: 90.h),
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -67,7 +66,7 @@ class _HomeTabState extends State<HomeTab> {
                       top: 110.h,
                       left: 24.w,
                       child: Text(
-                        'Hello,',
+                        AppStrings.hello,
                         style: AppStyles.regularText.copyWith(
                             color: AppColor.helloColor, fontSize: 20.sp),
                       ),
@@ -147,7 +146,7 @@ class _HomeTabState extends State<HomeTab> {
                 Padding(
                   padding: EdgeInsets.only(left: 16.w, top: 24.h, bottom: 18.h),
                   child: Text(
-                      '${DateFormat('d MMMM').format(DateUtils.dateOnly(focusDate))} Tasks',
+                      '${DateFormat('d MMM').format(DateUtils.dateOnly(focusDate))} Tasks',
                       style: AppStyles.bodyL),
                 ),
                 tasks.isEmpty

@@ -8,8 +8,8 @@ import 'package:todo_app/core/utils/app_colors.dart';
 import 'package:todo_app/core/utils/app_images.dart';
 import 'package:todo_app/core/utils/app_strings.dart';
 import 'package:todo_app/core/utils/styles.dart';
+import 'package:todo_app/features/data/models/task_model.dart';
 import 'package:todo_app/features/home/text_widget.dart';
-import 'package:todo_app/features/models/task_model.dart';
 import 'package:todo_app/firebase/firebase_functions.dart';
 import 'package:todo_app/providers/edit_provider.dart';
 import 'package:todo_app/providers/my_provider.dart';
@@ -224,23 +224,26 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                       ),
                       const TextWidget(text: 'Remind'),
                       customButton(
-                          padding: EdgeInsetsDirectional.only(start: 16.w,end: 9.w),
+                          padding:
+                              EdgeInsetsDirectional.only(start: 16.w, end: 9.w),
                           borderRadius: BorderRadius.circular(8.r),
                           borderColor: AppColor.borderColor,
                           child: DropdownButton(
                             hint: Text(
-                              AppStrings.remind ,
+                              AppStrings.remind,
                               style: AppStyles.generalText
                                   .copyWith(fontSize: 12.sp),
                             ),
                             underline: Container(height: 0.h),
-                            isExpanded: true,borderRadius: BorderRadius.circular(8.r),dropdownColor: AppColor.whiteColor,
+                            isExpanded: true,
+                            borderRadius: BorderRadius.circular(8.r),
+                            dropdownColor: AppColor.whiteColor,
                             icon: const Icon(
                               Icons.keyboard_arrow_down,
                               color: AppColor.primaryColor,
                               size: 28,
                             ),
-                            items:AppStrings. remindList
+                            items: AppStrings.remindList
                                 .map<DropdownMenuItem<String>>(
                                   (e) => DropdownMenuItem<String>(
                                     value: e,
@@ -253,23 +256,26 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                 )
                                 .toList(),
                             onChanged: (value) {
-                              AppStrings. remind = value!;
+                              AppStrings.remind = value!;
                               setState(() {});
                             },
                           )),
                       const TextWidget(text: 'Repeat'),
                       customButton(
-                          padding: EdgeInsetsDirectional.only(start: 16.w,end: 9.w),
+                          padding:
+                              EdgeInsetsDirectional.only(start: 16.w, end: 9.w),
                           borderRadius: BorderRadius.circular(8.r),
                           borderColor: AppColor.borderColor,
                           child: DropdownButton(
                             hint: Text(
-                              AppStrings.repeat ,
+                              AppStrings.repeat,
                               style: AppStyles.generalText
                                   .copyWith(fontSize: 12.sp),
                             ),
                             underline: Container(height: 0.h),
-                            isExpanded: true,borderRadius: BorderRadius.circular(8.r),dropdownColor: AppColor.whiteColor,
+                            isExpanded: true,
+                            borderRadius: BorderRadius.circular(8.r),
+                            dropdownColor: AppColor.whiteColor,
                             icon: const Icon(
                               Icons.keyboard_arrow_down,
                               color: AppColor.primaryColor,
@@ -293,6 +299,31 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                             },
                           )),
                       const TextWidget(text: 'Color'),
+                      Wrap(
+                        children: List.generate(
+                          7,
+                          (index) => GestureDetector(
+                            onTap: () {
+                              color = index;
+                              setState(() {});
+                            },
+                            child: Padding(
+                              padding: EdgeInsetsDirectional.only(end: 11.w,top: 5.h),
+                              child: CircleAvatar(
+                                backgroundColor: AppColor.colorPalette[index],
+                                radius: 16.r,
+                                child: color == index
+                                    ? const Icon(
+                                        Icons.done,
+                                        color: AppColor.whiteColor,
+                                        size: 16,
+                                      )
+                                    : null,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
                       SizedBox(height: 20.h),
                       InkWell(
                         onTap: () async {
@@ -301,7 +332,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                 userId: FirebaseAuth.instance.currentUser!.uid,
                                 id: '',
                                 title: titleController.text,
-                                taskColor: Colors.blue,
+                                taskColor: AppColor.colorPalette[color],startTime: startTime,endTime: endTime,
                                 date:
                                     DateUtils.dateOnly(editProvider.chosenDate),
                                 description: descriptionController.text);

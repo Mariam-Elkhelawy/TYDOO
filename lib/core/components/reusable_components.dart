@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 import 'package:todo_app/core/utils/app_colors.dart';
-
+import 'package:todo_app/providers/my_provider.dart';
 
 Widget unDefinedRoute() {
   return const Scaffold(
@@ -26,11 +27,10 @@ Widget customTextFormField(
     Color? cursorColor = AppColor.primaryColor,
     required Color fillColor,
     String? Function(String?)? onValidate,
-    void Function(String)? onChanged,String langCode='en'}) {
-
+    void Function(String)? onChanged,
+    String langCode = 'en'}) {
   return TextFormField(
-    textDirection:
-    langCode == 'ar' ? TextDirection.rtl : TextDirection.ltr,
+    textDirection: langCode == 'ar' ? TextDirection.rtl : TextDirection.ltr,
     keyboardType: keyboardType,
     validator: onValidate,
     style: textStyle,
@@ -45,7 +45,7 @@ Widget customTextFormField(
       fillColor: fillColor,
       prefixIcon: prefixIcon,
       suffixIcon: suffixIcon,
-       errorMaxLines: 8,
+      errorMaxLines: 8,
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(radius),
         borderSide: BorderSide(color: borderColor),
@@ -125,3 +125,20 @@ Container customButton(
 //         ),
 //       ));
 // }
+Widget customBG({required BuildContext context, Widget? child}) {
+  var provider = Provider.of<MyProvider>(context);
+
+  return Container(
+    decoration: BoxDecoration(
+      color: provider.themeMode == ThemeMode.light
+          ? AppColor.whiteColor
+          : AppColor.darkColor,
+      image: DecorationImage(
+          image: AssetImage(provider.themeMode == ThemeMode.light
+              ? 'assets/images/bg_light.png'
+              : 'assets/images/bd_dark.png'),
+          fit: BoxFit.cover),
+    ),
+    child: child,
+  );
+}

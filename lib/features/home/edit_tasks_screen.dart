@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/app_theme.dart';
-import 'package:todo_app/features/models/task_model.dart';
+import 'package:todo_app/features/data/models/task_model.dart';
 import 'package:todo_app/firebase/firebase_functions.dart';
 import 'package:todo_app/providers/edit_provider.dart';
 import 'package:todo_app/providers/my_provider.dart';

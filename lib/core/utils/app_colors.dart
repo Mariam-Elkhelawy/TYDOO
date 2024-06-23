@@ -13,5 +13,18 @@ class AppColor {
   static const Color helloColor = Color(0xFFEFEFEF);
   static const Color iconColor =  Color(0xFF484C52);
   static const Color borderColor = Color(0xFFD8DADC);
+  static const Color taskGreyColor = Color(0xFFA2A2A2);
+  static const Color doneColor = Color(0xFF00C400);
+  static const Color darkColor = Color(0xFF1D1F24);
+  static const Color optionalColor = Color(0xFF484C52);
   static const Color whiteColor = Colors.white;
+  static const List<Color> colorPalette = [
+    Color(0xFFFF0000),
+    Color(0xFFE47219),
+    Color(0xFFEDD60A),
+    Color(0xFF0FD317),
+    Color(0xFFDFBFD7),
+    Color(0xFF7F1C88),
+    Color(0xFF228B65),
+  ];
 }

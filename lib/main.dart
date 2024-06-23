@@ -5,19 +5,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/app_theme.dart';
+import 'package:todo_app/features/category/add_category_screen.dart';
+import 'package:todo_app/features/home/edit_tasks_screen.dart';
 import 'package:todo_app/features/home_screen.dart';
 import 'package:todo_app/features/login/login_screen.dart';
 import 'package:todo_app/features/register/register_screen.dart';
 import 'package:todo_app/features/splash_screen.dart';
-import 'package:todo_app/features/tasks/add_task_screen.dart';
-import 'package:todo_app/features/tasks/edit_tasks_screen.dart';
 import 'package:todo_app/firebase_options.dart';
 import 'package:todo_app/providers/my_provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
- import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'features/home/add_task_screen.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  MyProvider myProvider =MyProvider();
+  MyProvider myProvider = MyProvider();
   await myProvider.setItems();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -68,7 +70,7 @@ class TodoApp extends StatelessWidget {
       child: MaterialApp(
         locale: Locale(provider.languageCode),
         localizationsDelegates: const [
-           AppLocalizations.delegate,
+          AppLocalizations.delegate,
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
@@ -88,7 +90,8 @@ class TodoApp extends StatelessWidget {
           EditTaskScreen.routeName: (context) => const EditTaskScreen(),
           LoginScreen.routeName: (context) => const LoginScreen(),
           RegisterScreen.routeName: (context) => const RegisterScreen(),
-          AddTaskScreen.routeName: (context) =>  AddTaskScreen(),
+          AddTaskScreen.routeName: (context) => const AddTaskScreen(),
+          AddCategoryScreen.routeName: (context) =>  AddCategoryScreen(),
         },
       ),
     );

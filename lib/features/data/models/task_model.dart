@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class TaskModel {
   String id;
@@ -7,7 +8,12 @@ class TaskModel {
   DateTime date;
   Color taskColor;
   bool isDone;
+  bool isImportant;
   String userId;
+  String? startTime = DateFormat('hh:mm a').format(DateTime.now()).toString();
+  String? endTime = DateFormat('hh:mm a')
+      .format(DateTime.now().add(const Duration(minutes: 15)))
+      .toString();
 
   TaskModel({
     required this.id,
@@ -15,8 +21,11 @@ class TaskModel {
     required this.date,
     required this.description,
     this.isDone = false,
-    required this.taskColor,
+    this.isImportant = false,
+    this.taskColor = Colors.transparent,
     required this.userId,
+    this.startTime,
+    this.endTime,
   });
 
   factory TaskModel.fromJson(Map<String, dynamic> json) {
@@ -26,8 +35,11 @@ class TaskModel {
       description: json['description'],
       id: json['id'],
       isDone: json['isDone'],
+      isImportant: json['isImportant'],
       taskColor: hexToColor(json['taskColor']),
       userId: json['userId'],
+      startTime: json['startTime'],
+      endTime: json['endTime'],
     );
   }
 
@@ -38,11 +50,15 @@ class TaskModel {
       'description': description,
       'id': id,
       'isDone': isDone,
-      'taskColor': taskColor.value.toRadixString(16), // Convert the color back to hex string
+      'isImportant': isImportant,
+      'taskColor': taskColor.value.toRadixString(16),
       'userId': userId,
+      'startTime': startTime,
+      'endTime': endTime
     };
   }
 }
+
 Color hexToColor(String hex) {
   hex = hex.replaceAll('#', '');
   if (hex.length == 6) {
