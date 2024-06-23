@@ -9,7 +9,8 @@ class CustomDropDownWidget extends StatelessWidget {
       {super.key,
       required this.onChanged,
       required this.hintText,
-      required this.items,required this.initialItem});
+      required this.items,
+      required this.initialItem});
   List<String> items;
   String hintText;
   String initialItem;
@@ -18,14 +19,15 @@ class CustomDropDownWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
     var provider = Provider.of<MyProvider>(context);
-    return CustomDropdown(initialItem: initialItem,
+    return CustomDropdown(
+        initialItem: initialItem,
         hintText: hintText,
         decoration: CustomDropdownDecoration(
-          closedSuffixIcon: Icon(
+          closedSuffixIcon: const Icon(
             Icons.keyboard_arrow_down,
             color: AppTheme.primaryColor,
           ),
-          expandedSuffixIcon: Icon(
+          expandedSuffixIcon: const Icon(
             Icons.keyboard_arrow_up,
             color: AppTheme.primaryColor,
           ),

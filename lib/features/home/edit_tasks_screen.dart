@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/app_theme.dart';
-import 'package:todo_app/features/models/task_model.dart';
+import 'package:todo_app/features/data/models/task_model.dart';
 import 'package:todo_app/firebase/firebase_functions.dart';
 import 'package:todo_app/providers/edit_provider.dart';
 import 'package:todo_app/providers/my_provider.dart';
@@ -25,7 +25,7 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
   TextEditingController descriptionController = TextEditingController();
   TaskModel? model;
   DateTime? chosenDate;
-  bool isTapped =false;
+  bool isTapped = false;
   @override
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context).size;
@@ -132,7 +132,13 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                             child: chosenDate == null
                                 ? null
                                 : Text(
-                                    DateFormat.yMMMEd(provider.languageCode == 'en' ? 'en' : 'ar').format(isTapped?chosenDate!:model!.date),
+                                    DateFormat.yMMMEd(
+                                            provider.languageCode == 'en'
+                                                ? 'en'
+                                                : 'ar')
+                                        .format(isTapped
+                                            ? chosenDate!
+                                            : model!.date),
                                     style: GoogleFonts.inter(
                                         fontSize: 18,
                                         fontWeight: FontWeight.w400),
@@ -150,8 +156,7 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                                     context: context,
                                     builder: (context) {
                                       return CustomDialog(
-                                          dialogContent:
-                                             local.noChanges,
+                                          dialogContent: local.noChanges,
                                           dialogTitle: local.alert);
                                     },
                                   );
@@ -170,8 +175,7 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                                           actionRequired: () {
                                             Navigator.pop(context);
                                           },
-                                          dialogContent:
-                                             local.editTaskSuccess,
+                                          dialogContent: local.editTaskSuccess,
                                           dialogTitle: local.success);
                                     },
                                   );

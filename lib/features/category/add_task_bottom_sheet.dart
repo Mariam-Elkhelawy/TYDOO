@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/app_theme.dart';
-import 'package:todo_app/features/models/task_model.dart';
+import 'package:todo_app/features/data/models/task_model.dart';
 import 'package:todo_app/firebase/firebase_functions.dart';
 import 'package:todo_app/providers/edit_provider.dart';
 import 'package:todo_app/providers/my_provider.dart';
@@ -73,7 +73,8 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
                   },
                 ),
                 const SizedBox(height: 20),
-                Container(alignment: AlignmentDirectional.centerStart,
+                Container(
+                  alignment: AlignmentDirectional.centerStart,
                   child: Text(
                     local.selectDate,
                     style: theme.textTheme.bodyMedium?.copyWith(
@@ -90,7 +91,9 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
                     editProvider.selectDate(context);
                   },
                   child: Text(
-                    DateFormat.yMMMd(provider.languageCode == 'en' ? 'en' : 'ar').format(editProvider.chosenDate),
+                    DateFormat.yMMMd(
+                        provider.languageCode == 'en' ? 'en' : 'ar')
+                        .format(editProvider.chosenDate),
                     style: GoogleFonts.inter(
                         fontSize: 18, fontWeight: FontWeight.w400),
                   ),
