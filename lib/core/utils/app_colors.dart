@@ -20,10 +20,10 @@ class AppColor {
   static const Color whiteColor = Colors.white;
   static const List<Color> colorPalette = [
     Color(0xFFFF0000),
-    Color(0xFFFF5C00),
+    Color(0xFFE47219),
+    Color(0xFFEDD60A),
     Color(0xFF0FD317),
-    Color(0xFF0359FF),
-    Color(0xFF00D1FF),
+    Color(0xFFDFBFD7),
     Color(0xFF7F1C88),
     Color(0xFF228B65),
   ];

@@ -1,7 +1,7 @@
 {
   "todoList": "To Do List",
   "logout": "Log Out",
-  "noTasks": "There is no tasks yet!",
+  "noTasks": "No Added Tasks Yet!",
   "isError": "Something went wrong..",
   "deleteAlert" :"Are you sure you want to delete this task?",
   "alert": "Alert !!",

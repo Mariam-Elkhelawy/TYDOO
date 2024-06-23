@@ -61,7 +61,8 @@ class FirebaseFunctions {
 
   static Future<void> addCategory(CategoryModel categoryModel) {
     var collection = getCategoryCollection();
-    var docRef = collection.doc(categoryModel.id);
+    var docRef = collection.doc();
+    categoryModel.id = docRef.id;
     return docRef.set(categoryModel);
   }
 
@@ -70,6 +71,12 @@ class FirebaseFunctions {
         .where('userId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
         .where('date',
             isEqualTo: DateUtils.dateOnly(date).millisecondsSinceEpoch)
+        .snapshots();
+  }
+  static Stream<QuerySnapshot<TaskModel>> getImportantTasks() {
+    return getTaskCollection()
+        .where('userId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+        .where('isImportant', isEqualTo: true)
         .snapshots();
   }
 

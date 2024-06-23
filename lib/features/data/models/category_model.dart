@@ -5,7 +5,6 @@ class CategoryModel {
   String name;
   String note;
   Color categoryColor;
-  bool isDone;
   String userId;
   
 
@@ -13,7 +12,6 @@ class CategoryModel {
     required this.id,
     required this.name,
     required this.note,
-    this.isDone = false,
     this.categoryColor = Colors.transparent,
     required this.userId,
   });
@@ -23,7 +21,6 @@ class CategoryModel {
       name: json['name'],
       note: json['note'],
       id: json['id'],
-      isDone: json['isDone'],
       categoryColor: hexToColor(json['categoryColor']),
       userId: json['userId'],
     );
@@ -34,7 +31,6 @@ class CategoryModel {
       'name': name,
       'note': note,
       'id': id,
-      'isDone': isDone,
       'categoryColor': categoryColor.value.toRadixString(16),
       'userId': userId,
     };

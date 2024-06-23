@@ -9,6 +9,7 @@ import 'package:todo_app/core/utils/app_images.dart';
 import 'package:todo_app/core/utils/app_strings.dart';
 import 'package:todo_app/features/active_icon_nav_bar.dart';
 import 'package:todo_app/features/category/category_tab.dart';
+import 'package:todo_app/features/category/important/important_tab.dart';
 import 'package:todo_app/features/home/add_task_screen.dart';
 import 'package:todo_app/features/home/home_tab.dart';
 import 'package:todo_app/features/settings/settings_screen.dart';
@@ -88,6 +89,6 @@ class HomeScreen extends StatelessWidget {
 List<Widget> screens = [
   const HomeTab(),
   const CategoryTab(),
-  SettingsScreen(),
+  const ImportantTab(),
   SettingsScreen(),
 ];

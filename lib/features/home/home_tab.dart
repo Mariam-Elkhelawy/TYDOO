@@ -5,7 +5,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:todo_app/app_theme.dart';
 import 'package:todo_app/core/utils/app_colors.dart';
 import 'package:todo_app/core/utils/app_images.dart';
 import 'package:todo_app/core/utils/app_strings.dart';
@@ -40,7 +39,7 @@ class _HomeTabState extends State<HomeTab> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(
             child: CircularProgressIndicator(
-              color: AppTheme.primaryColor,
+              color: AppColor.primaryColor,
             ),
           );
         }

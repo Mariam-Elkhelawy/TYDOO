@@ -8,6 +8,7 @@ class TaskModel {
   DateTime date;
   Color taskColor;
   bool isDone;
+  bool isImportant;
   String userId;
   String? startTime = DateFormat('hh:mm a').format(DateTime.now()).toString();
   String? endTime = DateFormat('hh:mm a')
@@ -20,6 +21,7 @@ class TaskModel {
     required this.date,
     required this.description,
     this.isDone = false,
+    this.isImportant = false,
     this.taskColor = Colors.transparent,
     required this.userId,
     this.startTime,
@@ -33,6 +35,7 @@ class TaskModel {
       description: json['description'],
       id: json['id'],
       isDone: json['isDone'],
+      isImportant: json['isImportant'],
       taskColor: hexToColor(json['taskColor']),
       userId: json['userId'],
       startTime: json['startTime'],
@@ -47,6 +50,7 @@ class TaskModel {
       'description': description,
       'id': id,
       'isDone': isDone,
+      'isImportant': isImportant,
       'taskColor': taskColor.value.toRadixString(16),
       'userId': userId,
       'startTime': startTime,
