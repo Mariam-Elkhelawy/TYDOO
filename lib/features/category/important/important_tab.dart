@@ -25,7 +25,7 @@ class ImportantTab extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const ImageIcon(
-                AssetImage('assets/images/ic_search.png'),
+                AssetImage(AppImages.search),
                 color: AppColor.taskGreyColor,
               ),
               Text(
@@ -33,7 +33,7 @@ class ImportantTab extends StatelessWidget {
                 style: AppStyles.bodyL.copyWith(color: AppColor.primaryColor),
               ),
               const ImageIcon(
-                AssetImage('assets/images/ic_sort.png'),
+                AssetImage(AppImages.sort),
                 color: AppColor.taskGreyColor,
               ),
             ],

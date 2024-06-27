@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/core/utils/app_colors.dart';
+import 'package:todo_app/core/utils/app_images.dart';
 import 'package:todo_app/core/utils/styles.dart';
 import 'package:todo_app/features/category/add_category_screen.dart';
 import 'package:todo_app/features/category/category_item.dart';
@@ -30,15 +31,15 @@ class CategoryTab extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const ImageIcon(
-                AssetImage('assets/images/ic_search.png'),
+                AssetImage(AppImages.search),
                 color: AppColor.taskGreyColor,
               ),
               Text(
                 'Category',
-                style: AppStyles.titleL.copyWith(color: AppColor.blackColor),
+                style: AppStyles.bodyL.copyWith(color: AppColor.primaryColor),
               ),
               const ImageIcon(
-                AssetImage('assets/images/ic_sort.png'),
+                AssetImage(AppImages.sort),
                 color: AppColor.taskGreyColor,
               ),
             ],

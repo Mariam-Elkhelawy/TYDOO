@@ -157,7 +157,9 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                               children: [
                                 const TextWidget(text: 'Start Time'),
                                 InkWell(
-                                  onTap: () {},
+                                  onTap: () {
+                                    editProvider.selectStartTime(context);
+                                  },
                                   child: customButton(
                                     borderColor: AppColor.borderColor,
                                     borderRadius: BorderRadius.circular(8.r),
@@ -169,7 +171,9 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                     child: Row(
                                       children: [
                                         Text(
-                                          startTime,
+                                          editProvider.selectedStartTime
+                                              .format(context)
+                                              .toString(),
                                           style: AppStyles.generalText
                                               .copyWith(fontSize: 12.sp),
                                         ),
@@ -192,7 +196,9 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                               children: [
                                 const TextWidget(text: 'End Time'),
                                 InkWell(
-                                  onTap: () {},
+                                  onTap: () {
+                                    editProvider.selectEndTime(context);
+                                  },
                                   child: customButton(
                                     borderColor: AppColor.borderColor,
                                     borderRadius: BorderRadius.circular(8.r),
@@ -204,7 +210,9 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                     child: Row(
                                       children: [
                                         Text(
-                                          endTime,
+                                          editProvider.selectedEndTime
+                                              .format(context)
+                                              .toString(),
                                           style: AppStyles.generalText
                                               .copyWith(fontSize: 12.sp),
                                         ),
@@ -308,7 +316,8 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                               setState(() {});
                             },
                             child: Padding(
-                              padding: EdgeInsetsDirectional.only(end: 11.w,top: 5.h),
+                              padding: EdgeInsetsDirectional.only(
+                                  end: 11.w, top: 5.h),
                               child: CircleAvatar(
                                 backgroundColor: AppColor.colorPalette[index],
                                 radius: 16.r,
@@ -332,7 +341,9 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                 userId: FirebaseAuth.instance.currentUser!.uid,
                                 id: '',
                                 title: titleController.text,
-                                taskColor: AppColor.colorPalette[color],startTime: startTime,endTime: endTime,
+                                taskColor: AppColor.colorPalette[color],
+                                startTime: editProvider.selectedStartTime.format(context).toString(),
+                                endTime: editProvider.selectedEndTime.format(context).toString(),
                                 date:
                                     DateUtils.dateOnly(editProvider.chosenDate),
                                 description: descriptionController.text);

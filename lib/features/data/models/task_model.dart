@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class TaskModel {
   String id;
@@ -10,10 +9,8 @@ class TaskModel {
   bool isDone;
   bool isImportant;
   String userId;
-  String? startTime = DateFormat('hh:mm a').format(DateTime.now()).toString();
-  String? endTime = DateFormat('hh:mm a')
-      .format(DateTime.now().add(const Duration(minutes: 15)))
-      .toString();
+  String? startTime;
+  String? endTime ;
 
   TaskModel({
     required this.id,

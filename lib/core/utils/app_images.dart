@@ -12,6 +12,8 @@ class AppImages {
   static const String home = 'assets/images/ic_home.svg';
   static const String settings = 'assets/images/ic_settings.svg';
   static const String category = 'assets/images/ic_category.svg';
+  static const String search ='assets/images/ic_search.png';
+  static const String sort = 'assets/images/ic_sort.png';
   static const String empty = 'assets/images/empty.png';
 
 

@@ -83,7 +83,9 @@ class _HomeTabState extends State<HomeTab> {
                       top: 180.h,
                       left: 24.w,
                       child: Text(
-                        'You have ${tasks.length} task(s) for today',
+                        provider.languageCode == 'en'
+                            ? 'You have ${tasks.length} task(s) for today'
+                            : 'لديك اليوم ${tasks.length}  مهام ',
                         style: AppStyles.regularText.copyWith(
                             fontSize: 14.sp, color: AppColor.whiteColor),
                       ),
