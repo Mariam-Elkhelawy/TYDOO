@@ -1,7 +1,14 @@
 import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:todo_app/app_theme.dart';
+import 'package:todo_app/config/theme/app_theme.dart';
+import 'package:todo_app/core/utils/app_colors.dart';
+import 'package:todo_app/core/utils/app_colors.dart';
+import 'package:todo_app/core/utils/app_colors.dart';
+import 'package:todo_app/core/utils/app_colors.dart';
+import 'package:todo_app/core/utils/app_colors.dart';
+import 'package:todo_app/core/utils/app_colors.dart';
+import 'package:todo_app/core/utils/app_colors.dart';
 import 'package:todo_app/providers/my_provider.dart';
 
 class CustomDropDownWidget extends StatelessWidget {
@@ -25,24 +32,24 @@ class CustomDropDownWidget extends StatelessWidget {
         decoration: CustomDropdownDecoration(
           closedSuffixIcon: const Icon(
             Icons.keyboard_arrow_down,
-            color: AppTheme.primaryColor,
+            color: AppColor.primaryColor,
           ),
           expandedSuffixIcon: const Icon(
             Icons.keyboard_arrow_up,
-            color: AppTheme.primaryColor,
+            color: AppColor.primaryColor,
           ),
           closedBorderRadius: BorderRadius.zero,
           expandedBorderRadius: BorderRadius.zero,
           headerStyle: theme.textTheme.bodyMedium
-              ?.copyWith(color: AppTheme.primaryColor),
+              ?.copyWith(color: AppColor.primaryColor),
           listItemStyle: theme.textTheme.bodyMedium
-              ?.copyWith(color: AppTheme.primaryColor),
-          closedBorder: Border.all(color: AppTheme.primaryColor),
+              ?.copyWith(color: AppColor.primaryColor),
+          closedBorder: Border.all(color: AppColor.primaryColor),
           closedFillColor: provider.themeMode == ThemeMode.dark
-              ? AppTheme.blackColor
+              ? AppColor.blackColor
               : Colors.white,
           expandedFillColor: provider.themeMode == ThemeMode.dark
-              ? AppTheme.blackColor
+              ? AppColor.blackColor
               : Colors.white,
         ),
         items: items,

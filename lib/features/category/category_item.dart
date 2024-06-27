@@ -21,7 +21,7 @@ final CategoryModel categoryModel;
     var provider = Provider.of<MyProvider>(context);
     var local = AppLocalizations.of(context)!;
     return Container(
-      margin: EdgeInsetsDirectional.symmetric(horizontal: 25.w, vertical: 10.h),
+      margin: EdgeInsetsDirectional.symmetric(horizontal: 17.w, vertical: 8.h),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
         boxShadow: [
@@ -31,13 +31,11 @@ final CategoryModel categoryModel;
               offset: const Offset(0, 0),
               blurRadius: 16)
         ],
-        color:  provider.languageCode == 'en'
-            ? const Color(0xFF21B7CA)
-            : const Color(0xFFFE4A49),
+        color: Colors.transparent,
       ),
       child: Slidable(
         startActionPane: ActionPane(
-          extentRatio: .5,
+          extentRatio: .3,
           motion: const DrawerMotion(),
           children: [
             SlidableAction(
@@ -63,27 +61,9 @@ final CategoryModel categoryModel;
                   },
                 );
               },
-              backgroundColor: const Color(0xFFFE4A49),
+              backgroundColor: AppColor.deleteColor,
               icon: Icons.delete,
               label: local.delete,
-            ),
-            SlidableAction(
-              borderRadius: BorderRadius.circular(15.r),
-              onPressed: (context) {
-                Navigator.pushNamed(
-                  context,
-                  AddCategoryScreen.routeName,
-                  arguments: CategoryModel(
-                      userId: FirebaseAuth.instance.currentUser!.uid,
-                      id: categoryModel.id,
-                      name: categoryModel.name,
-                      note: categoryModel.note,
-                      ),
-                );
-              },
-              backgroundColor: const Color(0xFF21B7CA),
-              icon: Icons.star_border,
-              label: local.edit,
             ),
           ],
         ),
@@ -102,8 +82,11 @@ final CategoryModel categoryModel;
                 decoration: BoxDecoration(
                   color: categoryModel.categoryColor,
                   borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(12.r),
-                      bottomLeft: Radius.circular(12.r)),
+                      topLeft:provider.languageCode=='en'? Radius.circular(12.r):Radius.circular(0.r),
+                      bottomLeft:provider.languageCode=='en'? Radius.circular(12.r):Radius.circular(0.r),
+                      bottomRight:provider.languageCode=='en'? Radius.circular(0.r):Radius.circular(12.r),
+                      topRight:provider.languageCode=='en'? Radius.circular(0.r):Radius.circular(12.r),
+                      ),
                 ),
               ),
               SizedBox(width: 9.w),
@@ -153,7 +136,7 @@ final CategoryModel categoryModel;
                   );
                 },
                 child: Padding(
-                  padding: EdgeInsets.only(right: 18.w),
+                  padding: EdgeInsetsDirectional.only(end: 18.w),
                   child: const ImageIcon(
                     AssetImage(
                       'assets/images/Edit.png',

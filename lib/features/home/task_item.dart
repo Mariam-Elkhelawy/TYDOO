@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
-import 'package:todo_app/app_theme.dart';
+import 'package:todo_app/config/theme/app_theme.dart';
 import 'package:todo_app/core/utils/app_colors.dart';
 import 'package:todo_app/core/utils/styles.dart';
 import 'package:todo_app/features/data/models/task_model.dart';
@@ -63,7 +63,7 @@ class TaskItem extends StatelessWidget {
                   },
                 );
               },
-              backgroundColor: const Color(0xFFfe6362),
+              backgroundColor: AppColor.deleteColor,
               icon: Icons.delete,
               label: local.delete,
             ),
@@ -83,10 +83,10 @@ class TaskItem extends StatelessWidget {
                 taskModel.isImportant = !taskModel.isImportant;
                 await FirebaseFunctions.updateTask(taskModel);
               },
-              backgroundColor: const Color(0xFFffe5b6),
+              backgroundColor: AppColor.importantBGColor,
               icon: taskModel.isImportant ? Icons.star : Icons.star_border,
               label: 'Important',
-              foregroundColor: const Color(0xFFF4B400),
+              foregroundColor: AppColor.importantColor,
             ),
           ],
         ),
@@ -94,7 +94,7 @@ class TaskItem extends StatelessWidget {
           decoration: BoxDecoration(
             color: provider.themeMode == ThemeMode.light
                 ? AppColor.whiteColor
-                : AppTheme.blackColor,
+                : AppColor.blackColor,
             borderRadius: BorderRadius.circular(12.r),
           ),
           child: Row(
@@ -105,8 +105,10 @@ class TaskItem extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: taskModel.taskColor,
                   borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(12.r),
-                      bottomLeft: Radius.circular(12.r)),
+                    topLeft:provider.languageCode=='en'? Radius.circular(12.r):Radius.circular(0.r),
+                    bottomLeft:provider.languageCode=='en'? Radius.circular(12.r):Radius.circular(0.r),
+                    bottomRight:provider.languageCode=='en'? Radius.circular(0.r):Radius.circular(12.r),
+                    topRight:provider.languageCode=='en'? Radius.circular(0.r):Radius.circular(12.r),),
                 ),
               ),
               SizedBox(width: 10.w),
@@ -174,7 +176,7 @@ class TaskItem extends StatelessWidget {
                   );
                 },
                 child: Padding(
-                  padding: EdgeInsets.only(right: 16.w),
+                  padding: EdgeInsetsDirectional.only(end: 16.w),
                   child: const ImageIcon(
                     AssetImage(
                       'assets/images/Edit.png',
