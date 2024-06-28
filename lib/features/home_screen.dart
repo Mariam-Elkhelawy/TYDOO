@@ -2,17 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
-import 'package:todo_app/config/theme/app_theme.dart';
 import 'package:todo_app/core/components/reusable_components.dart';
 import 'package:todo_app/core/utils/app_colors.dart';
 import 'package:todo_app/core/utils/app_images.dart';
 import 'package:todo_app/core/utils/app_strings.dart';
 import 'package:todo_app/features/active_icon_nav_bar.dart';
 import 'package:todo_app/features/category/category_tab.dart';
-import 'package:todo_app/features/category/important/important_tab.dart';
 import 'package:todo_app/features/home/add_task_screen.dart';
 import 'package:todo_app/features/home/home_tab.dart';
-import 'package:todo_app/features/settings/settings_screen.dart';
+import 'package:todo_app/features/important/important_tab.dart';
+import 'package:todo_app/features/settings/settings_tab.dart';
 import 'package:todo_app/providers/my_provider.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -24,7 +23,7 @@ class HomeScreen extends StatelessWidget {
     var provider = Provider.of<MyProvider>(context);
 
     return customBG(
-     context:  context,
+      context: context,
       child: Scaffold(
         backgroundColor: Colors.transparent,
         extendBody: true,
@@ -43,8 +42,8 @@ class HomeScreen extends StatelessWidget {
         bottomNavigationBar: BottomAppBar(
           notchMargin: 0,
           shape: const CircularNotchedRectangle(),
-           // shadowColor: Colors.black.withOpacity(.3),
-           elevation: 0,
+          // shadowColor: Colors.black.withOpacity(.3),
+          elevation: 0,
           padding: EdgeInsets.zero,
           child: BottomNavigationBar(
             currentIndex: provider.index,
@@ -66,9 +65,8 @@ class HomeScreen extends StatelessWidget {
                   icon: SvgPicture.asset(AppImages.home),
                   activeIcon: const ActiveIcon(image: AppImages.home),
                   label: AppStrings.home),
-               const BottomNavigationBarItem(
-                  icon: Icon(Icons.list_outlined),
-                  label: AppStrings.category),
+              const BottomNavigationBarItem(
+                  icon: Icon(Icons.list_outlined), label: AppStrings.category),
               // const BottomNavigationBarItem(
               //     icon: Icon(Icons.star_border,color: AppColor.whiteColor,), label:''),
               const BottomNavigationBarItem(
@@ -90,5 +88,5 @@ List<Widget> screens = [
   const HomeTab(),
   const CategoryTab(),
   const ImportantTab(),
-  SettingsScreen(),
+  const SettingsTab(),
 ];

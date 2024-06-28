@@ -20,6 +20,7 @@ class AppColor {
   static const Color deleteColor = Color(0xFFfe6362);
   static const Color importantColor = Color(0xFFF4B400);
   static const Color importantBGColor = Color(0xFFffe5b6);
+  static const Color shadowColor = Color(0xFF0B4A57);
   static const Color whiteColor = Colors.white;
   static const List<Color> colorPalette = [
     Color(0xFFFF0000),
