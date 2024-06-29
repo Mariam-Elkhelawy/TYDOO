@@ -117,7 +117,7 @@ class SettingsWidget extends StatelessWidget {
   final void Function()? onTap;
 
   const SettingsWidget({
-    Key? key,
+    super.key,
     required this.iconPath,
     required this.title,
     this.hint,
@@ -126,7 +126,7 @@ class SettingsWidget extends StatelessWidget {
     this.dropDownItems,
     this.onDropDownChanged,
     this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
