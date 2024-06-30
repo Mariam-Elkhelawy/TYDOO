@@ -44,15 +44,20 @@ class ImportantTab extends StatelessWidget {
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(
-                  child: CircularProgressIndicator(
-                color: AppColor.primaryColor,
-              ),);
+                child: CircularProgressIndicator(
+                  color: AppColor.primaryColor,
+                ),
+              );
             }
 
             if (snapshot.hasError) {
-              return Center(child: Text(local.error, style: AppStyles.titleL.copyWith(
-                  fontSize: 14.sp, color: AppColor.primaryColor),
-              ));
+              return Center(
+                child: Text(
+                  local.error,
+                  style: AppStyles.titleL
+                      .copyWith(fontSize: 14.sp, color: AppColor.primaryColor),
+                ),
+              );
             }
             var tasks =
                 snapshot.data?.docs.map((doc) => doc.data()).toList() ?? [];
