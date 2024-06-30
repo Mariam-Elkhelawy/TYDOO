@@ -6,7 +6,14 @@ class MyProvider extends ChangeNotifier {
   late ThemeMode themeMode;
   int index = 0;
   SharedPreferences? sharedPreferences;
+  String? _imagePath;
 
+  String? get imagePath => _imagePath;
+
+  setImagePath(String? path) {
+    _imagePath = path;
+    notifyListeners();
+  }
   void changeThemeMode(ThemeMode mode) {
     themeMode = mode;
     if (mode == ThemeMode.light) {
