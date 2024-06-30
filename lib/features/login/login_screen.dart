@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:todo_app/app_theme.dart';
+import 'package:todo_app/config/theme/app_theme.dart';
+import 'package:todo_app/core/utils/app_colors.dart';
 import 'package:todo_app/features/home_screen.dart';
 import 'package:todo_app/features/register/register_screen.dart';
 import 'package:todo_app/firebase/firebase_functions.dart';
@@ -102,7 +103,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(horizontal: 40),
-                      backgroundColor: AppTheme.primaryColor,
+                      backgroundColor: AppColor.primaryColor,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(4),
                       ),

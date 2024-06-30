@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:todo_app/app_theme.dart';
+import 'package:todo_app/config/theme/app_theme.dart';
+import 'package:todo_app/core/utils/app_colors.dart';
+import 'package:todo_app/core/utils/app_colors.dart';
+import 'package:todo_app/core/utils/app_colors.dart';
 import 'package:todo_app/features/data/models/task_model.dart';
 import 'package:todo_app/firebase/firebase_functions.dart';
 import 'package:todo_app/providers/edit_provider.dart';
@@ -47,7 +50,7 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
                   style: theme.textTheme.bodyLarge?.copyWith(
                     color: provider.themeMode == ThemeMode.dark
                         ? Colors.white
-                        : AppTheme.darkColor,
+                        : AppColor.darkColor,
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -81,7 +84,7 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
                       fontSize: 18,
                       color: provider.themeMode == ThemeMode.dark
                           ? const Color(0xFFC3C3C3)
-                          : AppTheme.darkColor,
+                          : AppColor.darkColor,
                     ),
                   ),
                 ),
@@ -125,7 +128,7 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
                   },
                   child: Container(
                     decoration: BoxDecoration(
-                      color: AppTheme.primaryColor,
+                      color: AppColor.primaryColor,
                       borderRadius: BorderRadius.circular(10),
                     ),
                     width: double.infinity,

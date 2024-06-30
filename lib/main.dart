@@ -4,7 +4,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:todo_app/app_theme.dart';
+import 'package:todo_app/config/theme/app_theme.dart';
+import 'package:todo_app/core/cache/shared_prefrences.dart';
 import 'package:todo_app/features/category/add_category_screen.dart';
 import 'package:todo_app/features/home/edit_tasks_screen.dart';
 import 'package:todo_app/features/home_screen.dart';
@@ -19,6 +20,7 @@ import 'features/home/add_task_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  CacheHelper.init();
   MyProvider myProvider = MyProvider();
   await myProvider.setItems();
   await Firebase.initializeApp(
@@ -28,7 +30,6 @@ void main() async {
   // Non-async exceptions
   FlutterError.onError = (errorDetails) {
     if (fatalError) {
-      // If you want to record a "fatal" exception
       FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
       // ignore: dead_code
     } else {
@@ -36,7 +37,6 @@ void main() async {
       FirebaseCrashlytics.instance.recordFlutterError(errorDetails);
     }
   };
-  // Async exceptions
   PlatformDispatcher.instance.onError = (error, stack) {
     if (fatalError) {
       // If you want to record a "fatal" exception
@@ -91,7 +91,7 @@ class TodoApp extends StatelessWidget {
           LoginScreen.routeName: (context) => const LoginScreen(),
           RegisterScreen.routeName: (context) => const RegisterScreen(),
           AddTaskScreen.routeName: (context) => const AddTaskScreen(),
-          AddCategoryScreen.routeName: (context) =>  AddCategoryScreen(),
+          AddCategoryScreen.routeName: (context) =>  const AddCategoryScreen(),
         },
       ),
     );

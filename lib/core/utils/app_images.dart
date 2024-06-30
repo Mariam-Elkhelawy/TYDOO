@@ -12,7 +12,20 @@ class AppImages {
   static const String home = 'assets/images/ic_home.svg';
   static const String settings = 'assets/images/ic_settings.svg';
   static const String category = 'assets/images/ic_category.svg';
+  static const String search ='assets/images/ic_search.png';
+  static const String sort = 'assets/images/ic_sort.png';
   static const String empty = 'assets/images/empty.png';
+  static const String settingsTab = 'assets/images/settings.png';
+  static const String arrowSquare = 'assets/images/ic_arrow_square.svg';
+  static const String arrowDown = 'assets/images/ic_arrow_down.svg';
+  static const String arrowTop = 'assets/images/ic_arrow_top.svg';
+  static const String user = 'assets/images/user.svg';
+  static const String privacy = 'assets/images/security.svg';
+  static const String theme = 'assets/images/mode.svg';
+  static const String notification = 'assets/images/notification.svg';
+  static const String language = 'assets/images/language.svg';
+  static const String aboutUs = 'assets/images/aboutUs.svg';
+  static const String logout = 'assets/images/logout.svg';
 
 
 }

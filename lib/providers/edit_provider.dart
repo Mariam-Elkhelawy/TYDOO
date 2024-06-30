@@ -1,74 +1,148 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:todo_app/core/utils/app_colors.dart';
-import 'package:todo_app/core/utils/styles.dart';
-import 'package:todo_app/providers/my_provider.dart';
 
 class EditProvider extends ChangeNotifier {
   DateTime chosenDate = DateTime.now();
+  TimeOfDay selectedStartTime = TimeOfDay.now();
+  TimeOfDay selectedEndTime = TimeOfDay.now();
 
-  void selectDate(BuildContext context) async {
-    var provider = Provider.of<MyProvider>(context, listen: false);
+  selectDate(BuildContext context) async {
+    DateTime selectedDate = DateTime.now();
 
-    DateTime? selectedDate = await showDatePicker(
+    showCupertinoModalPopup(
       context: context,
-      builder: (context, child) {
-        return Theme(
-          data: Theme.of(context).copyWith(
-            datePickerTheme: DatePickerThemeData(
-              elevation: 20,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.r),
-              ),
-              backgroundColor: AppColor.whiteColor,
-              dayForegroundColor: const MaterialStatePropertyAll(AppColor.thirdColor),
-              dividerColor: AppColor.primaryColor,
-              dayBackgroundColor: const MaterialStatePropertyAll(AppColor.blackColor),
-              dayStyle: AppStyles.bodyS,
-              headerHeadlineStyle: AppStyles.bodyS,
-              rangePickerHeaderHeadlineStyle: AppStyles.bodyS,
-              weekdayStyle: AppStyles.generalText,
-              headerHelpStyle: AppStyles.bodyS,
-            ),
+      builder: (_) => Padding(
+        padding: EdgeInsets.symmetric(horizontal: 24.w),
+        child: Container(
+          height: 250.h,
+          decoration: BoxDecoration(
+            color: AppColor.whiteColor,
+            borderRadius: BorderRadius.circular(8.r),
           ),
-          child: child!,
-        );
-      },
-      textDirection: provider.languageCode == 'en' ? TextDirection.ltr : TextDirection.rtl,
-      locale: Locale(provider.languageCode == 'en' ? 'en' : 'ar'),
-      initialDate: chosenDate,
-      firstDate: DateTime.now(),
-      lastDate: DateTime(2025),
+          child: Column(
+            children: [
+              SizedBox(
+                height: 195.h,
+                child: CupertinoDatePicker(
+                  backgroundColor: Colors.white,
+                  initialDateTime: selectedDate,
+                  onDateTimeChanged: (DateTime newDate) {
+                    chosenDate = newDate;
+                  },
+                  use24hFormat: true,
+                  minimumDate: selectedDate,
+                  maximumDate: DateTime(2025),
+                  mode: CupertinoDatePickerMode.date,
+                ),
+              ),
+              CupertinoButton(
+                child: const Text('Done', style: TextStyle(color: AppColor.primaryColor)),
+                onPressed: () {
+                  notifyListeners();
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
+          ),
+        ),
+      ),
     );
-
-    if (selectedDate != null) {
-      chosenDate = selectedDate;
-      notifyListeners();
-    }
   }
 
-  // void showDatePickerModal(BuildContext context) {
-  //   showModalBottomSheet(
-  //     context: context,
-  //     builder: (BuildContext context) {
-  //       return Container(
-  //         height: 200.h,
-  //         padding: const EdgeInsets.all(16.0),
-  //         child: Row(
-  //           children: [
-  //             ElevatedButton(
-  //               onPressed: () => selectDate(context),
-  //               child: const Text('Select Date'),
-  //             ),
-  //             Text(
-  //               "Selected Date: ${chosenDate.toLocal()}".split(' ')[0],
-  //               style: AppStyles.bodyS,
-  //             ),
-  //           ],
-  //         ),
-  //       );
-  //     },
-  //   );
-  // }
+  Future<void> selectStartTime(BuildContext context) async {
+      showCupertinoModalPopup(
+        context: context,
+        builder: (_) => Padding(
+          padding: EdgeInsets.symmetric(horizontal: 24.w),
+          child: Container(
+            height: 250.h,
+            decoration: BoxDecoration(
+              color: AppColor.whiteColor,
+              borderRadius: BorderRadius.circular(8.r),
+            ),
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 195.h,
+                  child: CupertinoDatePicker(
+                    backgroundColor: Colors.white,
+                    initialDateTime: DateTime(
+                      DateTime.now().year,
+                      DateTime.now().month,
+                      DateTime.now().day,
+                      selectedStartTime.hour,
+                      selectedStartTime.minute,
+                    ),
+                    onDateTimeChanged: (DateTime newDateTime) {
+                      selectedStartTime = TimeOfDay(
+                        hour: newDateTime.hour,
+                        minute: newDateTime.minute,
+                      );
+                    },
+                    mode: CupertinoDatePickerMode.time,
+                  ),
+                ),
+                CupertinoButton(
+                  child: const Text('Done', style: TextStyle(color: AppColor.primaryColor)),
+                  onPressed: () {
+                    notifyListeners();
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+  }
+
+  Future<void> selectEndTime(BuildContext context) async {
+      showCupertinoModalPopup(
+        context: context,
+        builder: (_) => Padding(
+          padding: EdgeInsets.symmetric(horizontal: 24.w),
+          child: Container(
+            height: 250.h,
+            decoration: BoxDecoration(
+              color: AppColor.whiteColor,
+              borderRadius: BorderRadius.circular(8.r),
+            ),
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 195.h,
+                  child: CupertinoDatePicker(
+                    backgroundColor: Colors.white,
+                    initialDateTime: DateTime(
+                      DateTime.now().year,
+                      DateTime.now().month,
+                      DateTime.now().day,
+                      selectedEndTime.hour,
+                      selectedEndTime.minute,
+                    ),
+                    onDateTimeChanged: (DateTime newDateTime) {
+                      selectedEndTime = TimeOfDay(
+                        hour: newDateTime.hour,
+                        minute: newDateTime.minute,
+                      );
+                    },
+                    use24hFormat: false,
+                    mode: CupertinoDatePickerMode.time,
+                  ),
+                ),
+                CupertinoButton(
+                  child: const Text('Done', style: TextStyle(color: AppColor.primaryColor)),
+                  onPressed: () {
+                    notifyListeners();
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+  }
 }

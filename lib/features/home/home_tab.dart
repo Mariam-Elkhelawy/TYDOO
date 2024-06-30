@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:todo_app/core/cache/shared_prefrences.dart';
 import 'package:todo_app/core/utils/app_colors.dart';
 import 'package:todo_app/core/utils/app_images.dart';
 import 'package:todo_app/core/utils/app_strings.dart';
@@ -32,6 +33,7 @@ class _HomeTabState extends State<HomeTab> {
   Widget build(BuildContext context) {
     var local = AppLocalizations.of(context)!;
     var provider = Provider.of<MyProvider>(context);
+    String name = CacheHelper.getData('name') ?? 'Mariam';
 
     return StreamBuilder<QuerySnapshot<TaskModel>>(
       stream: _getTasksStream(),
@@ -75,7 +77,7 @@ class _HomeTabState extends State<HomeTab> {
                       top: 135.h,
                       left: 24.w,
                       child: Text(
-                        'Lara Alaa 👋🏻',
+                        '$name 👋🏻',
                         style: AppStyles.titleL,
                       ),
                     ),
@@ -83,7 +85,9 @@ class _HomeTabState extends State<HomeTab> {
                       top: 180.h,
                       left: 24.w,
                       child: Text(
-                        'You have ${tasks.length} task(s) for today',
+                        provider.languageCode == 'en'
+                            ? 'You have ${tasks.length} task(s) for today'
+                            : 'لديك اليوم ${tasks.length}  مهام ',
                         style: AppStyles.regularText.copyWith(
                             fontSize: 14.sp, color: AppColor.whiteColor),
                       ),
@@ -150,12 +154,24 @@ class _HomeTabState extends State<HomeTab> {
                       style: AppStyles.bodyL),
                 ),
                 tasks.isEmpty
-                    ? Center(
-                        child: Text(
-                          local.noTasks,
-                          style: const TextStyle(
-                              fontSize: 18, color: AppColor.blackColor),
-                        ),
+                    ? Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          SizedBox(height: 16.h),
+                          Image.asset(
+                            AppImages.empty,
+                            width: 200.w,
+                            height: 200.h,
+                          ),
+                          SizedBox(height: 16.h),
+                          Text(
+                            local.noTasks,
+                            textAlign: TextAlign.center,
+                            style: AppStyles.titleL.copyWith(
+                                fontSize: 14.sp, color: AppColor.primaryColor),
+                          ),
+                          SizedBox(height: 26.h),
+                        ],
                       )
                     : ListView.builder(
                         shrinkWrap: true,
