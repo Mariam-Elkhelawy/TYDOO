@@ -20,7 +20,6 @@ class TaskItem extends StatelessWidget {
   Widget build(BuildContext context) {
     var provider = Provider.of<MyProvider>(context);
     var local = AppLocalizations.of(context)!;
-
     return Container(
       margin: EdgeInsetsDirectional.symmetric(horizontal: 25.w, vertical: 10.h),
       decoration: BoxDecoration(

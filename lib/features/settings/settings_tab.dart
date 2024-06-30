@@ -18,6 +18,8 @@ class SettingsTab extends StatelessWidget {
   Widget build(BuildContext context) {
     var provider = Provider.of<MyProvider>(context);
     var local = AppLocalizations.of(context)!;
+    List<String> langList = [local.english, local.arabic];
+    List<String> themeList = [local.dark, local.light];
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -53,10 +55,13 @@ class SettingsTab extends StatelessWidget {
             iconPath: AppImages.theme,
             title: 'Theme Mode',
             isDropMenu: true,
-            dropDownItems: const ['Light', 'Dark', 'System Default'],
+            dropDownItems: themeList,
             onDropDownChanged: (String? value) {
-              // Handle theme mode change
-              print('Selected Theme: $value');
+              if (value == local.dark) {
+                provider.changeThemeMode(ThemeMode.dark);
+              } else if (value == local.light) {
+                provider.changeThemeMode(ThemeMode.light);
+              }
             },
           ),
           SettingsWidget(
@@ -68,10 +73,13 @@ class SettingsTab extends StatelessWidget {
             iconPath: AppImages.language,
             title: 'Language',
             isDropMenu: true,
-            dropDownItems: const ['English', 'Arabic'],
+            dropDownItems: langList,
             onDropDownChanged: (String? value) {
-              // Handle language change
-              print('Selected Language: $value');
+              if (value == local.arabic) {
+                provider.changeLanguageCode('ar');
+              } else if (value == local.english) {
+                provider.changeLanguageCode('en');
+              }
             },
           ),
           SettingsWidget(
