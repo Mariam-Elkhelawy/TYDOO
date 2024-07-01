@@ -6,24 +6,24 @@ class CategoryModel {
   String note;
   Color categoryColor;
   String userId;
-  
+  String? imagePath;
 
-  CategoryModel({
-    required this.id,
-    required this.name,
-    required this.note,
-    this.categoryColor = Colors.transparent,
-    required this.userId,
-  });
+  CategoryModel(
+      {required this.id,
+      required this.name,
+      required this.note,
+      this.categoryColor = Colors.transparent,
+      required this.userId,
+      this.imagePath});
 
   factory CategoryModel.fromJson(Map<String, dynamic> json) {
     return CategoryModel(
-      name: json['name'],
-      note: json['note'],
-      id: json['id'],
-      categoryColor: hexToColor(json['categoryColor']),
-      userId: json['userId'],
-    );
+        name: json['name'],
+        note: json['note'],
+        id: json['id'],
+        categoryColor: hexToColor(json['categoryColor']),
+        userId: json['userId'],
+        imagePath: json['imagePath']);
   }
 
   Map<String, dynamic> toJson() {
@@ -33,6 +33,7 @@ class CategoryModel {
       'id': id,
       'categoryColor': categoryColor.value.toRadixString(16),
       'userId': userId,
+      'imagePath': imagePath
     };
   }
 }

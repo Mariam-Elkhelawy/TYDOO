@@ -34,6 +34,20 @@ class FirebaseFunctions {
     );
   }
 
+  static Future<List<CategoryModel>> getCategories() async {
+    try {
+      var snapshot = await FirebaseFirestore.instance
+          .collection('Categories')
+          .where('userId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+          .get();
+      return snapshot.docs
+          .map((doc) => CategoryModel.fromJson(doc.data()))
+          .toList();
+    } catch (e) {
+      return [];
+    }
+  }
+
   static CollectionReference<UserModel> getUserCollection() {
     return FirebaseFirestore.instance
         .collection('Users')
@@ -74,6 +88,7 @@ class FirebaseFunctions {
             isEqualTo: DateUtils.dateOnly(date).millisecondsSinceEpoch)
         .snapshots();
   }
+
   static Stream<QuerySnapshot<TaskModel>> getImportantTasks() {
     return getTaskCollection()
         .where('userId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
@@ -123,8 +138,8 @@ class FirebaseFunctions {
           id: credential.user?.uid ?? '', email: email, userName: userName);
       await addUser(userModel);
       onSuccess();
-      CacheHelper.saveData('name',userName);
-      CacheHelper.saveData('email',email);
+      CacheHelper.saveData('name', userName);
+      CacheHelper.saveData('email', email);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'email-already-in-use') {
         onError(local.emailInUse);

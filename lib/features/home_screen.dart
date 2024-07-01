@@ -11,7 +11,6 @@ import 'package:todo_app/features/category/category_tab.dart';
 import 'package:todo_app/features/home/add_task_screen.dart';
 import 'package:todo_app/features/home/home_tab.dart';
 import 'package:todo_app/features/important/important_tab.dart';
-import 'package:todo_app/features/settings/settings_screen.dart';
 import 'package:todo_app/features/settings/settings_tab.dart';
 import 'package:todo_app/providers/my_provider.dart';
 

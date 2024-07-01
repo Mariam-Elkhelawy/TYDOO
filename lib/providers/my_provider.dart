@@ -1,11 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:todo_app/features/data/models/category_model.dart';
+import 'package:todo_app/firebase/firebase_functions.dart';
 
 class MyProvider extends ChangeNotifier {
   late String languageCode;
   late ThemeMode themeMode;
   int index = 0;
   SharedPreferences? sharedPreferences;
+  String? _imagePath;
+
+  String? get imagePath => _imagePath;
+  List<CategoryModel> categories = [];
+
+  Future<void> loadCategories() async {
+    categories = await FirebaseFunctions.getCategories();
+    notifyListeners();
+  }
+
+  setImagePath(String? path) {
+    _imagePath = path;
+    notifyListeners();
+  }
 
   void changeThemeMode(ThemeMode mode) {
     themeMode = mode;
@@ -61,5 +77,4 @@ class MyProvider extends ChangeNotifier {
       languageCode = 'ar';
     }
   }
-
 }
