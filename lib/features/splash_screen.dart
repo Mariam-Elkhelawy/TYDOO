@@ -24,7 +24,7 @@ class SplashScreen extends StatelessWidget {
               image: AssetImage('assets/images/splash_dark.png'),
             ),
       nextScreen:
-          FirebaseFunctions.isLoggedBefore() ?  OnboardingScreen() : const LoginScreen(),
+       const OnboardingScreen() ,
       childWidget: const SizedBox(),
     );
   }

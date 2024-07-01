@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 class AppColor {
-
   static const Color primaryColor = Color(0xFF413076);
   static const Color primaryDarkColor = Color(0xFF8B6EE5);
   static const Color secondaryColor = Color(0xFFDFC0D8);
@@ -11,7 +10,7 @@ class AppColor {
   static const Color inactiveDayColor = Color(0xFF454545);
   static const Color inactiveColor = Color(0xFFEDEDED);
   static const Color helloColor = Color(0xFFEFEFEF);
-  static const Color iconColor =  Color(0xFF484C52);
+  static const Color iconColor = Color(0xFF484C52);
   static const Color borderColor = Color(0xFFD8DADC);
   static const Color taskGreyColor = Color(0xFFA2A2A2);
   static const Color doneColor = Color(0xFF00C400);
@@ -21,6 +20,7 @@ class AppColor {
   static const Color importantColor = Color(0xFFF4B400);
   static const Color importantBGColor = Color(0xFFffe5b6);
   static const Color shadowColor = Color(0xFF0B4A57);
+  static const Color onboardingColor = Color(0xFFD3D3D3);
   static const Color whiteColor = Colors.white;
   static Color hintColor = const Color(0xFF292826).withOpacity(.8);
   static const List<Color> colorPalette = [
@@ -31,5 +31,10 @@ class AppColor {
     Color(0xFFDFBFD7),
     Color(0xFF7F1C88),
     Color(0xFF228B65),
+  ];
+  static const List<Color> gradient = [
+    Color(0xFF9b8596),
+    Color(0xFF705C92),
+    Color(0xFF413076),
   ];
 }
