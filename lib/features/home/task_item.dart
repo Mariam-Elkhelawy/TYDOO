@@ -164,7 +164,7 @@ class TaskItem extends StatelessWidget {
                     context,
                     EditTaskScreen.routeName,
                     arguments: TaskModel(
-                        userId: FirebaseAuth.instance.currentUser!.uid,
+                        userId: FirebaseAuth.instance.currentUser!.uid,categoryId: '',
                         id: taskModel.id,
                         title: taskModel.title,
                         date: taskModel.date,

@@ -107,7 +107,7 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
                     if (formKey.currentState!.validate()) {
                       TaskModel taskModel = TaskModel(
                           userId: FirebaseAuth.instance.currentUser!.uid,
-                          id: '',
+                          id: '',categoryId: '',
                           title: titleController.text,
                           date: DateUtils.dateOnly(editProvider.chosenDate),
                           description: descriptionController.text);
