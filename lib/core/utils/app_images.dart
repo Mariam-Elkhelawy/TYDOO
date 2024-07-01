@@ -26,6 +26,8 @@ class AppImages {
   static const String language = 'assets/images/language.svg';
   static const String aboutUs = 'assets/images/aboutUs.svg';
   static const String logout = 'assets/images/logout.svg';
+  static const String google = 'assets/images/google.png';
+  static const String facebook = 'assets/images/facebook.png';
   static const String onboarding1 = 'assets/images/onboarding1.png';
   static const String onboarding2 = 'assets/images/onboarding2.png';
   static const String onboarding3 = 'assets/images/onboarding3.png';

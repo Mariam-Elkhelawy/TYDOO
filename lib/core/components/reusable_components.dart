@@ -37,6 +37,7 @@ Widget customTextFormField(
     obscureText: isPassword,
     cursorColor: cursorColor,
     controller: controller,
+    autovalidateMode: AutovalidateMode.onUserInteraction,
     decoration: InputDecoration(
       contentPadding: contentPadding,
       hintText: hintText,
