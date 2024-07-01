@@ -10,9 +10,7 @@ Securely log in to DoIt Now with your Firebase account for a seamless and person
 
 📝 Tasks Tab:
 Add, edit, and delete tasks effortlessly to keep track of your to-do list.
-
 Organize tasks with customizable categories or labels for better management.
-
 Mark tasks as completed to monitor your progress.
 
 ⚙️ Settings Tab:
