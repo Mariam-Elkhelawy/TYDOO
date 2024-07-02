@@ -34,7 +34,7 @@
   "selectLanguage": "Select Language",
   "selectTheme": "Select Theme",
   "login": "Login",
-  "welcome":"Welcome back!",
+  "welcome":"Hello, welcome back to your account!",
   "email": "E-mail",
   "emailHint": "Enter your e-mail e.g: mariam@gmail.com",
   "password": "Password",
@@ -42,7 +42,7 @@
   "validateEmail":"Email address can't be empty!",
   "validatePassword":"Password can't be empty!",
   "forgetPassword": "Forgot password?",
-  "or": "OR",
+  "or": " OR ",
   "createAccount": "Create New Account..",
   "create": "Create Account",
   "fullName":"Full Name",
@@ -63,6 +63,12 @@
   "emailVerification": "Please check your email verification",
   "wrongLogin": "email or password is wrong",
   "resetPassword": "Check your entered email to change password",
-  "reset": "Reset Password!"
+  "reset": "Reset Password!",
+  "google": "Continue with Google",
+  "facebook": "Continue with Facebook",
+  "haveAccount": "Already have an account? ",
+  "notHaveAccount":"Don’t have an account? ",
+  "signup": "SignUp"
+
 
 }

@@ -36,6 +36,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
       .toString();
   int color = 0;
   String? selectedCategory;
+  bool isTapped = false;
 
   @override
   void initState() {
@@ -131,9 +132,10 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                           borderColor: AppColor.borderColor,
                           child: DropdownButton(
                             hint: Text(
-                              'selectCategory',
-                              style: AppStyles.generalText
-                                  .copyWith(fontSize: 12.sp),
+                              provider.categories.isEmpty
+                                  ? 'there is no categories yet'
+                                  : 'select Category',
+                              style: AppStyles.hintText,
                             ),
                             underline: Container(height: 0.h),
                             isExpanded: true,
@@ -167,6 +169,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                       InkWell(
                         onTap: () {
                           editProvider.selectDate(context);
+                          setState(() {});
                         },
                         child: customButton(
                           borderColor: AppColor.borderColor,
@@ -176,12 +179,13 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                           child: Row(
                             children: [
                               Text(
-                                DateFormat.yMMMd(provider.languageCode == 'en'
-                                        ? 'en'
-                                        : 'ar')
-                                    .format(editProvider.chosenDate),
-                                style: AppStyles.generalText
-                                    .copyWith(fontSize: 12.sp),
+                                DateFormat.yMMMd(
+                                            provider.languageCode == 'en'
+                                                ? 'en'
+                                                : 'ar')
+                                        .format(editProvider.chosenDate)
+                                ,style: AppStyles.generalText
+                                        .copyWith(fontSize: 12.sp)
                               ),
                               const Spacer(),
                               const ImageIcon(
