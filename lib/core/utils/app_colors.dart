@@ -21,6 +21,7 @@ class AppColor {
   static const Color importantBGColor = Color(0xFFffe5b6);
   static const Color shadowColor = Color(0xFF0B4A57);
   static const Color onboardingColor = Color(0xFFD3D3D3);
+  static const Color dividerColor = Color(0xFF565656);
   static const Color whiteColor = Colors.white;
   static Color hintColor = const Color(0xFF292826).withOpacity(.8);
   static const List<Color> colorPalette = [

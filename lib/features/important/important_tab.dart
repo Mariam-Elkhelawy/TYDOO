@@ -39,57 +39,61 @@ class ImportantTab extends StatelessWidget {
             ],
           ),
         ),
-        StreamBuilder<QuerySnapshot<TaskModel>>(
-          stream: FirebaseFunctions.getImportantTasks(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(
-                child: CircularProgressIndicator(
-                  color: AppColor.primaryColor,
-                ),
-              );
-            }
-
-            if (snapshot.hasError) {
-              return Center(
-                child: Text(
-                  local.error,
-                  style: AppStyles.titleL
-                      .copyWith(fontSize: 14.sp, color: AppColor.primaryColor),
-                ),
-              );
-            }
-            var tasks =
-                snapshot.data?.docs.map((doc) => doc.data()).toList() ?? [];
-            if (tasks.isEmpty) {
-              return Column(
-                children: [
-                  SizedBox(height: 130.h),
-                  Image.asset(
-                    AppImages.empty,
-                    width: 239.w,
-                    height: 239.h,
+        Expanded(
+          child: StreamBuilder<QuerySnapshot<TaskModel>>(
+            stream: FirebaseFunctions.getImportantTasks(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                  child: CircularProgressIndicator(
+                    color: AppColor.primaryColor,
                   ),
-                  SizedBox(height: 20.h),
-                  Text(
-                    local.noTasks,
-                    style: AppStyles.titleL.copyWith(
-                        fontSize: 14.sp, color: AppColor.primaryColor),
-                  )
-                ],
+                );
+              }
+          
+              if (snapshot.hasError) {
+                return Center(
+                  child: Text(
+                    local.error,
+                    style: AppStyles.titleL
+                        .copyWith(fontSize: 14.sp, color: AppColor.primaryColor),
+                  ),
+                );
+              }
+              var tasks =
+                  snapshot.data?.docs.map((doc) => doc.data()).toList() ?? [];
+              if (tasks.isEmpty) {
+                return Column(
+                  children: [
+                    SizedBox(height: 130.h),
+                    Image.asset(
+                      AppImages.empty,
+                      width: 239.w,
+                      height: 239.h,
+                    ),
+                    SizedBox(height: 20.h),
+                    Text(
+                      local.noTasks,
+                      style: AppStyles.titleL.copyWith(
+                          fontSize: 14.sp, color: AppColor.primaryColor),
+                    )
+                  ],
+                );
+              }
+          
+              return Expanded(
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: tasks.length,
+                  itemBuilder: (context, index) {
+                    TaskModel task = tasks[index];
+                    return TaskItem(taskModel: task);
+                  },
+                ),
               );
-            }
-
-            return ListView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: tasks.length,
-              itemBuilder: (context, index) {
-                TaskModel task = tasks[index];
-                return TaskItem(taskModel: task);
-              },
-            );
-          },
+            },
+          ),
         ),
       ],
     );

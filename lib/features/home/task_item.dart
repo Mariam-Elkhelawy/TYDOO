@@ -6,7 +6,6 @@ import 'package:provider/provider.dart';
 import 'package:todo_app/core/utils/app_colors.dart';
 import 'package:todo_app/core/utils/styles.dart';
 import 'package:todo_app/features/data/models/task_model.dart';
-import 'package:todo_app/features/home/add_task_screen.dart';
 import 'package:todo_app/features/home/edit_tasks_screen.dart';
 import 'package:todo_app/firebase/firebase_functions.dart';
 import 'package:todo_app/providers/my_provider.dart';
@@ -163,7 +162,7 @@ class TaskItem extends StatelessWidget {
                 onTap: () {
                   Navigator.pushNamed(
                     context,
-                    AddTaskScreen.routeName,
+                    EditTaskScreen.routeName,
                     arguments: TaskModel(
                         userId: FirebaseAuth.instance.currentUser!.uid,categoryId: '',
                         id: taskModel.id,

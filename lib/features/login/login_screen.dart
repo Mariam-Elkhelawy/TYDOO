@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:todo_app/config/theme/app_theme.dart';
 import 'package:todo_app/core/components/reusable_components.dart';
+import 'package:todo_app/core/components/signwith_widget.dart';
 import 'package:todo_app/core/utils/app_colors.dart';
 import 'package:todo_app/core/utils/app_images.dart';
 import 'package:todo_app/core/utils/styles.dart';
@@ -11,10 +11,7 @@ import 'package:todo_app/features/register/register_screen.dart';
 import 'package:todo_app/firebase/firebase_functions.dart';
 import 'package:todo_app/providers/my_provider.dart';
 import 'package:todo_app/widgets/custom_dialog.dart';
-import 'package:todo_app/widgets/custom_text_form_field.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
-import '../../core/components/signwith_widget.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -209,7 +206,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: Divider(
                             thickness: 1,
                             endIndent: 10,
-                            color: AppColor.blackColor,
+                            color: AppColor.dividerColor,
                           ),
                         ),
                         Text(
@@ -221,30 +218,42 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: Divider(
                             thickness: 1,
                             indent: 10,
-                            color: AppColor.blackColor,
+                            color: AppColor.dividerColor,
                           ),
                         ),
                       ],
                     ),
                   ),
                   SizedBox(height: 20.h),
-                   SignWithWidget(
-                      iconPath: AppImages.google,
-                      iconText: local.google),
+                  SignWithWidget(
+                      iconPath: AppImages.google, iconText: local.google),
                   SizedBox(height: 20.h),
-                   SignWithWidget(
-                      iconPath: AppImages.facebook,
-                      iconText: local.facebook),
-                  SizedBox(height: 20.h),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, RegisterScreen.routeName);
+                  SignWithWidget(
+                      iconPath: AppImages.facebook, iconText: local.facebook),
+                  SizedBox(height: 30.h),
+                  InkWell(
+                    onTap: () {
+                      Navigator.pushNamedAndRemoveUntil(
+                        context,
+                        RegisterScreen.routeName,
+                        (route) => false,
+                      );
                     },
-                    child: Text(
-                      local.createAccount,
+                    child: RichText(
                       textAlign: TextAlign.center,
-                      style: AppStyles.settingTitle.copyWith(
-                          fontSize: 15.sp, color: AppColor.inactiveDayColor),
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: local.notHaveAccount,
+                            style: AppStyles.settingTitle.copyWith(
+                                fontSize: 15.sp,
+                                color: AppColor.inactiveDayColor),
+                          ),
+                          TextSpan(
+                              text: local.signup,
+                              style: AppStyles.settingTitle),
+                        ],
+                      ),
                     ),
                   ),
                   SizedBox(height: 20.h),

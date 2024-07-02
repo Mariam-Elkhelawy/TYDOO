@@ -11,7 +11,7 @@ class TaskModel {
   String userId;
   String? startTime;
   String? endTime;
-  String categoryId;
+  String? categoryId;
 
   TaskModel(
       {required this.id,
@@ -24,7 +24,7 @@ class TaskModel {
       required this.userId,
       this.startTime,
       this.endTime,
-      required this.categoryId});
+       this.categoryId});
 
   factory TaskModel.fromJson(Map<String, dynamic> json) {
     return TaskModel(

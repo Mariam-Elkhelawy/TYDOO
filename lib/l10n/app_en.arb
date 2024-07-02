@@ -64,8 +64,11 @@
   "wrongLogin": "email or password is wrong",
   "resetPassword": "Check your entered email to change password",
   "reset": "Reset Password!",
-  "google": "Login with Google",
-  "facebook": "Login with Facebook"
+  "google": "Continue with Google",
+  "facebook": "Continue with Facebook",
+  "haveAccount": "Already have an account? ",
+  "notHaveAccount":"Don’t have an account? ",
+  "signup": "SignUp"
 
 
 }
