@@ -95,6 +95,7 @@ class _HomeTabState extends State<HomeTab> {
                   ],
                 ),
                 EasyDateTimeLine(
+                  locale: provider.languageCode == 'en' ? 'en' : 'ar',
                   initialDate: focusDate,
                   disabledDates: List.generate(
                     DateTime.now().difference(DateTime(2023)).inDays,
@@ -150,7 +151,7 @@ class _HomeTabState extends State<HomeTab> {
                 Padding(
                   padding: EdgeInsets.only(left: 16.w, top: 24.h, bottom: 18.h),
                   child: Text(
-                      '${DateFormat('d MMM').format(DateUtils.dateOnly(focusDate))} Tasks',
+                      ' ${provider.languageCode == 'ar' ? 'مهام' : ''} ${DateFormat('d MMM', Locale(provider.languageCode == 'en' ? 'en' : 'ar').toString()).format(DateUtils.dateOnly(focusDate))} ${provider.languageCode == 'en' ? 'Tasks' : ''}',
                       style: AppStyles.bodyL),
                 ),
                 tasks.isEmpty
