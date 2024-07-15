@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:todo_app/core/utils/app_colors.dart';
 
 class AppTheme {
-
   static ThemeData lightTheme = ThemeData(
     primaryColor: AppColor.primaryColor,
     brightness: Brightness.light,
-    scaffoldBackgroundColor:AppColor.whiteColor,
+    scaffoldBackgroundColor: AppColor.whiteColor,
     bottomAppBarTheme: const BottomAppBarTheme(
       color: AppColor.whiteColor,
     ),
@@ -21,7 +19,8 @@ class AppTheme {
     appBarTheme: const AppBarTheme(
       iconTheme: IconThemeData(color: AppColor.whiteColor),
     ),
-    bottomSheetTheme: const BottomSheetThemeData(backgroundColor: AppColor.whiteColor),
+    bottomSheetTheme:
+        const BottomSheetThemeData(backgroundColor: AppColor.whiteColor),
   );
   static ThemeData darkTheme = ThemeData(
     primaryColor: AppColor.primaryColor,
@@ -29,7 +28,8 @@ class AppTheme {
     appBarTheme: const AppBarTheme(
       iconTheme: IconThemeData(color: AppColor.blackColor),
     ),
-    bottomSheetTheme: const BottomSheetThemeData(backgroundColor: AppColor.blackColor),
+    bottomSheetTheme:
+        const BottomSheetThemeData(backgroundColor: AppColor.blackColor),
     scaffoldBackgroundColor: const Color(0xFF1D1F24),
     bottomAppBarTheme: const BottomAppBarTheme(
       color: Color(0xFF1D1F24),

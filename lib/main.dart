@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:todo_app/config/theme/app_theme.dart';
 import 'package:todo_app/core/cache/shared_prefrences.dart';
 import 'package:todo_app/features/category/add_category_screen.dart';
+import 'package:todo_app/features/forget%20password/forget_password.dart';
 import 'package:todo_app/features/home/edit_tasks_screen.dart';
 import 'package:todo_app/features/home_screen.dart';
 import 'package:todo_app/features/login/login_screen.dart';
@@ -92,6 +93,7 @@ class TodoApp extends StatelessWidget {
           RegisterScreen.routeName: (context) => const RegisterScreen(),
           AddTaskScreen.routeName: (context) => const AddTaskScreen(),
           AddCategoryScreen.routeName: (context) =>  const AddCategoryScreen(),
+          ForgetPasswordScreen.routeName: (context) =>   ForgetPasswordScreen(),
         },
       ),
     );

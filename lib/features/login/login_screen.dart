@@ -6,6 +6,7 @@ import 'package:todo_app/core/components/signwith_widget.dart';
 import 'package:todo_app/core/utils/app_colors.dart';
 import 'package:todo_app/core/utils/app_images.dart';
 import 'package:todo_app/core/utils/styles.dart';
+import 'package:todo_app/features/forget%20password/forget_password.dart';
 import 'package:todo_app/features/home_screen.dart';
 import 'package:todo_app/features/register/register_screen.dart';
 import 'package:todo_app/firebase/firebase_functions.dart';
@@ -29,7 +30,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var theme = Theme.of(context);
     var provider = Provider.of<MyProvider>(context);
     var local = AppLocalizations.of(context)!;
     return customBG(
@@ -136,16 +136,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       const Spacer(),
                       InkWell(
                         onTap: () async {
-                          await FirebaseFunctions.resetPassword(
-                              emailController.text);
-                          showDialog(
-                            context: context,
-                            builder: (context) {
-                              return CustomDialog(
-                                  dialogContent: local.resetPassword,
-                                  dialogTitle: local.reset);
-                            },
-                          );
+                          Navigator.pushNamed(
+                              context, ForgetPasswordScreen.routeName);
                         },
                         child: Text(
                           local.forgetPassword,
@@ -212,7 +204,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         Text(
                           local.or,
                           textAlign: TextAlign.center,
-                          style: theme.textTheme.bodyMedium,
+                          style:AppStyles.regularText.copyWith(fontSize: 12.sp),
                         ),
                         const Expanded(
                           child: Divider(
@@ -233,10 +225,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   SizedBox(height: 30.h),
                   InkWell(
                     onTap: () {
-                      Navigator.pushNamedAndRemoveUntil(
+                      Navigator.pushNamed(
                         context,
                         RegisterScreen.routeName,
-                        (route) => false,
                       );
                     },
                     child: RichText(

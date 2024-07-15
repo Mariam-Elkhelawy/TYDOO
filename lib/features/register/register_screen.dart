@@ -11,7 +11,6 @@ import 'package:todo_app/features/login/login_screen.dart';
 import 'package:todo_app/firebase/firebase_functions.dart';
 import 'package:todo_app/providers/my_provider.dart';
 import 'package:todo_app/widgets/custom_dialog.dart';
-import 'package:todo_app/widgets/custom_text_form_field.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -33,8 +32,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var mediaQuery = MediaQuery.of(context).size;
-    var theme = Theme.of(context);
     var provider = Provider.of<MyProvider>(context);
     var local = AppLocalizations.of(context)!;
 
@@ -128,23 +125,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       }),
                   SizedBox(height: 30.h),
                   Text(local.phoneNumber),
-                   SizedBox(height: 6.h),
+                  SizedBox(height: 6.h),
                   customTextFormField(
-                      borderColor: AppColor.borderColor,
-                      fillColor: AppColor.whiteColor,
-                      controller: phoneController,
-                      contentPadding: EdgeInsets.symmetric(
-                          horizontal: 16.w, vertical: 18.h),
-                      radius: 10.r,
-                      hintStyle: AppStyles.hintText,
-                      textStyle:
-                      AppStyles.generalText.copyWith(fontSize: 15.sp),
-                      suffixIcon: const Icon(
-                        Icons.phone,
-                        color: AppColor.taskGreyColor,
-                      ),
-                      hintText: local.phoneHint,
-                      keyboardType: TextInputType.number,
+                    borderColor: AppColor.borderColor,
+                    fillColor: AppColor.whiteColor,
+                    controller: phoneController,
+                    contentPadding:
+                        EdgeInsets.symmetric(horizontal: 16.w, vertical: 18.h),
+                    radius: 10.r,
+                    hintStyle: AppStyles.hintText,
+                    textStyle: AppStyles.generalText.copyWith(fontSize: 15.sp),
+                    suffixIcon: const Icon(
+                      Icons.phone,
+                      color: AppColor.taskGreyColor,
+                    ),
+                    hintText: local.phoneHint,
+                    keyboardType: TextInputType.number,
                     onValidate: (value) {
                       if (value!.trim().isEmpty) {
                         return local.validatePhone;
@@ -156,30 +152,30 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       return null;
                     },
                   ),
-                   SizedBox(height: 30.h),
+                  SizedBox(height: 30.h),
                   Text(local.password),
-                   SizedBox(height: 6.h),
+                  SizedBox(height: 6.h),
                   customTextFormField(
-                      borderColor: AppColor.borderColor,
-                      fillColor: AppColor.whiteColor,
-                      controller: passwordController,
-                      contentPadding: EdgeInsets.symmetric(
-                          horizontal: 16.w, vertical: 18.h),
-                      radius: 10.r,
-                      hintStyle: AppStyles.hintText,isPassword: isPassword,
-                      textStyle:
-                      AppStyles.generalText.copyWith(fontSize: 15.sp),
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                          !isPassword ? Icons.visibility : Icons.visibility_off,
-                          color: AppColor.taskGreyColor,
-                        ),
-                        onPressed: () {
-                          isPassword = !isPassword;
-                          setState(() {});
-                        },
+                    borderColor: AppColor.borderColor,
+                    fillColor: AppColor.whiteColor,
+                    controller: passwordController,
+                    contentPadding:
+                        EdgeInsets.symmetric(horizontal: 16.w, vertical: 18.h),
+                    radius: 10.r,
+                    hintStyle: AppStyles.hintText,
+                    isPassword: isPassword,
+                    textStyle: AppStyles.generalText.copyWith(fontSize: 15.sp),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        !isPassword ? Icons.visibility : Icons.visibility_off,
+                        color: AppColor.taskGreyColor,
                       ),
-                      hintText: local.passwordHint,
+                      onPressed: () {
+                        isPassword = !isPassword;
+                        setState(() {});
+                      },
+                    ),
+                    hintText: local.passwordHint,
                     onValidate: (value) {
                       if (value!.trim().isEmpty) {
                         return local.validatePassword;
@@ -192,30 +188,30 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       return null;
                     },
                   ),
-                   SizedBox(height: 30.h),
+                  SizedBox(height: 30.h),
                   Text(local.confirmPassword),
-                   SizedBox(height: 6.h),
+                  SizedBox(height: 6.h),
                   customTextFormField(
-                      borderColor: AppColor.borderColor,
-                      fillColor: AppColor.whiteColor,
-                      controller: confirmPasswordController,
-                      contentPadding: EdgeInsets.symmetric(
-                          horizontal: 16.w, vertical: 18.h),
-                      radius: 10.r,
-                      hintStyle: AppStyles.hintText,isPassword: isPassword,
-                      textStyle:
-                      AppStyles.generalText.copyWith(fontSize: 15.sp),
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                          !isPassword ? Icons.visibility : Icons.visibility_off,
-                          color: AppColor.taskGreyColor,
-                        ),
-                        onPressed: () {
-                          isPassword = !isPassword;
-                          setState(() {});
-                        },
+                    borderColor: AppColor.borderColor,
+                    fillColor: AppColor.whiteColor,
+                    controller: confirmPasswordController,
+                    contentPadding:
+                        EdgeInsets.symmetric(horizontal: 16.w, vertical: 18.h),
+                    radius: 10.r,
+                    hintStyle: AppStyles.hintText,
+                    isPassword: isPassword,
+                    textStyle: AppStyles.generalText.copyWith(fontSize: 15.sp),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        !isPassword ? Icons.visibility : Icons.visibility_off,
+                        color: AppColor.taskGreyColor,
                       ),
-                      hintText: local.confirmHint,
+                      onPressed: () {
+                        isPassword = !isPassword;
+                        setState(() {});
+                      },
+                    ),
+                    hintText: local.confirmHint,
                     onValidate: (value) {
                       if (value!.trim().isEmpty) {
                         return local.validateConfirm;
@@ -226,7 +222,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       return null;
                     },
                   ),
-
                   SizedBox(height: 36.h),
                   InkWell(
                     onTap: () async {
@@ -240,7 +235,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             Navigator.pushNamedAndRemoveUntil(
                               context,
                               HomeScreen.routeName,
-                                  (route) => false,
+                              (route) => false,
                             );
                           },
                           onError: (errorMessage) {
@@ -285,7 +280,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         Text(
                           local.or,
                           textAlign: TextAlign.center,
-                          style: theme.textTheme.bodyMedium,
+                          style:AppStyles.regularText.copyWith(fontSize: 12.sp),
                         ),
                         const Expanded(
                           child: Divider(
@@ -306,24 +301,28 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   SizedBox(height: 30.h),
                   InkWell(
                     onTap: () {
-                      Navigator.pushNamedAndRemoveUntil(context, LoginScreen.routeName,(route) => false,);
+                      Navigator.pushNamed(
+                        context,
+                        LoginScreen.routeName,
+                      );
                     },
                     child: RichText(
                       textAlign: TextAlign.center,
                       text: TextSpan(
                         children: [
                           TextSpan(
-                              text:local.haveAccount,
-                              style: AppStyles.settingTitle.copyWith(fontSize: 15.sp,color: AppColor.inactiveDayColor)),
+                            text: local.haveAccount,
+                            style: AppStyles.settingTitle.copyWith(
+                                fontSize: 15.sp,
+                                color: AppColor.inactiveDayColor),
+                          ),
                           TextSpan(
-                              text: local.login,
-                              style: AppStyles.settingTitle),
+                              text: local.login, style: AppStyles.settingTitle),
                         ],
                       ),
                     ),
                   ),
                   SizedBox(height: 20.h),
-
                 ],
               ),
             ),
