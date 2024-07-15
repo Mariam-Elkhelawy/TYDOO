@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:todo_app/core/cache/shared_prefrences.dart';
 import 'package:todo_app/features/data/models/category_model.dart';
 import 'package:todo_app/features/data/models/task_model.dart';
 import 'package:todo_app/features/data/models/user_model.dart';
@@ -31,6 +32,20 @@ class FirebaseFunctions {
         return value.toJson();
       },
     );
+  }
+
+  static Future<List<CategoryModel>> getCategories() async {
+    try {
+      var snapshot = await FirebaseFirestore.instance
+          .collection('Categories')
+          .where('userId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+          .get();
+      return snapshot.docs
+          .map((doc) => CategoryModel.fromJson(doc.data()))
+          .toList();
+    } catch (e) {
+      return [];
+    }
   }
 
   static CollectionReference<UserModel> getUserCollection() {
@@ -73,6 +88,7 @@ class FirebaseFunctions {
             isEqualTo: DateUtils.dateOnly(date).millisecondsSinceEpoch)
         .snapshots();
   }
+
   static Stream<QuerySnapshot<TaskModel>> getImportantTasks() {
     return getTaskCollection()
         .where('userId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
@@ -122,6 +138,8 @@ class FirebaseFunctions {
           id: credential.user?.uid ?? '', email: email, userName: userName);
       await addUser(userModel);
       onSuccess();
+      CacheHelper.saveData('name', userName);
+      CacheHelper.saveData('email', email);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'email-already-in-use') {
         onError(local.emailInUse);

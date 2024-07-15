@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -15,13 +17,13 @@ import 'package:todo_app/widgets/custom_dialog.dart';
 
 class CategoryItem extends StatelessWidget {
   const CategoryItem({super.key, required this.categoryModel});
-final CategoryModel categoryModel;
+  final CategoryModel categoryModel;
   @override
   Widget build(BuildContext context) {
     var provider = Provider.of<MyProvider>(context);
     var local = AppLocalizations.of(context)!;
     return Container(
-      margin: EdgeInsetsDirectional.symmetric(horizontal: 25.w, vertical: 10.h),
+      margin: EdgeInsetsDirectional.symmetric(horizontal: 17.w, vertical: 8.h),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
         boxShadow: [
@@ -31,13 +33,11 @@ final CategoryModel categoryModel;
               offset: const Offset(0, 0),
               blurRadius: 16)
         ],
-        color:  provider.languageCode == 'en'
-            ? const Color(0xFF21B7CA)
-            : const Color(0xFFFE4A49),
+        color: Colors.transparent,
       ),
       child: Slidable(
         startActionPane: ActionPane(
-          extentRatio: .5,
+          extentRatio: .3,
           motion: const DrawerMotion(),
           children: [
             SlidableAction(
@@ -56,34 +56,17 @@ final CategoryModel categoryModel;
                           color: Colors.amberAccent,
                         ),
                         actionRequired: () async {
-                          await FirebaseFunctions.deleteCategory(categoryModel.id);
+                          await FirebaseFunctions.deleteCategory(
+                              categoryModel.id);
                         },
                         dialogContent: local.deleteAlert,
                         dialogTitle: local.alert);
                   },
                 );
               },
-              backgroundColor: const Color(0xFFFE4A49),
+              backgroundColor: AppColor.deleteColor,
               icon: Icons.delete,
               label: local.delete,
-            ),
-            SlidableAction(
-              borderRadius: BorderRadius.circular(15.r),
-              onPressed: (context) {
-                Navigator.pushNamed(
-                  context,
-                  AddCategoryScreen.routeName,
-                  arguments: CategoryModel(
-                      userId: FirebaseAuth.instance.currentUser!.uid,
-                      id: categoryModel.id,
-                      name: categoryModel.name,
-                      note: categoryModel.note,
-                      ),
-                );
-              },
-              backgroundColor: const Color(0xFF21B7CA),
-              icon: Icons.star_border,
-              label: local.edit,
             ),
           ],
         ),
@@ -102,16 +85,39 @@ final CategoryModel categoryModel;
                 decoration: BoxDecoration(
                   color: categoryModel.categoryColor,
                   borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(12.r),
-                      bottomLeft: Radius.circular(12.r)),
+                    topLeft: provider.languageCode == 'en'
+                        ? Radius.circular(12.r)
+                        : Radius.circular(0.r),
+                    bottomLeft: provider.languageCode == 'en'
+                        ? Radius.circular(12.r)
+                        : Radius.circular(0.r),
+                    bottomRight: provider.languageCode == 'en'
+                        ? Radius.circular(0.r)
+                        : Radius.circular(12.r),
+                    topRight: provider.languageCode == 'en'
+                        ? Radius.circular(0.r)
+                        : Radius.circular(12.r),
+                  ),
                 ),
               ),
               SizedBox(width: 9.w),
               Container(
-                width: 85.w,height: 60.h,
+                width: 85.w,
+                height: 60.h,
                 decoration: BoxDecoration(
-                  color:const Color(0xFFD9D9D9),borderRadius: BorderRadius.circular(12.r)
-                ),
+                    color: const Color(0xFFD9D9D9),
+                    borderRadius: BorderRadius.circular(12.r)),
+                child: categoryModel.imagePath != null
+                    ? ClipRRect(
+                  borderRadius: BorderRadius.circular(8.r),
+                  child: Image.file(
+                    File(categoryModel.imagePath!),
+                    width: 30.w,
+                    height: 30.h,
+                    fit: BoxFit.cover,
+                  ),
+                )
+                    : Icon(Icons.image_not_supported_outlined,color: AppColor.taskGreyColor,),
               ),
               SizedBox(width: 12.w),
               Expanded(
@@ -131,11 +137,12 @@ final CategoryModel categoryModel;
                       categoryModel.note,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                       style: AppStyles.generalText.copyWith(
-                    fontSize: 12.sp, color: AppColor.taskGreyColor,
-                    ),),
+                      style: AppStyles.generalText.copyWith(
+                        fontSize: 12.sp,
+                        color: AppColor.taskGreyColor,
+                      ),
+                    ),
                     SizedBox(height: 8.h),
-
                   ],
                 ),
               ),
@@ -153,7 +160,7 @@ final CategoryModel categoryModel;
                   );
                 },
                 child: Padding(
-                  padding: EdgeInsets.only(right: 18.w),
+                  padding: EdgeInsetsDirectional.only(end: 18.w),
                   child: const ImageIcon(
                     AssetImage(
                       'assets/images/Edit.png',

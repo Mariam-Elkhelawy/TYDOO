@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:todo_app/app_theme.dart';
+import 'package:todo_app/config/theme/app_theme.dart';
+import 'package:todo_app/core/utils/app_colors.dart';
 import 'package:todo_app/features/login/login_screen.dart';
 import 'package:todo_app/features/settings/DropDownWidget.dart';
 import 'package:todo_app/firebase/firebase_functions.dart';
@@ -8,7 +9,7 @@ import 'package:todo_app/providers/my_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SettingsScreen extends StatelessWidget {
-  SettingsScreen({super.key});
+  const SettingsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +22,7 @@ class SettingsScreen extends StatelessWidget {
     return Column(
       children: [
         Container(
-          color: AppTheme.primaryColor,
+          color: AppColor.primaryColor,
           width: mediaQuery.width,
           height: mediaQuery.height * .24,
           child: Padding(

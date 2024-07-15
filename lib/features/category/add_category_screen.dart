@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/core/components/reusable_components.dart';
 import 'package:todo_app/core/utils/app_colors.dart';
@@ -28,11 +31,23 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
   TextEditingController nameController = TextEditingController();
   TextEditingController noteController = TextEditingController();
   int color = 0;
+  File? image;
 
   @override
   Widget build(BuildContext context) {
-    var provider = Provider.of<MyProvider>(context);
+    var provider = Provider.of<MyProvider>(context, listen: false);
     var local = AppLocalizations.of(context)!;
+
+    getImageFromGallery() async {
+      final ImagePicker picker = ImagePicker();
+      final XFile? imageGallery =
+          await picker.pickImage(source: ImageSource.gallery);
+      if (imageGallery != null) {
+        image = File(imageGallery.path);
+        provider.setImagePath(imageGallery.path);
+      }
+      setState(() {});
+    }
 
     return customBG(
       context: context,
@@ -147,31 +162,48 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
                     ),
                   ),
                   SizedBox(height: 14.h),
-                  Row(
-                    children: [
-                      Image.asset(AppImages.addImage),
-                      SizedBox(width: 7.w),
-                      Text(
-                        AppStrings.addImage,
-                        style: AppStyles.hintText.copyWith(
-                          decoration: TextDecoration.underline,
-                          decorationColor: AppColor.blackColor.withOpacity(.5),
+                  InkWell(
+                    onTap: getImageFromGallery,
+                    child: Row(
+                      children: [
+                        provider.imagePath == null
+                            ? Image.asset(AppImages.addImage)
+                            : ClipRRect(
+                                borderRadius: BorderRadius.circular(8.r),
+                                child: Image.file(
+                                  File(provider.imagePath!),
+                                  width: 24.w,
+                                  height: 24.h,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                        SizedBox(width: 7.w),
+                        Text(
+                          AppStrings.addImage,
+                          style: AppStyles.hintText.copyWith(
+                            decoration: TextDecoration.underline,
+                            decorationColor:
+                                AppColor.blackColor.withOpacity(.5),
+                          ),
                         ),
-                      )
-                    ],
+                      ],
+                    ),
                   ),
-                  SizedBox(height: 52.h),
+                  SizedBox(height: 36.h),
                   InkWell(
                     onTap: () async {
                       if (formKey.currentState!.validate()) {
                         CategoryModel categoryModel = CategoryModel(
-                            id: '',
-                            name: nameController.text,
-                            note: noteController.text,
-                            userId: FirebaseAuth.instance.currentUser!.uid,
-                            categoryColor: AppColor.colorPalette[color]);
+                          id: '',
+                          name: nameController.text,
+                          note: noteController.text,
+                          imagePath: provider.imagePath,
+                          userId: FirebaseAuth.instance.currentUser!.uid,
+                          categoryColor: AppColor.colorPalette[color],
+                        );
 
                         await FirebaseFunctions.addCategory(categoryModel);
+                        provider.setImagePath(null);
                         showDialog(
                           context: context,
                           builder: (context) {
@@ -187,15 +219,16 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
                       }
                     },
                     child: customButton(
-                        borderColor: AppColor.primaryColor,
-                        color: AppColor.primaryColor,
-                        borderRadius: BorderRadius.circular(12.r),
-                        height: 46.h,
-                        child: Text(
-                          'Add Category',
-                          style: AppStyles.bodyL.copyWith(
-                              color: AppColor.whiteColor, fontSize: 16.sp),
-                        )),
+                      borderColor: AppColor.primaryColor,
+                      color: AppColor.primaryColor,
+                      borderRadius: BorderRadius.circular(12.r),
+                      height: 46.h,
+                      child: Text(
+                        'Add Category',
+                        style: AppStyles.bodyL.copyWith(
+                            color: AppColor.whiteColor, fontSize: 16.sp),
+                      ),
+                    ),
                   ),
                   SizedBox(height: 22.h),
                 ],

@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:todo_app/app_theme.dart';
+import 'package:todo_app/core/components/reusable_components.dart';
+import 'package:todo_app/core/components/signwith_widget.dart';
+import 'package:todo_app/core/utils/app_colors.dart';
+import 'package:todo_app/core/utils/app_images.dart';
+import 'package:todo_app/core/utils/styles.dart';
 import 'package:todo_app/features/home_screen.dart';
+import 'package:todo_app/features/login/login_screen.dart';
 import 'package:todo_app/firebase/firebase_functions.dart';
 import 'package:todo_app/providers/my_provider.dart';
 import 'package:todo_app/widgets/custom_dialog.dart';
-import 'package:todo_app/widgets/custom_text_form_field.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -27,47 +32,59 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var mediaQuery = MediaQuery.of(context).size;
-    var theme = Theme.of(context);
     var provider = Provider.of<MyProvider>(context);
     var local = AppLocalizations.of(context)!;
 
-    return Container(
-      decoration: BoxDecoration(
-        color: provider.themeMode == ThemeMode.light
-            ? const Color(0xFFDFECDB)
-            : const Color(0xFF060E1E),
-        image: const DecorationImage(
-            image: AssetImage('assets/images/auth_bg.png'), fit: BoxFit.cover),
-      ),
+    return customBG(
+      context: context,
       child: Scaffold(
         appBar: AppBar(
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-          centerTitle: true,
-          toolbarHeight: 125,
           title: Text(
             local.create,
-            style: theme.textTheme.titleLarge,
+            style: AppStyles.titleL.copyWith(color: AppColor.blackColor),
           ),
+          backgroundColor: Colors.transparent,
+          toolbarHeight: 140.h,
+          leading: Padding(
+            padding: EdgeInsets.only(left: 24.w),
+            child: InkWell(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: const ImageIcon(
+                AssetImage(AppImages.arrow),
+                size: 20,
+                color: AppColor.iconColor,
+              ),
+            ),
+          ),
+          elevation: 0,
         ),
         backgroundColor: Colors.transparent,
         body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          padding: EdgeInsets.symmetric(horizontal: 20.0.w),
           child: SingleChildScrollView(
             child: Form(
               key: formKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  SizedBox(height: mediaQuery.height * .16),
                   Text(local.fullName),
-                  const SizedBox(height: 6),
-                  CustomTextFormField(
-                    myController: nameController,
+                  SizedBox(height: 6.h),
+                  customTextFormField(
+                    borderColor: AppColor.borderColor,
+                    fillColor: AppColor.whiteColor,
+                    controller: nameController,
+                    contentPadding:
+                        EdgeInsets.symmetric(horizontal: 16.w, vertical: 18.h),
+                    radius: 10.r,
+                    hintStyle: AppStyles.hintText,
+                    textStyle: AppStyles.generalText.copyWith(fontSize: 15.sp),
+                    suffixIcon: const Icon(
+                      Icons.person,
+                      color: AppColor.taskGreyColor,
+                    ),
                     hintText: local.nameHint,
-                    suffixIcon: const Icon(Icons.person),
-                    keyboardType: TextInputType.name,
                     onValidate: (value) {
                       if (value!.trim().isEmpty) {
                         return local.validateName;
@@ -75,35 +92,55 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       return null;
                     },
                   ),
-                  const SizedBox(height: 20),
+                  SizedBox(height: 30.h),
                   Text(local.email),
-                  const SizedBox(height: 6),
-                  CustomTextFormField(
-                    myController: emailController,
-                    hintText: local.emailHint,
-                    suffixIcon: const Icon(Icons.email_outlined),
-                    keyboardType: TextInputType.emailAddress,
-                    onValidate: (value) {
-                      if (value!.trim().isEmpty) {
-                        return local.validateEmail;
-                      }
-                      bool emailValid = RegExp(
-                              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                          .hasMatch(value);
-                      if (!emailValid) {
-                        return local.validateEmail2;
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 20),
+                  SizedBox(height: 6.h),
+                  customTextFormField(
+                      borderColor: AppColor.borderColor,
+                      fillColor: AppColor.whiteColor,
+                      controller: emailController,
+                      contentPadding: EdgeInsets.symmetric(
+                          horizontal: 16.w, vertical: 18.h),
+                      radius: 10.r,
+                      hintStyle: AppStyles.hintText,
+                      textStyle:
+                          AppStyles.generalText.copyWith(fontSize: 15.sp),
+                      suffixIcon: const Icon(
+                        Icons.email_outlined,
+                        color: AppColor.taskGreyColor,
+                      ),
+                      hintText: local.emailHint,
+                      keyboardType: TextInputType.emailAddress,
+                      onValidate: (value) {
+                        if (value!.trim().isEmpty) {
+                          return local.validateEmail;
+                        }
+                        bool emailValid = RegExp(
+                                r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                            .hasMatch(value);
+                        if (!emailValid) {
+                          return local.validateEmail2;
+                        }
+                        return null;
+                      }),
+                  SizedBox(height: 30.h),
                   Text(local.phoneNumber),
-                  const SizedBox(height: 6),
-                  CustomTextFormField(
-                    myController: phoneController,
+                  SizedBox(height: 6.h),
+                  customTextFormField(
+                    borderColor: AppColor.borderColor,
+                    fillColor: AppColor.whiteColor,
+                    controller: phoneController,
+                    contentPadding:
+                        EdgeInsets.symmetric(horizontal: 16.w, vertical: 18.h),
+                    radius: 10.r,
+                    hintStyle: AppStyles.hintText,
+                    textStyle: AppStyles.generalText.copyWith(fontSize: 15.sp),
+                    suffixIcon: const Icon(
+                      Icons.phone,
+                      color: AppColor.taskGreyColor,
+                    ),
                     hintText: local.phoneHint,
-                    suffixIcon: const Icon(Icons.phone),
-                    keyboardType: TextInputType.phone,
+                    keyboardType: TextInputType.number,
                     onValidate: (value) {
                       if (value!.trim().isEmpty) {
                         return local.validatePhone;
@@ -115,21 +152,30 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       return null;
                     },
                   ),
-                  const SizedBox(height: 20),
+                  SizedBox(height: 30.h),
                   Text(local.password),
-                  const SizedBox(height: 6),
-                  CustomTextFormField(
-                    myController: passwordController,
-                    hintText: local.passwordHint,
+                  SizedBox(height: 6.h),
+                  customTextFormField(
+                    borderColor: AppColor.borderColor,
+                    fillColor: AppColor.whiteColor,
+                    controller: passwordController,
+                    contentPadding:
+                        EdgeInsets.symmetric(horizontal: 16.w, vertical: 18.h),
+                    radius: 10.r,
+                    hintStyle: AppStyles.hintText,
+                    isPassword: isPassword,
+                    textStyle: AppStyles.generalText.copyWith(fontSize: 15.sp),
                     suffixIcon: IconButton(
-                        icon: isPassword
-                            ? const Icon(Icons.visibility)
-                            : const Icon(Icons.visibility_off),
-                        onPressed: () {
-                          isPassword = !isPassword;
-                          setState(() {});
-                        }),
-                    obscureText: isPassword,
+                      icon: Icon(
+                        !isPassword ? Icons.visibility : Icons.visibility_off,
+                        color: AppColor.taskGreyColor,
+                      ),
+                      onPressed: () {
+                        isPassword = !isPassword;
+                        setState(() {});
+                      },
+                    ),
+                    hintText: local.passwordHint,
                     onValidate: (value) {
                       if (value!.trim().isEmpty) {
                         return local.validatePassword;
@@ -142,21 +188,30 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       return null;
                     },
                   ),
-                  const SizedBox(height: 20),
+                  SizedBox(height: 30.h),
                   Text(local.confirmPassword),
-                  const SizedBox(height: 6),
-                  CustomTextFormField(
-                    myController: confirmPasswordController,
-                    hintText: local.confirmHint,
+                  SizedBox(height: 6.h),
+                  customTextFormField(
+                    borderColor: AppColor.borderColor,
+                    fillColor: AppColor.whiteColor,
+                    controller: confirmPasswordController,
+                    contentPadding:
+                        EdgeInsets.symmetric(horizontal: 16.w, vertical: 18.h),
+                    radius: 10.r,
+                    hintStyle: AppStyles.hintText,
+                    isPassword: isPassword,
+                    textStyle: AppStyles.generalText.copyWith(fontSize: 15.sp),
                     suffixIcon: IconButton(
-                        icon: isPassword
-                            ? const Icon(Icons.visibility)
-                            : const Icon(Icons.visibility_off),
-                        onPressed: () {
-                          isPassword = !isPassword;
-                          setState(() {});
-                        }),
-                    obscureText: isPassword,
+                      icon: Icon(
+                        !isPassword ? Icons.visibility : Icons.visibility_off,
+                        color: AppColor.taskGreyColor,
+                      ),
+                      onPressed: () {
+                        isPassword = !isPassword;
+                        setState(() {});
+                      },
+                    ),
+                    hintText: local.confirmHint,
                     onValidate: (value) {
                       if (value!.trim().isEmpty) {
                         return local.validateConfirm;
@@ -167,16 +222,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       return null;
                     },
                   ),
-                  const SizedBox(height: 25),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(horizontal: 40),
-                      backgroundColor: AppTheme.primaryColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                    ),
-                    onPressed: () async {
+                  SizedBox(height: 36.h),
+                  InkWell(
+                    onTap: () async {
                       if (formKey.currentState!.validate()) {
                         await FirebaseFunctions.register(
                           context: context,
@@ -203,23 +251,78 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         );
                       }
                     },
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20.w),
+                      child: customButton(
+                          borderColor: AppColor.primaryColor,
+                          color: AppColor.primaryColor,
+                          borderRadius: BorderRadius.circular(8.r),
+                          child: Text(
+                            local.create,
+                            style: AppStyles.bodyM
+                                .copyWith(color: AppColor.whiteColor),
+                          ),
+                          height: 45.h),
+                    ),
+                  ),
+                  SizedBox(height: 30.h),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20.w),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          local.create,
-                          style: theme.textTheme.bodySmall
-                              ?.copyWith(fontSize: 14, color: Colors.white),
+                        const Expanded(
+                          child: Divider(
+                            thickness: 1,
+                            endIndent: 10,
+                            color: AppColor.dividerColor,
+                          ),
                         ),
-                        const Icon(
-                          Icons.arrow_forward_outlined,
-                          size: 18,
-                          color: Colors.white,
-                        )
+                        Text(
+                          local.or,
+                          textAlign: TextAlign.center,
+                          style:AppStyles.regularText.copyWith(fontSize: 12.sp),
+                        ),
+                        const Expanded(
+                          child: Divider(
+                            thickness: 1,
+                            indent: 10,
+                            color: AppColor.dividerColor,
+                          ),
+                        ),
                       ],
                     ),
                   ),
-                  const SizedBox(height: 20),
+                  SizedBox(height: 20.h),
+                  SignWithWidget(
+                      iconPath: AppImages.google, iconText: local.google),
+                  SizedBox(height: 20.h),
+                  SignWithWidget(
+                      iconPath: AppImages.facebook, iconText: local.facebook),
+                  SizedBox(height: 30.h),
+                  InkWell(
+                    onTap: () {
+                      Navigator.pushNamed(
+                        context,
+                        LoginScreen.routeName,
+                      );
+                    },
+                    child: RichText(
+                      textAlign: TextAlign.center,
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: local.haveAccount,
+                            style: AppStyles.settingTitle.copyWith(
+                                fontSize: 15.sp,
+                                color: AppColor.inactiveDayColor),
+                          ),
+                          TextSpan(
+                              text: local.login, style: AppStyles.settingTitle),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 20.h),
                 ],
               ),
             ),

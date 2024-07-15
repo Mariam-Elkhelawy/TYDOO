@@ -15,4 +15,5 @@ class AppStrings {
   static const String important  = 'Important';
   static const String addImage  = 'Click here to add image';
   static const String noTasks  = 'No Added Tasks Yet';
+  static const String account  = 'Account info';
 }

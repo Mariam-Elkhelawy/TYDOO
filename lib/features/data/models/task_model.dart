@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class TaskModel {
   String id;
@@ -10,37 +9,36 @@ class TaskModel {
   bool isDone;
   bool isImportant;
   String userId;
-  String? startTime = DateFormat('hh:mm a').format(DateTime.now()).toString();
-  String? endTime = DateFormat('hh:mm a')
-      .format(DateTime.now().add(const Duration(minutes: 15)))
-      .toString();
+  String? startTime;
+  String? endTime;
+  String? categoryId;
 
-  TaskModel({
-    required this.id,
-    required this.title,
-    required this.date,
-    required this.description,
-    this.isDone = false,
-    this.isImportant = false,
-    this.taskColor = Colors.transparent,
-    required this.userId,
-    this.startTime,
-    this.endTime,
-  });
+  TaskModel(
+      {required this.id,
+      required this.title,
+      required this.date,
+      required this.description,
+      this.isDone = false,
+      this.isImportant = false,
+      this.taskColor = Colors.transparent,
+      required this.userId,
+      this.startTime,
+      this.endTime,
+       this.categoryId});
 
   factory TaskModel.fromJson(Map<String, dynamic> json) {
     return TaskModel(
-      title: json['title'],
-      date: DateTime.fromMillisecondsSinceEpoch(json['date']),
-      description: json['description'],
-      id: json['id'],
-      isDone: json['isDone'],
-      isImportant: json['isImportant'],
-      taskColor: hexToColor(json['taskColor']),
-      userId: json['userId'],
-      startTime: json['startTime'],
-      endTime: json['endTime'],
-    );
+        title: json['title'],
+        date: DateTime.fromMillisecondsSinceEpoch(json['date']),
+        description: json['description'],
+        id: json['id'],
+        isDone: json['isDone'],
+        isImportant: json['isImportant'],
+        taskColor: hexToColor(json['taskColor']),
+        userId: json['userId'],
+        startTime: json['startTime'],
+        endTime: json['endTime'],
+        categoryId: json['categoryId']);
   }
 
   Map<String, dynamic> toJson() {
@@ -54,7 +52,8 @@ class TaskModel {
       'taskColor': taskColor.value.toRadixString(16),
       'userId': userId,
       'startTime': startTime,
-      'endTime': endTime
+      'endTime': endTime,
+      'categoryId': categoryId
     };
   }
 }

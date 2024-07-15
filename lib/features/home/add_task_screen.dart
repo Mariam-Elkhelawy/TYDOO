@@ -8,6 +8,7 @@ import 'package:todo_app/core/utils/app_colors.dart';
 import 'package:todo_app/core/utils/app_images.dart';
 import 'package:todo_app/core/utils/app_strings.dart';
 import 'package:todo_app/core/utils/styles.dart';
+import 'package:todo_app/features/data/models/category_model.dart';
 import 'package:todo_app/features/data/models/task_model.dart';
 import 'package:todo_app/features/home/text_widget.dart';
 import 'package:todo_app/firebase/firebase_functions.dart';
@@ -27,26 +28,29 @@ class AddTaskScreen extends StatefulWidget {
 
 class _AddTaskScreenState extends State<AddTaskScreen> {
   TextEditingController titleController = TextEditingController();
-
   TextEditingController descriptionController = TextEditingController();
-
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   String startTime = DateFormat('hh:mm a').format(DateTime.now()).toString();
   String endTime = DateFormat('hh:mm a')
       .format(DateTime.now().add(const Duration(minutes: 15)))
       .toString();
-
   int color = 0;
+  String? selectedCategory;
+  bool isTapped = false;
+
+  @override
+  void initState() {
+    super.initState();
+    Provider.of<MyProvider>(context, listen: false).loadCategories();
+  }
+
   @override
   Widget build(BuildContext context) {
     var provider = Provider.of<MyProvider>(context);
     var local = AppLocalizations.of(context)!;
 
-    return Container(
-      decoration: const BoxDecoration(
-        image: DecorationImage(
-            image: AssetImage(AppImages.addTaskBG), fit: BoxFit.cover),
-      ),
+    return customBG(
+      context: context,
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
@@ -120,10 +124,52 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                           return null;
                         },
                       ),
+                      const TextWidget(text: 'Category'),
+                      customButton(
+                          padding:
+                              EdgeInsetsDirectional.only(start: 16.w, end: 9.w),
+                          borderRadius: BorderRadius.circular(8.r),
+                          borderColor: AppColor.borderColor,
+                          child: DropdownButton(
+                            hint: Text(
+                              provider.categories.isEmpty
+                                  ? 'there is no categories yet'
+                                  : 'select Category',
+                              style: AppStyles.hintText,
+                            ),
+                            underline: Container(height: 0.h),
+                            isExpanded: true,
+                            borderRadius: BorderRadius.circular(8.r),
+                            dropdownColor: AppColor.whiteColor,
+                            icon: const Icon(
+                              Icons.keyboard_arrow_down,
+                              color: AppColor.primaryColor,
+                              size: 28,
+                            ),
+                            value: selectedCategory,
+                            items: provider.categories
+                                .map<DropdownMenuItem<String>>(
+                                    (CategoryModel category) {
+                              return DropdownMenuItem<String>(
+                                value: category.id,
+                                child: Text(
+                                  category.name,
+                                  style: AppStyles.generalText
+                                      .copyWith(fontSize: 12.sp),
+                                ),
+                              );
+                            }).toList(),
+                            onChanged: (String? newValue) {
+                              setState(() {
+                                selectedCategory = newValue;
+                              });
+                            },
+                          )),
                       const TextWidget(text: 'Date'),
                       InkWell(
                         onTap: () {
                           editProvider.selectDate(context);
+                          setState(() {});
                         },
                         child: customButton(
                           borderColor: AppColor.borderColor,
@@ -133,12 +179,13 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                           child: Row(
                             children: [
                               Text(
-                                DateFormat.yMMMd(provider.languageCode == 'en'
-                                        ? 'en'
-                                        : 'ar')
-                                    .format(editProvider.chosenDate),
-                                style: AppStyles.generalText
-                                    .copyWith(fontSize: 12.sp),
+                                DateFormat.yMMMd(
+                                            provider.languageCode == 'en'
+                                                ? 'en'
+                                                : 'ar')
+                                        .format(editProvider.chosenDate)
+                                ,style: AppStyles.generalText
+                                        .copyWith(fontSize: 12.sp)
                               ),
                               const Spacer(),
                               const ImageIcon(
@@ -157,7 +204,9 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                               children: [
                                 const TextWidget(text: 'Start Time'),
                                 InkWell(
-                                  onTap: () {},
+                                  onTap: () {
+                                    editProvider.selectStartTime(context);
+                                  },
                                   child: customButton(
                                     borderColor: AppColor.borderColor,
                                     borderRadius: BorderRadius.circular(8.r),
@@ -169,7 +218,9 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                     child: Row(
                                       children: [
                                         Text(
-                                          startTime,
+                                          editProvider.selectedStartTime
+                                              .format(context)
+                                              .toString(),
                                           style: AppStyles.generalText
                                               .copyWith(fontSize: 12.sp),
                                         ),
@@ -192,7 +243,9 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                               children: [
                                 const TextWidget(text: 'End Time'),
                                 InkWell(
-                                  onTap: () {},
+                                  onTap: () {
+                                    editProvider.selectEndTime(context);
+                                  },
                                   child: customButton(
                                     borderColor: AppColor.borderColor,
                                     borderRadius: BorderRadius.circular(8.r),
@@ -204,7 +257,9 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                     child: Row(
                                       children: [
                                         Text(
-                                          endTime,
+                                          editProvider.selectedEndTime
+                                              .format(context)
+                                              .toString(),
                                           style: AppStyles.generalText
                                               .copyWith(fontSize: 12.sp),
                                         ),
@@ -308,7 +363,8 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                               setState(() {});
                             },
                             child: Padding(
-                              padding: EdgeInsetsDirectional.only(end: 11.w,top: 5.h),
+                              padding: EdgeInsetsDirectional.only(
+                                  end: 11.w, top: 5.h),
                               child: CircleAvatar(
                                 backgroundColor: AppColor.colorPalette[index],
                                 radius: 16.r,
@@ -329,13 +385,20 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                         onTap: () async {
                           if (formKey.currentState!.validate()) {
                             TaskModel taskModel = TaskModel(
-                                userId: FirebaseAuth.instance.currentUser!.uid,
-                                id: '',
-                                title: titleController.text,
-                                taskColor: AppColor.colorPalette[color],startTime: startTime,endTime: endTime,
-                                date:
-                                    DateUtils.dateOnly(editProvider.chosenDate),
-                                description: descriptionController.text);
+                              userId: FirebaseAuth.instance.currentUser!.uid,
+                              categoryId: selectedCategory ?? '',
+                              id: '',
+                              title: titleController.text,
+                              taskColor: AppColor.colorPalette[color],
+                              startTime: editProvider.selectedStartTime
+                                  .format(context)
+                                  .toString(),
+                              endTime: editProvider.selectedEndTime
+                                  .format(context)
+                                  .toString(),
+                              date: DateUtils.dateOnly(editProvider.chosenDate),
+                              description: descriptionController.text,
+                            );
                             await FirebaseFunctions.addTask(taskModel);
                             showDialog(
                               context: context,
@@ -352,15 +415,16 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                           }
                         },
                         child: customButton(
-                            borderColor: AppColor.primaryColor,
-                            color: AppColor.primaryColor,
-                            borderRadius: BorderRadius.circular(12.r),
-                            height: 46.h,
-                            child: Text(
-                              local.addTaskButton,
-                              style: AppStyles.bodyL.copyWith(
-                                  color: AppColor.whiteColor, fontSize: 16.sp),
-                            )),
+                          borderColor: AppColor.primaryColor,
+                          color: AppColor.primaryColor,
+                          borderRadius: BorderRadius.circular(12.r),
+                          height: 46.h,
+                          child: Text(
+                            local.addTaskButton,
+                            style: AppStyles.bodyL.copyWith(
+                                color: AppColor.whiteColor, fontSize: 16.sp),
+                          ),
+                        ),
                       ),
                       SizedBox(height: 22.h),
                     ],

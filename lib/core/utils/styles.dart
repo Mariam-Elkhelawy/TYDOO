@@ -39,5 +39,10 @@ class AppStyles {
       fontWeight: FontWeight.w400,
       color: AppColor.blackColor.withOpacity(.5),
       );
+  static TextStyle settingTitle = GoogleFonts.inter(
+      fontSize: 16.sp,
+      fontWeight: FontWeight.w600,
+      color: AppColor.blackColor,
+      );
 
 }

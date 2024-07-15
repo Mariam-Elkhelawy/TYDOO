@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:todo_app/app_theme.dart';
+import 'package:todo_app/core/components/reusable_components.dart';
+import 'package:todo_app/core/components/signwith_widget.dart';
+import 'package:todo_app/core/utils/app_colors.dart';
+import 'package:todo_app/core/utils/app_images.dart';
+import 'package:todo_app/core/utils/styles.dart';
+import 'package:todo_app/features/forget%20password/forget_password.dart';
 import 'package:todo_app/features/home_screen.dart';
 import 'package:todo_app/features/register/register_screen.dart';
 import 'package:todo_app/firebase/firebase_functions.dart';
 import 'package:todo_app/providers/my_provider.dart';
 import 'package:todo_app/widgets/custom_dialog.dart';
-import 'package:todo_app/widgets/custom_text_form_field.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -25,89 +30,126 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var mediaQuery = MediaQuery.of(context).size;
-    var theme = Theme.of(context);
     var provider = Provider.of<MyProvider>(context);
     var local = AppLocalizations.of(context)!;
-
-    return Container(
-      decoration: BoxDecoration(
-        color: provider.themeMode == ThemeMode.light
-            ? const Color(0xFFDFECDB)
-            : const Color(0xFF060E1E),
-        image: const DecorationImage(
-            image: AssetImage('assets/images/auth_bg.png'), fit: BoxFit.cover),
-      ),
+    return customBG(
+      context: context,
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          padding: EdgeInsets.symmetric(horizontal: 20.0.w),
           child: SingleChildScrollView(
             child: Form(
               key: formKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  SizedBox(height: mediaQuery.height * .11),
+                  SizedBox(height: 100.h),
                   Text(
-                    textAlign: TextAlign.center,
                     local.login,
-                    style: theme.textTheme.titleLarge,
+                    style:
+                        AppStyles.titleL.copyWith(color: AppColor.blackColor),
                   ),
-                  SizedBox(height: mediaQuery.height * .2),
+                  SizedBox(height: 8.h),
                   Text(
                     textAlign: TextAlign.start,
                     local.welcome,
-                    style: theme.textTheme.bodyMedium?.copyWith(fontSize: 24),
+                    style: AppStyles.settingTitle.copyWith(
+                        color: AppColor.taskGreyColor, fontSize: 15.sp),
                   ),
-                  const SizedBox(height: 35),
-                  Text(local.email),
-                  const SizedBox(height: 6),
-                  CustomTextFormField(
-                    myController: emailController,
-                    hintText: local.emailHint,
-                    suffixIcon: const Icon(Icons.email_outlined),
-                    keyboardType: TextInputType.emailAddress,
-                    onValidate: (value) {
-                      if (value!.trim().isEmpty) {
-                        return local.validateEmail;
-                      }
-                      return null;
-                    },
+                  SizedBox(height: 50.h),
+                  Text(
+                    local.email,
+                    style: AppStyles.regularText.copyWith(fontSize: 15.sp),
                   ),
-                  const SizedBox(height: 20),
-                  Text(local.password),
-                  const SizedBox(height: 6),
-                  CustomTextFormField(
-                    myController: passwordController,
-                    hintText: local.passwordHint,
+                  SizedBox(height: 6.h),
+                  customTextFormField(
+                      borderColor: AppColor.borderColor,
+                      fillColor: AppColor.whiteColor,
+                      controller: emailController,
+                      contentPadding: EdgeInsets.symmetric(
+                          horizontal: 16.w, vertical: 18.h),
+                      radius: 10.r,
+                      hintStyle: AppStyles.hintText,
+                      textStyle:
+                          AppStyles.generalText.copyWith(fontSize: 15.sp),
+                      suffixIcon: const Icon(
+                        Icons.email_outlined,
+                        color: AppColor.taskGreyColor,
+                      ),
+                      hintText: local.emailHint,
+                      keyboardType: TextInputType.emailAddress,
+                      onValidate: (value) {
+                        if (value!.trim().isEmpty) {
+                          return local.validateEmail;
+                        }
+                        return null;
+                      }),
+                  SizedBox(height: 30.h),
+                  Text(
+                    local.password,
+                    style: AppStyles.regularText.copyWith(fontSize: 15.sp),
+                  ),
+                  SizedBox(height: 6.h),
+                  customTextFormField(
+                    borderColor: AppColor.borderColor,
+                    fillColor: AppColor.whiteColor,
+                    controller: passwordController,
+                    contentPadding:
+                        EdgeInsets.symmetric(horizontal: 16.w, vertical: 18.h),
+                    radius: 10.r,
+                    isPassword: isPassword,
+                    hintStyle: AppStyles.hintText,
+                    textStyle: AppStyles.generalText.copyWith(fontSize: 15.sp),
                     suffixIcon: IconButton(
-                      icon: isPassword
-                          ? const Icon(Icons.visibility)
-                          : const Icon(Icons.visibility_off),
+                      icon: Icon(
+                        !isPassword ? Icons.visibility : Icons.visibility_off,
+                        color: AppColor.taskGreyColor,
+                      ),
                       onPressed: () {
                         isPassword = !isPassword;
                         setState(() {});
                       },
                     ),
-                    obscureText: isPassword,
                     onValidate: (value) {
                       if (value!.trim().isEmpty) {
                         return local.validatePassword;
                       }
                       return null;
                     },
+                    hintText: local.passwordHint,
                   ),
-                  const SizedBox(height: 30),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(horizontal: 40),
-                      backgroundColor: AppTheme.primaryColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(4),
+                  SizedBox(height: 24.h),
+                  Row(
+                    children: [
+                      const Icon(
+                        Icons.check_circle,
+                        color: AppColor.primaryColor,
                       ),
-                    ),
-                    onPressed: () async {
+                      SizedBox(
+                        width: 10.w,
+                      ),
+                      Text(
+                        'Remember me',
+                        style: AppStyles.regularText.copyWith(fontSize: 14.sp),
+                      ),
+                      const Spacer(),
+                      InkWell(
+                        onTap: () async {
+                          Navigator.pushNamed(
+                              context, ForgetPasswordScreen.routeName);
+                        },
+                        child: Text(
+                          local.forgetPassword,
+                          style:
+                              AppStyles.regularText.copyWith(fontSize: 14.sp),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 36.h),
+                  InkWell(
+                    onTap: () async {
                       if (formKey.currentState!.validate()) {
                         await FirebaseFunctions.login(
                           context: context,
@@ -133,57 +175,79 @@ class _LoginScreenState extends State<LoginScreen> {
                         );
                       }
                     },
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20.w),
+                      child: customButton(
+                          borderColor: AppColor.primaryColor,
+                          color: AppColor.primaryColor,
+                          borderRadius: BorderRadius.circular(8.r),
+                          child: Text(
+                            local.login,
+                            style: AppStyles.bodyM
+                                .copyWith(color: AppColor.whiteColor),
+                          ),
+                          height: 45.h),
+                    ),
+                  ),
+                  SizedBox(height: 30.h),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20.w),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          local.login,
-                          style: theme.textTheme.bodySmall
-                              ?.copyWith(fontSize: 14, color: Colors.white),
+                        const Expanded(
+                          child: Divider(
+                            thickness: 1,
+                            endIndent: 10,
+                            color: AppColor.dividerColor,
+                          ),
                         ),
-                        const Icon(
-                          Icons.arrow_forward_outlined,
-                          size: 18,
-                          color: Colors.white,
-                        )
+                        Text(
+                          local.or,
+                          textAlign: TextAlign.center,
+                          style:AppStyles.regularText.copyWith(fontSize: 12.sp),
+                        ),
+                        const Expanded(
+                          child: Divider(
+                            thickness: 1,
+                            indent: 10,
+                            color: AppColor.dividerColor,
+                          ),
+                        ),
                       ],
                     ),
                   ),
-                  SizedBox(height: 6),
+                  SizedBox(height: 20.h),
+                  SignWithWidget(
+                      iconPath: AppImages.google, iconText: local.google),
+                  SizedBox(height: 20.h),
+                  SignWithWidget(
+                      iconPath: AppImages.facebook, iconText: local.facebook),
+                  SizedBox(height: 30.h),
                   InkWell(
-                    onTap: () async {
-                      await FirebaseFunctions.resetPassword(
-                          emailController.text);
-                      showDialog(
-                        context: context,
-                        builder: (context) {
-                          return CustomDialog(
-                              dialogContent: local.resetPassword, dialogTitle: local.reset);
-                        },
+                    onTap: () {
+                      Navigator.pushNamed(
+                        context,
+                        RegisterScreen.routeName,
                       );
                     },
-                    child: Text(
-                      local.forgetPassword,
+                    child: RichText(
                       textAlign: TextAlign.center,
-                      style: theme.textTheme.bodyMedium?.copyWith(fontSize: 14),
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: local.notHaveAccount,
+                            style: AppStyles.settingTitle.copyWith(
+                                fontSize: 15.sp,
+                                color: AppColor.inactiveDayColor),
+                          ),
+                          TextSpan(
+                              text: local.signup,
+                              style: AppStyles.settingTitle),
+                        ],
+                      ),
                     ),
                   ),
-                  SizedBox(height: 15),
-                  Text(
-                    local.or,
-                    textAlign: TextAlign.center,
-                    style: theme.textTheme.bodyMedium,
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, RegisterScreen.routeName);
-                    },
-                    child: Text(
-                      local.createAccount,
-                      textAlign: TextAlign.center,
-                      style: theme.textTheme.bodyMedium,
-                    ),
-                  ),
+                  SizedBox(height: 20.h),
                 ],
               ),
             ),
