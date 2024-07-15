@@ -32,13 +32,9 @@ class CategoryTab extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                // const ImageIcon(
-                //   AssetImage(AppImages.search),
-                //   color: AppColor.taskGreyColor,
-                // ),
                 InkWell(
                   child: SvgPicture.asset(
-                    'assets/images/add_category.svg',
+                    AppImages.addCategoryIcon,
                     colorFilter: const ColorFilter.mode(
                         AppColor.taskGreyColor, BlendMode.srcIn),
                   ),
@@ -47,7 +43,7 @@ class CategoryTab extends StatelessWidget {
                   },
                 ),
                 Text(
-                  'Category',
+                  local.category,
                   style: AppStyles.bodyL.copyWith(color: AppColor.primaryColor),
                 ),
                 const ImageIcon(
@@ -90,7 +86,7 @@ class CategoryTab extends StatelessWidget {
                         ),
                         SizedBox(height: 20.h),
                         Text(
-                          'No Categories Added !',
+                          local.noCategory,
                           style: AppStyles.titleL.copyWith(
                               fontSize: 14.sp, color: AppColor.primaryColor),
                         )

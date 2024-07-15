@@ -2,10 +2,11 @@ class AppImages {
 
   static const String splash = 'assets/images/splash.png';
   static const String homeHeadline = 'assets/images/home_headline.png';
+  static const String homeHeadlineAr = 'assets/images/homeheadline_ar.png';
   static const String addTaskBG = 'assets/images/addTask_bg.png';
   static const String addTask = 'assets/images/add_task.png';
   static const String addImage = 'assets/images/add_image.png';
-  static const String addCategory = 'assets/images/add_category.png';
+   static const String addCategory = 'assets/images/add_category.png';
   static const String arrow = 'assets/images/ic_arrow.png';
   static const String calendar = 'assets/images/ic_calendar.png';
   static const String clock = 'assets/images/ic_clock.png';
@@ -27,6 +28,7 @@ class AppImages {
   static const String aboutUs = 'assets/images/aboutUs.svg';
   static const String logout = 'assets/images/logout.svg';
   static const String google = 'assets/images/google.png';
+  static const String addCategoryIcon = 'assets/images/add_category.svg';
   static const String facebook = 'assets/images/facebook.png';
   static const String onboarding1 = 'assets/images/onboarding1.png';
   static const String onboarding2 = 'assets/images/onboarding2.png';

@@ -68,7 +68,10 @@
   "facebook": "Continue with Facebook",
   "haveAccount": "Already have an account? ",
   "notHaveAccount":"Don’t have an account? ",
-  "signup": "SignUp"
+  "signup": "SignUp",
+  "hello": "Hello,",
+  "category": "Category",
+  "noCategory": "No Categories Added !"
 
 
 }
