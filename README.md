@@ -14,11 +14,8 @@ Organize tasks with customizable categories or labels for better management.
 Mark tasks as completed to monitor your progress.
 
 ⚙️ Settings Tab:
-
 Personalize your DoIt Now experience with customizable settings, including:
-
 Local Settings: Choose your preferred language and date/time format.
-
 Theme Settings: Select from a range of themes to customize the app's appearance.
 
 # Installation:
