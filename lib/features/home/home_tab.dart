@@ -60,30 +60,30 @@ class _HomeTabState extends State<HomeTab> {
                 Stack(
                   children: [
                     Image.asset(
-                      AppImages.homeHeadline,
+                   provider.languageCode=='en'?   AppImages.homeHeadline:AppImages.homeHeadlineAr,
                       fit: BoxFit.cover,
                       width: double.infinity,
                     ),
-                    Positioned(
+                    PositionedDirectional(
                       top: 110.h,
-                      left: 24.w,
+                      start: 24.w,
                       child: Text(
-                        AppStrings.hello,
+                        local.hello,
                         style: AppStyles.regularText.copyWith(
                             color: AppColor.helloColor, fontSize: 20.sp),
                       ),
                     ),
-                    Positioned(
+                    PositionedDirectional(
                       top: 135.h,
-                      left: 24.w,
+                      start: 24.w,
                       child: Text(
                         '$name 👋🏻',
                         style: AppStyles.titleL,
                       ),
                     ),
-                    Positioned(
+                    PositionedDirectional(
                       top: 180.h,
-                      left: 24.w,
+                      start: 24.w,
                       child: Text(
                         provider.languageCode == 'en'
                             ? 'You have ${tasks.length} task(s) for today'
@@ -95,6 +95,7 @@ class _HomeTabState extends State<HomeTab> {
                   ],
                 ),
                 EasyDateTimeLine(
+                  locale: provider.languageCode == 'en' ? 'en' : 'ar',
                   initialDate: focusDate,
                   disabledDates: List.generate(
                     DateTime.now().difference(DateTime(2023)).inDays,
@@ -148,9 +149,9 @@ class _HomeTabState extends State<HomeTab> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(left: 16.w, top: 24.h, bottom: 18.h),
+                  padding: EdgeInsetsDirectional.only(start: 16.w, top: 24.h, bottom: 18.h),
                   child: Text(
-                      '${DateFormat('d MMM').format(DateUtils.dateOnly(focusDate))} Tasks',
+                      ' ${provider.languageCode == 'ar' ? 'مهام' : ''} ${DateFormat('d MMM', Locale(provider.languageCode == 'en' ? 'en' : 'ar').toString()).format(DateUtils.dateOnly(focusDate))} ${provider.languageCode == 'en' ? 'Tasks' : ''}',
                       style: AppStyles.bodyL),
                 ),
                 tasks.isEmpty

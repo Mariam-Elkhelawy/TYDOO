@@ -30,10 +30,6 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  String startTime = DateFormat('hh:mm a').format(DateTime.now()).toString();
-  String endTime = DateFormat('hh:mm a')
-      .format(DateTime.now().add(const Duration(minutes: 15)))
-      .toString();
   int color = 0;
   String? selectedCategory;
   bool isTapped = false;
@@ -44,11 +40,28 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
     Provider.of<MyProvider>(context, listen: false).loadCategories();
   }
 
+  DateTime _timeOfDayToDateTime(TimeOfDay timeOfDay) {
+    final now = DateTime.now();
+    return DateTime(
+        now.year, now.month, now.day, timeOfDay.hour, timeOfDay.minute);
+  }
+
   @override
   Widget build(BuildContext context) {
     var provider = Provider.of<MyProvider>(context);
     var local = AppLocalizations.of(context)!;
-
+    List<String> remindList = [
+      local.min5,
+      local.min10,
+      local.min15,
+      local.min20,
+    ];
+    List<String> repeatList = [
+      local.none,
+      local.daily,
+      local.weekly,
+      local.monthly
+    ];
     return customBG(
       context: context,
       child: Scaffold(
@@ -57,13 +70,15 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
           elevation: 0,
           backgroundColor: Colors.transparent,
           leading: Padding(
-            padding: EdgeInsets.only(left: 24.w),
+            padding: EdgeInsetsDirectional.only(start: 24.w),
             child: InkWell(
               onTap: () {
                 Navigator.pop(context);
               },
-              child: const ImageIcon(
-                AssetImage(AppImages.arrow),
+              child: ImageIcon(
+                AssetImage(provider.languageCode == 'en'
+                    ? AppImages.arrow
+                    : AppImages.arrowAR),
                 size: 20,
                 color: AppColor.iconColor,
               ),
@@ -71,12 +86,12 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
           ),
           centerTitle: true,
           title: Text(
-            'Add Task',
+            local.addTask,
             style: AppStyles.bodyL.copyWith(color: AppColor.primaryColor),
           ),
           actions: [
             Padding(
-              padding: EdgeInsets.only(right: 24.w),
+              padding: EdgeInsetsDirectional.only(end: 24.w),
               child: const Icon(
                 Icons.notifications,
                 color: AppColor.iconColor,
@@ -102,7 +117,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                         width: 187.w,
                         height: 187.h,
                       ),
-                      const TextWidget(text: 'Title'),
+                      TextWidget(text: local.title),
                       CustomTextFormField(
                         myController: titleController,
                         hintText: local.enterTitle,
@@ -113,7 +128,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                           return null;
                         },
                       ),
-                      const TextWidget(text: 'Description'),
+                      TextWidget(text: local.description),
                       CustomTextFormField(
                         hintText: local.enterDescription,
                         myController: descriptionController,
@@ -124,7 +139,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                           return null;
                         },
                       ),
-                      const TextWidget(text: 'Category'),
+                      TextWidget(text: local.category),
                       customButton(
                           padding:
                               EdgeInsetsDirectional.only(start: 16.w, end: 9.w),
@@ -133,8 +148,8 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                           child: DropdownButton(
                             hint: Text(
                               provider.categories.isEmpty
-                                  ? 'there is no categories yet'
-                                  : 'select Category',
+                                  ? local.noCat
+                                  : local.select,
                               style: AppStyles.hintText,
                             ),
                             underline: Container(height: 0.h),
@@ -165,7 +180,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                               });
                             },
                           )),
-                      const TextWidget(text: 'Date'),
+                      TextWidget(text: local.date),
                       InkWell(
                         onTap: () {
                           editProvider.selectDate(context);
@@ -179,14 +194,12 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                           child: Row(
                             children: [
                               Text(
-                                DateFormat.yMMMd(
-                                            provider.languageCode == 'en'
-                                                ? 'en'
-                                                : 'ar')
-                                        .format(editProvider.chosenDate)
-                                ,style: AppStyles.generalText
-                                        .copyWith(fontSize: 12.sp)
-                              ),
+                                  DateFormat.yMMMd(provider.languageCode == 'en'
+                                          ? 'en'
+                                          : 'ar')
+                                      .format(editProvider.chosenDate),
+                                  style: AppStyles.generalText
+                                      .copyWith(fontSize: 12.sp)),
                               const Spacer(),
                               const ImageIcon(
                                 AssetImage(AppImages.calendar),
@@ -202,7 +215,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const TextWidget(text: 'Start Time'),
+                                TextWidget(text: local.startTime),
                                 InkWell(
                                   onTap: () {
                                     editProvider.selectStartTime(context);
@@ -218,9 +231,14 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                     child: Row(
                                       children: [
                                         Text(
-                                          editProvider.selectedStartTime
-                                              .format(context)
-                                              .toString(),
+                                          DateFormat.jm(
+                                                  provider.languageCode == 'en'
+                                                      ? 'en'
+                                                      : 'ar')
+                                              .format(
+                                            _timeOfDayToDateTime(
+                                                editProvider.selectedStartTime),
+                                          ),
                                           style: AppStyles.generalText
                                               .copyWith(fontSize: 12.sp),
                                         ),
@@ -241,7 +259,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const TextWidget(text: 'End Time'),
+                                TextWidget(text: local.endTime),
                                 InkWell(
                                   onTap: () {
                                     editProvider.selectEndTime(context);
@@ -257,9 +275,14 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                     child: Row(
                                       children: [
                                         Text(
-                                          editProvider.selectedEndTime
-                                              .format(context)
-                                              .toString(),
+                                          DateFormat.jm(
+                                                  provider.languageCode == 'en'
+                                                      ? 'en'
+                                                      : 'ar')
+                                              .format(
+                                            _timeOfDayToDateTime(
+                                                editProvider.selectedEndTime),
+                                          ),
                                           style: AppStyles.generalText
                                               .copyWith(fontSize: 12.sp),
                                         ),
@@ -277,7 +300,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                           ),
                         ],
                       ),
-                      const TextWidget(text: 'Remind'),
+                      TextWidget(text: local.remind),
                       customButton(
                           padding:
                               EdgeInsetsDirectional.only(start: 16.w, end: 9.w),
@@ -285,7 +308,9 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                           borderColor: AppColor.borderColor,
                           child: DropdownButton(
                             hint: Text(
-                              AppStrings.remind,
+                              provider.languageCode == 'en'
+                                  ? AppStrings.remind
+                                  : AppStrings.remindAr,
                               style: AppStyles.generalText
                                   .copyWith(fontSize: 12.sp),
                             ),
@@ -298,7 +323,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                               color: AppColor.primaryColor,
                               size: 28,
                             ),
-                            items: AppStrings.remindList
+                            items: remindList
                                 .map<DropdownMenuItem<String>>(
                                   (e) => DropdownMenuItem<String>(
                                     value: e,
@@ -311,11 +336,13 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                 )
                                 .toList(),
                             onChanged: (value) {
-                              AppStrings.remind = value!;
+                              provider.languageCode == 'en'
+                                  ? AppStrings.remind
+                                  : AppStrings.remindAr = value!;
                               setState(() {});
                             },
                           )),
-                      const TextWidget(text: 'Repeat'),
+                      TextWidget(text: local.repeat),
                       customButton(
                           padding:
                               EdgeInsetsDirectional.only(start: 16.w, end: 9.w),
@@ -323,7 +350,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                           borderColor: AppColor.borderColor,
                           child: DropdownButton(
                             hint: Text(
-                              AppStrings.repeat,
+                              provider.languageCode=='en'?AppStrings.repeat:AppStrings.repeatAr,
                               style: AppStyles.generalText
                                   .copyWith(fontSize: 12.sp),
                             ),
@@ -336,7 +363,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                               color: AppColor.primaryColor,
                               size: 28,
                             ),
-                            items: AppStrings.repeatList
+                            items: repeatList
                                 .map<DropdownMenuItem<String>>(
                                   (e) => DropdownMenuItem<String>(
                                     value: e,
@@ -349,11 +376,11 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                 )
                                 .toList(),
                             onChanged: (value) {
-                              AppStrings.repeat = value!;
+                              provider.languageCode=='en'?AppStrings.repeat:AppStrings.repeatAr = value!;
                               setState(() {});
                             },
                           )),
-                      const TextWidget(text: 'Color'),
+                      TextWidget(text: local.color),
                       Wrap(
                         children: List.generate(
                           7,

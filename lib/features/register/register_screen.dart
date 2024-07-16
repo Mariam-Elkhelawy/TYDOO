@@ -46,7 +46,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           backgroundColor: Colors.transparent,
           toolbarHeight: 140.h,
           leading: Padding(
-            padding: EdgeInsets.only(left: 24.w),
+            padding: EdgeInsetsDirectional.only(start: 24.w),
             child: InkWell(
               onTap: () {
                 Navigator.pop(context);
@@ -280,7 +280,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         Text(
                           local.or,
                           textAlign: TextAlign.center,
-                          style:AppStyles.regularText.copyWith(fontSize: 12.sp),
+                          style:
+                              AppStyles.regularText.copyWith(fontSize: 12.sp),
                         ),
                         const Expanded(
                           child: Divider(

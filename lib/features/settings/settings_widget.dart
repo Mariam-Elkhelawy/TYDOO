@@ -125,7 +125,10 @@ class SettingsWidget extends StatelessWidget {
                         ],
                       ),
               ),
-              if (!isDropMenu) SvgPicture.asset(AppImages.arrowSquare),
+              if (!isDropMenu)
+                SvgPicture.asset(provider.languageCode == 'en'
+                    ? AppImages.arrowSquare
+                    : AppImages.arrowSquareAr),
               SizedBox(
                 width: 18.w,
               )
