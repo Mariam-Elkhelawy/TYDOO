@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import 'package:todo_app/core/components/reusable_components.dart';
 import 'package:todo_app/core/utils/app_colors.dart';
 import 'package:todo_app/core/utils/app_images.dart';
-import 'package:todo_app/core/utils/app_strings.dart';
 import 'package:todo_app/features/active_icon_nav_bar.dart';
 import 'package:todo_app/features/category/category_tab.dart';
 import 'package:todo_app/features/home/add_task_screen.dart';
@@ -13,6 +12,7 @@ import 'package:todo_app/features/home/home_tab.dart';
 import 'package:todo_app/features/important/important_tab.dart';
 import 'package:todo_app/features/settings/settings_tab.dart';
 import 'package:todo_app/providers/my_provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -21,7 +21,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var provider = Provider.of<MyProvider>(context);
-
+    var local = AppLocalizations.of(context)!;
     return customBG(
       context: context,
       child: Scaffold(
@@ -64,17 +64,16 @@ class HomeScreen extends StatelessWidget {
               BottomNavigationBarItem(
                   icon: SvgPicture.asset(AppImages.home),
                   activeIcon: const ActiveIcon(image: AppImages.home),
-                  label: AppStrings.home),
-              const BottomNavigationBarItem(
-                  icon: Icon(Icons.list_outlined), label: AppStrings.category),
-              // const BottomNavigationBarItem(
-              //     icon: Icon(Icons.star_border,color: AppColor.whiteColor,), label:''),
-              const BottomNavigationBarItem(
-                  icon: Icon(Icons.star_border), label: AppStrings.important),
-
-              const BottomNavigationBarItem(
-                  icon: ImageIcon(AssetImage('assets/images/ic_Settings.png')),
-                  label: AppStrings.settings),
+                  label: local.home),
+              BottomNavigationBarItem(
+                  icon: const Icon(Icons.list_outlined), label: local.category),
+              BottomNavigationBarItem(
+                  icon: const Icon(Icons.star_border), label: local.important),
+              BottomNavigationBarItem(
+                  icon: const ImageIcon(
+                    AssetImage(AppImages.icSettings),
+                  ),
+                  label: local.settings),
             ],
           ),
         ),
@@ -88,5 +87,5 @@ List<Widget> screens = [
   const HomeTab(),
   const CategoryTab(),
   const ImportantTab(),
-   const SettingsTab(),
+  const SettingsTab(),
 ];

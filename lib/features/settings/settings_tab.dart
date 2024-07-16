@@ -26,7 +26,7 @@ class SettingsTab extends StatelessWidget {
         children: [
           SizedBox(height: 75.h),
           Text(
-            'Settings',
+            local.settings,
             textAlign: TextAlign.center,
             style: AppStyles.bodyL.copyWith(color: AppColor.primaryColor),
           ),
@@ -40,20 +40,20 @@ class SettingsTab extends StatelessWidget {
           SettingsWidget(
             iconPath: AppImages.user,
             isHint: true,
-            hint: 'name, age, ...etc',
-            title: 'Account info',
+            hint: local.accountH,
+            title: local.accountT,
             onTap: () {},
           ),
           SettingsWidget(
             iconPath: AppImages.privacy,
             isHint: true,
-            hint: 'email, password, mobile',
-            title: 'Privacy',
+            hint: local.privacyH,
+            title: local.privacyT,
             onTap: () {},
           ),
           SettingsWidget(
             iconPath: AppImages.theme,
-            title: 'Theme Mode',
+            title: local.theme,
             isDropMenu: true,
             dropDownItems: themeList,
             onDropDownChanged: (String? value) {
@@ -66,12 +66,12 @@ class SettingsTab extends StatelessWidget {
           ),
           SettingsWidget(
             iconPath: AppImages.notification,
-            title: 'Notification',
+            title: local.notification,
             onTap: () {},
           ),
           SettingsWidget(
             iconPath: AppImages.language,
-            title: 'Language',
+            title: local.language,
             isDropMenu: true,
             dropDownItems: langList,
             onDropDownChanged: (String? value) {
@@ -84,12 +84,12 @@ class SettingsTab extends StatelessWidget {
           ),
           SettingsWidget(
             iconPath: AppImages.aboutUs,
-            title: 'About Us',
+            title: local.aboutUs,
             onTap: () {},
           ),
           SettingsWidget(
             iconPath: AppImages.logout,
-            title: 'Logout',
+            title: local.logout,
             onTap: () async {
               await FirebaseFunctions.signOut();
               Navigator.pushNamedAndRemoveUntil(

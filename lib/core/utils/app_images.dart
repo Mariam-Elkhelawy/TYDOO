@@ -8,6 +8,7 @@ class AppImages {
   static const String addImage = 'assets/images/add_image.png';
    static const String addCategory = 'assets/images/add_category.png';
   static const String arrow = 'assets/images/ic_arrow.png';
+  static const String arrowAR = 'assets/images/arrow_ar.png';
   static const String calendar = 'assets/images/ic_calendar.png';
   static const String clock = 'assets/images/ic_clock.png';
   static const String home = 'assets/images/ic_home.svg';
@@ -18,6 +19,7 @@ class AppImages {
   static const String empty = 'assets/images/empty.png';
   static const String settingsTab = 'assets/images/settings.png';
   static const String arrowSquare = 'assets/images/ic_arrow_square.svg';
+  static const String arrowSquareAr = 'assets/images/arrow-square-ar.svg';
   static const String arrowDown = 'assets/images/ic_arrow_down.svg';
   static const String arrowTop = 'assets/images/ic_arrow_top.svg';
   static const String user = 'assets/images/user.svg';
@@ -34,5 +36,6 @@ class AppImages {
   static const String onboarding2 = 'assets/images/onboarding2.png';
   static const String onboarding3 = 'assets/images/onboarding3.png';
   static const String forgetPassword = 'assets/images/forget_password.svg';
+  static const String icSettings = 'assets/images/ic_Settings.png';
 
 }

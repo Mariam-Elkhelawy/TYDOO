@@ -29,7 +29,7 @@ class ImportantTab extends StatelessWidget {
                 color: AppColor.taskGreyColor,
               ),
               Text(
-                'Important',
+                local.important,
                 style: AppStyles.bodyL.copyWith(color: AppColor.primaryColor),
               ),
               const ImageIcon(
@@ -73,7 +73,7 @@ class ImportantTab extends StatelessWidget {
                     ),
                     SizedBox(height: 20.h),
                     Text(
-                      local.noTasks,
+                      local.noImportant,
                       style: AppStyles.titleL.copyWith(
                           fontSize: 14.sp, color: AppColor.primaryColor),
                     )
