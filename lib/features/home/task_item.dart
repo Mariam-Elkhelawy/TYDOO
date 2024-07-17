@@ -111,7 +111,7 @@ class TaskItem extends StatelessWidget {
           decoration: BoxDecoration(
             color: provider.themeMode == ThemeMode.light
                 ? AppColor.whiteColor
-                : AppColor.blackColor,
+                : AppColor.inactiveColor,
             borderRadius: BorderRadius.circular(12.r),
           ),
           child: Row(
@@ -150,16 +150,20 @@ class TaskItem extends StatelessWidget {
                     shape: BoxShape.circle,
                     color: taskModel.isDone
                         ? AppColor.doneColor
-                        : AppColor.whiteColor,
+                        : Colors.transparent,
                     border: Border.all(
                         color: taskModel.isDone
                             ? Colors.transparent
-                            : AppColor.primaryColor),
+                            : provider.themeMode == ThemeMode.light
+                                ? AppColor.primaryColor
+                                : AppColor.primaryDarkColor),
                   ),
-                  child: const Icon(
+                  child: Icon(
                     Icons.check,
                     size: 16,
-                    color: AppColor.whiteColor,
+                    color: !taskModel.isDone
+                        ? Colors.transparent
+                        : AppColor.whiteColor,
                   ),
                 ),
               ),
@@ -175,7 +179,10 @@ class TaskItem extends StatelessWidget {
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: AppStyles.titleL.copyWith(
-                          fontSize: 14.sp, color: AppColor.primaryColor),
+                          fontSize: 14.sp,
+                          color: provider.themeMode == ThemeMode.light
+                              ? AppColor.primaryColor
+                              : AppColor.primaryDarkColor),
                     ),
                     SizedBox(height: 8.h),
                     Text(

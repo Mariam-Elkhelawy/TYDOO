@@ -1,4 +1,3 @@
-import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -28,7 +27,9 @@ class SettingsTab extends StatelessWidget {
           Text(
             local.settings,
             textAlign: TextAlign.center,
-            style: AppStyles.bodyL.copyWith(color: AppColor.primaryColor),
+            style: AppStyles.bodyL.copyWith(color: provider.themeMode == ThemeMode.light
+            ? AppColor.primaryColor
+                : AppColor.primaryDarkColor),
           ),
           SizedBox(height: 5.h),
           Image.asset(

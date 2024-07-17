@@ -39,10 +39,14 @@ class SettingsWidget extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8.r),
-          color: AppColor.whiteColor,
+          color: provider.themeMode == ThemeMode.light
+              ? AppColor.whiteColor
+              : AppColor.darkColor,
           boxShadow: [
             BoxShadow(
-                color: AppColor.shadowColor.withOpacity(.08),
+                color: provider.themeMode == ThemeMode.light
+                    ? AppColor.shadowColor.withOpacity(.08)
+                    : AppColor.whiteColor.withOpacity(.05),
                 offset: const Offset(0, 0),
                 blurRadius: 20.r,
                 spreadRadius: 0),
@@ -56,7 +60,9 @@ class SettingsWidget extends StatelessWidget {
                 width: 8.w,
                 height: isHint ? 63.h : 52.h,
                 decoration: BoxDecoration(
-                  color: AppColor.primaryColor,
+                  color: provider.themeMode == ThemeMode.light
+                      ? AppColor.primaryColor
+                      : AppColor.primaryDarkColor,
                   borderRadius: BorderRadius.only(
                     topLeft: provider.languageCode == 'en'
                         ? Radius.circular(12.r)
@@ -92,17 +98,28 @@ class SettingsWidget extends StatelessWidget {
                               SvgPicture.asset(AppImages.arrowDown),
                           expandedSuffixIcon:
                               SvgPicture.asset(AppImages.arrowTop),
-                          headerStyle: AppStyles.bodyM,
-                          listItemStyle: AppStyles.bodyM,
-                          hintStyle: AppStyles.settingTitle,
-                          expandedBorder:
-                              Border.all(color: AppColor.primaryColor),
+                          headerStyle:  AppStyles.settingTitle.copyWith(
+                        color: provider.themeMode == ThemeMode.light
+                        ? AppColor.blackColor
+                            : AppColor.whiteColor),
+                          listItemStyle: AppStyles.settingTitle.copyWith(
+                        color: provider.themeMode == ThemeMode.light
+                        ? AppColor.blackColor
+                            : AppColor.whiteColor),
+                          hintStyle:  AppStyles.settingTitle.copyWith(
+                        color: provider.themeMode == ThemeMode.light
+                        ? AppColor.blackColor
+                            : AppColor.whiteColor),
+                          expandedBorder: Border.all(
+                              color: provider.themeMode == ThemeMode.light
+                                  ? AppColor.primaryColor
+                                  : AppColor.primaryDarkColor),
                           closedFillColor: provider.themeMode == ThemeMode.dark
-                              ? AppColor.blackColor
+                              ? AppColor.darkColor
                               : AppColor.whiteColor,
                           expandedFillColor:
                               provider.themeMode == ThemeMode.dark
-                                  ? AppColor.blackColor
+                                  ? AppColor.darkColor
                                   : AppColor.whiteColor,
                         ),
                         initialItem: hint,
@@ -112,14 +129,19 @@ class SettingsWidget extends StatelessWidget {
                         children: [
                           Text(
                             title,
-                            style: AppStyles.settingTitle,
+                            style: AppStyles.settingTitle.copyWith(
+                                color: provider.themeMode == ThemeMode.light
+                                    ? AppColor.blackColor
+                                    : AppColor.whiteColor),
                           ),
                           if (isHint)
                             Text(
                               hint!,
                               style: AppStyles.hintText.copyWith(
                                 fontSize: 14.sp,
-                                color: AppColor.hintColor,
+                                color: provider.themeMode == ThemeMode.light
+                                    ? AppColor.hintColor
+                                    : AppColor.whiteColor.withOpacity(.7),
                               ),
                             ),
                         ],

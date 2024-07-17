@@ -6,8 +6,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/core/utils/app_colors.dart';
+import 'package:todo_app/core/utils/app_images.dart';
 import 'package:todo_app/core/utils/styles.dart';
-import 'package:todo_app/features/category/add_category_screen.dart';
 import 'package:todo_app/features/data/models/category_model.dart';
 import 'package:todo_app/features/home/edit_tasks_screen.dart';
 import 'package:todo_app/firebase/firebase_functions.dart';
@@ -74,7 +74,7 @@ class CategoryItem extends StatelessWidget {
           decoration: BoxDecoration(
             color: provider.themeMode == ThemeMode.light
                 ? AppColor.whiteColor
-                : AppColor.blackColor,
+                : AppColor.inactiveColor,
             borderRadius: BorderRadius.circular(12.r),
           ),
           child: Row(
@@ -117,7 +117,7 @@ class CategoryItem extends StatelessWidget {
                     fit: BoxFit.cover,
                   ),
                 )
-                    : Icon(Icons.image_not_supported_outlined,color: AppColor.taskGreyColor,),
+                    : const Icon(Icons.image_not_supported_outlined,color: AppColor.taskGreyColor,),
               ),
               SizedBox(width: 12.w),
               Expanded(
@@ -148,22 +148,22 @@ class CategoryItem extends StatelessWidget {
               ),
               InkWell(
                 onTap: () {
-                  Navigator.pushNamed(
-                    context,
-                    EditTaskScreen.routeName,
-                    arguments: CategoryModel(
-                      userId: FirebaseAuth.instance.currentUser!.uid,
-                      id: categoryModel.id,
-                      name: categoryModel.name,
-                      note: categoryModel.note,
-                    ),
-                  );
+                  // Navigator.pushNamed(
+                  //   context,
+                  //   EditTaskScreen.routeName,
+                  //   arguments: CategoryModel(
+                  //     userId: FirebaseAuth.instance.currentUser!.uid,
+                  //     id: categoryModel.id,
+                  //     name: categoryModel.name,
+                  //     note: categoryModel.note,
+                  //   ),
+                  // );
                 },
                 child: Padding(
                   padding: EdgeInsetsDirectional.only(end: 18.w),
                   child: const ImageIcon(
                     AssetImage(
-                      'assets/images/Edit.png',
+                      AppImages.edit,
                     ),
                     color: AppColor.taskGreyColor,
                   ),

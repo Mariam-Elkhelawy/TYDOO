@@ -7,6 +7,7 @@ class AppColor {
   static const Color thirdColor = Color(0xFF8162E3);
   static const Color blackColor = Colors.black;
   static const Color activeDayColor = Color(0xFFD4D4D4);
+  static const Color taskDarkColor = Color(0xFF2C2C2C);
   static const Color inactiveDayColor = Color(0xFF454545);
   static const Color inactiveColor = Color(0xFFEDEDED);
   static const Color helloColor = Color(0xFFEFEFEF);

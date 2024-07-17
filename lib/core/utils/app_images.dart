@@ -2,7 +2,9 @@ class AppImages {
 
   static const String splash = 'assets/images/splash.png';
   static const String homeHeadline = 'assets/images/home_headline.png';
+  static const String homeHeadlineDark = 'assets/images/homeheadline_dark.png';
   static const String homeHeadlineAr = 'assets/images/homeheadline_ar.png';
+  static const String homeHeadlineDarkAr = 'assets/images/homeheadline_dark_ar.png';
   static const String addTaskBG = 'assets/images/addTask_bg.png';
   static const String addTask = 'assets/images/add_task.png';
   static const String addImage = 'assets/images/add_image.png';
