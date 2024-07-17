@@ -25,11 +25,12 @@ class HomeScreen extends StatelessWidget {
     return customBG(
       context: context,
       child: Scaffold(
-        backgroundColor: Colors.transparent,
+        backgroundColor:provider.themeMode==ThemeMode.light? Colors.transparent:AppColor.darkColor,
         extendBody: true,
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: FloatingActionButton(
-          backgroundColor: AppColor.primaryColor,
+          backgroundColor:provider.themeMode == ThemeMode.light
+              ? AppColor.primaryColor:AppColor.primaryDarkColor,
           onPressed: () {
             Navigator.pushNamed(context, AddTaskScreen.routeName);
           },
@@ -48,12 +49,16 @@ class HomeScreen extends StatelessWidget {
           child: BottomNavigationBar(
             currentIndex: provider.index,
             onTap: provider.changeIndex,
-            backgroundColor: AppColor.whiteColor,
+            backgroundColor: provider.themeMode == ThemeMode.light
+                ? AppColor.whiteColor
+                : AppColor.darkColor,
             type: BottomNavigationBarType.fixed,
             selectedItemColor: provider.themeMode == ThemeMode.light
                 ? AppColor.primaryColor
                 : AppColor.whiteColor,
-            unselectedItemColor: AppColor.secondaryColor,
+            unselectedItemColor: provider.themeMode == ThemeMode.light
+                ? AppColor.secondaryColor
+                : AppColor.colorPalette[4],
             iconSize: 24,
             selectedFontSize: 12.sp,
             unselectedFontSize: 12.sp,

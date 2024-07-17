@@ -350,7 +350,9 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                           borderColor: AppColor.borderColor,
                           child: DropdownButton(
                             hint: Text(
-                              provider.languageCode=='en'?AppStrings.repeat:AppStrings.repeatAr,
+                              provider.languageCode == 'en'
+                                  ? AppStrings.repeat
+                                  : AppStrings.repeatAr,
                               style: AppStyles.generalText
                                   .copyWith(fontSize: 12.sp),
                             ),
@@ -376,7 +378,9 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                 )
                                 .toList(),
                             onChanged: (value) {
-                              provider.languageCode=='en'?AppStrings.repeat:AppStrings.repeatAr = value!;
+                              provider.languageCode == 'en'
+                                  ? AppStrings.repeat
+                                  : AppStrings.repeatAr = value!;
                               setState(() {});
                             },
                           )),
