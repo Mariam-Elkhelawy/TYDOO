@@ -60,7 +60,9 @@ class _HomeTabState extends State<HomeTab> {
                 Stack(
                   children: [
                     Image.asset(
-                   provider.languageCode=='en'?   AppImages.homeHeadline:AppImages.homeHeadlineAr,
+                      provider.languageCode == 'en'
+                          ? AppImages.homeHeadline
+                          : AppImages.homeHeadlineAr,
                       fit: BoxFit.cover,
                       width: double.infinity,
                     ),
@@ -95,6 +97,14 @@ class _HomeTabState extends State<HomeTab> {
                   ],
                 ),
                 EasyDateTimeLine(
+                  headerProps: EasyHeaderProps(monthStyle:  AppStyles.bodyS.copyWith(
+                      color: provider.themeMode == ThemeMode.light
+                          ? AppColor.blackColor
+                          : AppColor.whiteColor),
+                      selectedDateStyle:   AppStyles.bodyS.copyWith(
+                  color: provider.themeMode == ThemeMode.light
+                  ? AppColor.blackColor
+                      : AppColor.whiteColor),),
                   locale: provider.languageCode == 'en' ? 'en' : 'ar',
                   initialDate: focusDate,
                   disabledDates: List.generate(
@@ -115,8 +125,10 @@ class _HomeTabState extends State<HomeTab> {
                           color: AppColor.inactiveDayColor,
                           fontWeight: FontWeight.w400,
                           fontSize: 12.sp),
-                      decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(8.r),
+                        ),
                         color: AppColor.inactiveColor,
                       ),
                     ),
@@ -131,7 +143,9 @@ class _HomeTabState extends State<HomeTab> {
                           fontWeight: FontWeight.w400,
                           fontSize: 12.sp),
                       decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(8),
+                        ),
                         color: AppColor.inactiveColor,
                       ),
                     ),
@@ -141,18 +155,27 @@ class _HomeTabState extends State<HomeTab> {
                           color: AppColor.activeDayColor,
                           fontWeight: FontWeight.w500,
                           fontSize: 13.sp),
-                      decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
-                        color: AppColor.primaryColor,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(8.r),
+                        ),
+                        color: provider.themeMode == ThemeMode.light
+                            ? AppColor.primaryColor
+                            : AppColor.primaryDarkColor,
                       ),
                     ),
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsetsDirectional.only(start: 16.w, top: 24.h, bottom: 18.h),
+                  padding: EdgeInsetsDirectional.only(
+                      start: 16.w, top: 24.h, bottom: 18.h),
                   child: Text(
-                      ' ${provider.languageCode == 'ar' ? 'مهام' : ''} ${DateFormat('d MMM', Locale(provider.languageCode == 'en' ? 'en' : 'ar').toString()).format(DateUtils.dateOnly(focusDate))} ${provider.languageCode == 'en' ? 'Tasks' : ''}',
-                      style: AppStyles.bodyL),
+                    ' ${provider.languageCode == 'ar' ? 'مهام' : ''} ${DateFormat('d MMM', Locale(provider.languageCode == 'en' ? 'en' : 'ar').toString()).format(DateUtils.dateOnly(focusDate))} ${provider.languageCode == 'en' ? 'Tasks' : ''}',
+                    style: AppStyles.bodyL.copyWith(
+                        color: provider.themeMode == ThemeMode.light
+                            ? AppColor.blackColor
+                            : AppColor.whiteColor),
+                  ),
                 ),
                 tasks.isEmpty
                     ? Column(
@@ -169,7 +192,10 @@ class _HomeTabState extends State<HomeTab> {
                             local.noTasks,
                             textAlign: TextAlign.center,
                             style: AppStyles.titleL.copyWith(
-                                fontSize: 14.sp, color: AppColor.primaryColor),
+                                fontSize: 14.sp,
+                                color: provider.themeMode == ThemeMode.light
+                                    ? AppColor.primaryColor
+                                    : AppColor.primaryDarkColor),
                           ),
                           SizedBox(height: 26.h),
                         ],

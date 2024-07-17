@@ -35,8 +35,11 @@ class CategoryTab extends StatelessWidget {
                 InkWell(
                   child: SvgPicture.asset(
                     AppImages.addCategoryIcon,
-                    colorFilter: const ColorFilter.mode(
-                        AppColor.taskGreyColor, BlendMode.srcIn),
+                    colorFilter: ColorFilter.mode(
+                        provider.themeMode == ThemeMode.light
+                            ? AppColor.taskGreyColor
+                            : AppColor.whiteColor,
+                        BlendMode.srcIn),
                   ),
                   onTap: () {
                     Navigator.pushNamed(context, AddCategoryScreen.routeName);
@@ -44,11 +47,16 @@ class CategoryTab extends StatelessWidget {
                 ),
                 Text(
                   local.category,
-                  style: AppStyles.bodyL.copyWith(color: AppColor.primaryColor),
+                  style: AppStyles.bodyL.copyWith(
+                      color: provider.themeMode == ThemeMode.light
+                          ? AppColor.primaryColor
+                          : AppColor.primaryDarkColor),
                 ),
-                const ImageIcon(
-                  AssetImage(AppImages.sort),
-                  color: AppColor.taskGreyColor,
+                ImageIcon(
+                  const AssetImage(AppImages.sort),
+                  color: provider.themeMode == ThemeMode.light
+                      ? AppColor.taskGreyColor
+                      : AppColor.whiteColor,
                 ),
               ],
             ),
@@ -60,9 +68,11 @@ class CategoryTab extends StatelessWidget {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return SizedBox(
                   height: 600.h,
-                  child: const Center(
+                  child: Center(
                     child: CircularProgressIndicator(
-                      color: AppColor.primaryColor,
+                      color: provider.themeMode == ThemeMode.light
+                          ? AppColor.primaryColor
+                          : AppColor.primaryDarkColor,
                     ),
                   ),
                 );
@@ -88,7 +98,10 @@ class CategoryTab extends StatelessWidget {
                         Text(
                           local.noCategory,
                           style: AppStyles.titleL.copyWith(
-                              fontSize: 14.sp, color: AppColor.primaryColor),
+                              fontSize: 14.sp,
+                              color: provider.themeMode == ThemeMode.light
+                                  ? AppColor.primaryColor
+                                  : AppColor.primaryDarkColor),
                         )
                       ],
                     )

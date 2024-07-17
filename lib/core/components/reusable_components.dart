@@ -137,7 +137,7 @@ Widget customBG({required BuildContext context, Widget? child}) {
       image: DecorationImage(
           image: AssetImage(provider.themeMode == ThemeMode.light
               ? 'assets/images/bg_light.png'
-              : 'assets/images/bd_dark.png'),
+              : 'assets/images/bg_dark.png'),
           fit: BoxFit.cover),
     ),
     child: child,

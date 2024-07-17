@@ -37,5 +37,6 @@ class AppImages {
   static const String onboarding3 = 'assets/images/onboarding3.png';
   static const String forgetPassword = 'assets/images/forget_password.svg';
   static const String icSettings = 'assets/images/ic_Settings.png';
+  static const String edit = 'assets/images/Edit.png';
 
 }
