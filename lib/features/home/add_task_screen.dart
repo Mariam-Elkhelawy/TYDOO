@@ -65,10 +65,14 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
     return customBG(
       context: context,
       child: Scaffold(
-        backgroundColor: Colors.transparent,
+        backgroundColor: provider.themeMode == ThemeMode.light
+            ? Colors.transparent
+            : AppColor.darkColor,
         appBar: AppBar(
           elevation: 0,
-          backgroundColor: Colors.transparent,
+          backgroundColor: provider.themeMode == ThemeMode.light
+              ? Colors.transparent
+              : AppColor.darkColor,
           leading: Padding(
             padding: EdgeInsetsDirectional.only(start: 24.w),
             child: InkWell(
@@ -80,21 +84,28 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                     ? AppImages.arrow
                     : AppImages.arrowAR),
                 size: 20,
-                color: AppColor.iconColor,
+                color: provider.themeMode == ThemeMode.light
+                    ? AppColor.iconColor
+                    : AppColor.whiteColor,
               ),
             ),
           ),
           centerTitle: true,
           title: Text(
             local.addTask,
-            style: AppStyles.bodyL.copyWith(color: AppColor.primaryColor),
+            style: AppStyles.bodyL.copyWith(
+                color: provider.themeMode == ThemeMode.light
+                    ? AppColor.primaryColor
+                    : AppColor.primaryDarkColor),
           ),
           actions: [
             Padding(
               padding: EdgeInsetsDirectional.only(end: 24.w),
-              child: const Icon(
+              child: Icon(
                 Icons.notifications,
-                color: AppColor.iconColor,
+                color: provider.themeMode == ThemeMode.light
+                    ? AppColor.iconColor
+                    : AppColor.whiteColor,
               ),
             )
           ],
@@ -147,18 +158,23 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                           borderColor: AppColor.borderColor,
                           child: DropdownButton(
                             hint: Text(
-                              provider.categories.isEmpty
-                                  ? local.noCat
-                                  : local.select,
-                              style: AppStyles.hintText,
-                            ),
+                                provider.categories.isEmpty
+                                    ? local.noCat
+                                    : local.select,
+                                style: AppStyles.hintText.copyWith(
+                                  color: provider.themeMode == ThemeMode.light
+                                      ? AppColor.blackColor.withOpacity(.5)
+                                      : AppColor.whiteColor.withOpacity(.5),
+                                )),
                             underline: Container(height: 0.h),
                             isExpanded: true,
                             borderRadius: BorderRadius.circular(8.r),
                             dropdownColor: AppColor.whiteColor,
-                            icon: const Icon(
+                            icon: Icon(
                               Icons.keyboard_arrow_down,
-                              color: AppColor.primaryColor,
+                              color: provider.themeMode == ThemeMode.light
+                                  ? AppColor.primaryColor
+                                  : AppColor.primaryDarkColor,
                               size: 28,
                             ),
                             value: selectedCategory,
@@ -169,8 +185,12 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                 value: category.id,
                                 child: Text(
                                   category.name,
-                                  style: AppStyles.generalText
-                                      .copyWith(fontSize: 12.sp),
+                                  style: AppStyles.generalText.copyWith(
+                                    fontSize: 12.sp,
+                                    color: provider.themeMode == ThemeMode.light
+                                        ? AppColor.primaryColor
+                                        : AppColor.primaryDarkColor,
+                                  ),
                                 ),
                               );
                             }).toList(),
@@ -194,16 +214,23 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                           child: Row(
                             children: [
                               Text(
-                                  DateFormat.yMMMd(provider.languageCode == 'en'
-                                          ? 'en'
-                                          : 'ar')
-                                      .format(editProvider.chosenDate),
-                                  style: AppStyles.generalText
-                                      .copyWith(fontSize: 12.sp)),
+                                DateFormat.yMMMd(provider.languageCode == 'en'
+                                        ? 'en'
+                                        : 'ar')
+                                    .format(editProvider.chosenDate),
+                                style: AppStyles.generalText.copyWith(
+                                  fontSize: 12.sp,
+                                  color: provider.themeMode == ThemeMode.light
+                                      ? AppColor.primaryColor
+                                      : AppColor.primaryDarkColor,
+                                ),
+                              ),
                               const Spacer(),
-                              const ImageIcon(
-                                AssetImage(AppImages.calendar),
-                                color: AppColor.primaryColor,
+                              ImageIcon(
+                                const AssetImage(AppImages.calendar),
+                                color: provider.themeMode == ThemeMode.light
+                                    ? AppColor.primaryColor
+                                    : AppColor.primaryDarkColor,
                               )
                             ],
                           ),
@@ -239,13 +266,21 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                             _timeOfDayToDateTime(
                                                 editProvider.selectedStartTime),
                                           ),
-                                          style: AppStyles.generalText
-                                              .copyWith(fontSize: 12.sp),
+                                          style: AppStyles.generalText.copyWith(
+                                            fontSize: 12.sp,
+                                            color: provider.themeMode ==
+                                                    ThemeMode.light
+                                                ? AppColor.primaryColor
+                                                : AppColor.primaryDarkColor,
+                                          ),
                                         ),
                                         const Spacer(),
-                                        const ImageIcon(
-                                          AssetImage(AppImages.clock),
-                                          color: AppColor.primaryColor,
+                                        ImageIcon(
+                                          const AssetImage(AppImages.clock),
+                                          color: provider.themeMode ==
+                                                  ThemeMode.light
+                                              ? AppColor.primaryColor
+                                              : AppColor.primaryDarkColor,
                                         )
                                       ],
                                     ),
@@ -283,13 +318,21 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                             _timeOfDayToDateTime(
                                                 editProvider.selectedEndTime),
                                           ),
-                                          style: AppStyles.generalText
-                                              .copyWith(fontSize: 12.sp),
+                                          style: AppStyles.generalText.copyWith(
+                                            fontSize: 12.sp,
+                                            color: provider.themeMode ==
+                                                    ThemeMode.light
+                                                ? AppColor.primaryColor
+                                                : AppColor.primaryDarkColor,
+                                          ),
                                         ),
                                         const Spacer(),
-                                        const ImageIcon(
-                                          AssetImage(AppImages.clock),
-                                          color: AppColor.primaryColor,
+                                        ImageIcon(
+                                          const AssetImage(AppImages.clock),
+                                          color: provider.themeMode ==
+                                                  ThemeMode.light
+                                              ? AppColor.primaryColor
+                                              : AppColor.primaryDarkColor,
                                         )
                                       ],
                                     ),
@@ -311,16 +354,23 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                               provider.languageCode == 'en'
                                   ? AppStrings.remind
                                   : AppStrings.remindAr,
-                              style: AppStyles.generalText
-                                  .copyWith(fontSize: 12.sp),
+                              style: AppStyles.generalText.copyWith(
+                                fontSize: 12.sp,
+                                color: provider.themeMode == ThemeMode.light
+                                    ? AppColor.primaryColor
+                                    : AppColor.primaryDarkColor,
+                              ),
                             ),
                             underline: Container(height: 0.h),
                             isExpanded: true,
                             borderRadius: BorderRadius.circular(8.r),
-                            dropdownColor: AppColor.whiteColor,
-                            icon: const Icon(
+                            dropdownColor:  provider.themeMode == ThemeMode.light
+                                ?AppColor.whiteColor:AppColor.darkColor,
+                            icon: Icon(
                               Icons.keyboard_arrow_down,
-                              color: AppColor.primaryColor,
+                              color: provider.themeMode == ThemeMode.light
+                                  ? AppColor.primaryColor
+                                  : AppColor.primaryDarkColor,
                               size: 28,
                             ),
                             items: remindList
@@ -329,8 +379,13 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                     value: e,
                                     child: Text(
                                       e,
-                                      style: AppStyles.generalText
-                                          .copyWith(fontSize: 12.sp),
+                                      style: AppStyles.generalText.copyWith(
+                                        fontSize: 12.sp,
+                                        color: provider.themeMode ==
+                                                ThemeMode.light
+                                            ? AppColor.primaryColor
+                                            : AppColor.primaryDarkColor,
+                                      ),
                                     ),
                                   ),
                                 )
@@ -353,16 +408,23 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                               provider.languageCode == 'en'
                                   ? AppStrings.repeat
                                   : AppStrings.repeatAr,
-                              style: AppStyles.generalText
-                                  .copyWith(fontSize: 12.sp),
+                              style: AppStyles.generalText.copyWith(
+                                fontSize: 12.sp,
+                                color: provider.themeMode == ThemeMode.light
+                                    ? AppColor.primaryColor
+                                    : AppColor.primaryDarkColor,
+                              ),
                             ),
                             underline: Container(height: 0.h),
                             isExpanded: true,
                             borderRadius: BorderRadius.circular(8.r),
-                            dropdownColor: AppColor.whiteColor,
-                            icon: const Icon(
+                            dropdownColor: provider.themeMode == ThemeMode.light
+                                ?  AppColor.whiteColor:AppColor.darkColor,
+                            icon: Icon(
                               Icons.keyboard_arrow_down,
-                              color: AppColor.primaryColor,
+                              color: provider.themeMode == ThemeMode.light
+                                  ? AppColor.primaryColor
+                                  : AppColor.primaryDarkColor,
                               size: 28,
                             ),
                             items: repeatList
@@ -372,7 +434,9 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                     child: Text(
                                       e,
                                       style: AppStyles.generalText
-                                          .copyWith(fontSize: 12.sp),
+                                          .copyWith(fontSize: 12.sp,color:provider.themeMode == ThemeMode.light
+                                          ? AppColor.primaryColor
+                                          : AppColor.primaryDarkColor ),
                                     ),
                                   ),
                                 )
@@ -446,8 +510,12 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                           }
                         },
                         child: customButton(
-                          borderColor: AppColor.primaryColor,
-                          color: AppColor.primaryColor,
+                          borderColor: provider.themeMode == ThemeMode.light
+                              ? AppColor.primaryColor
+                              : AppColor.primaryDarkColor,
+                          color: provider.themeMode == ThemeMode.light
+                              ? AppColor.primaryColor
+                              : AppColor.primaryDarkColor,
                           borderRadius: BorderRadius.circular(12.r),
                           height: 46.h,
                           child: Text(

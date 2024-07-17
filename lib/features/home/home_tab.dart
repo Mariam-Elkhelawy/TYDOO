@@ -60,9 +60,11 @@ class _HomeTabState extends State<HomeTab> {
                 Stack(
                   children: [
                     Image.asset(
+                      provider.themeMode==ThemeMode.light?
                       provider.languageCode == 'en'
                           ? AppImages.homeHeadline
-                          : AppImages.homeHeadlineAr,
+                          : AppImages.homeHeadlineAr:provider.languageCode == 'en'
+                          ?AppImages.homeHeadlineDark:AppImages.homeHeadlineDarkAr,
                       fit: BoxFit.cover,
                       width: double.infinity,
                     ),
@@ -142,9 +144,9 @@ class _HomeTabState extends State<HomeTab> {
                           color: AppColor.inactiveDayColor,
                           fontWeight: FontWeight.w400,
                           fontSize: 12.sp),
-                      decoration: const BoxDecoration(
+                      decoration:  BoxDecoration(
                         borderRadius: BorderRadius.all(
-                          Radius.circular(8),
+                          Radius.circular(8.r),
                         ),
                         color: AppColor.inactiveColor,
                       ),

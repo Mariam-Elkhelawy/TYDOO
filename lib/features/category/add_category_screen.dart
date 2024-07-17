@@ -51,10 +51,12 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
     return customBG(
       context: context,
       child: Scaffold(
-        backgroundColor: Colors.transparent,
+        backgroundColor:provider.themeMode == ThemeMode.light
+            ?  Colors.transparent:AppColor.darkColor,
         appBar: AppBar(
           elevation: 0,
-          backgroundColor: Colors.transparent,
+          backgroundColor:provider.themeMode == ThemeMode.light
+              ?  Colors.transparent:AppColor.darkColor,
           leading: Padding(
             padding: EdgeInsetsDirectional.only(start: 24.w),
             child: InkWell(
@@ -66,14 +68,16 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
                     ? AppImages.arrow
                     : AppImages.arrowAR),
                 size: 20,
-                color: AppColor.iconColor,
+                color:provider.themeMode == ThemeMode.light
+                    ?  AppColor.iconColor:AppColor.whiteColor,
               ),
             ),
           ),
           centerTitle: true,
           title: Text(
             local.addCategory,
-            style: AppStyles.bodyL.copyWith(color: AppColor.primaryColor),
+            style: AppStyles.bodyL.copyWith(color: provider.themeMode == ThemeMode.light
+                ? AppColor.primaryColor:AppColor.primaryDarkColor),
           ),
         ),
         body: Padding(
@@ -147,17 +151,20 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
                         TextSpan(
                           text: local.addImage,
                           style: AppStyles.titleL.copyWith(
-                              color: AppColor.blackColor, fontSize: 13.sp),
+                              color:     provider.themeMode==ThemeMode.light?
+                               AppColor.blackColor:AppColor.whiteColor, fontSize: 13.sp),
                         ),
                         TextSpan(
                           text: local.optional,
                           style: AppStyles.titleL.copyWith(
-                              color: AppColor.optionalColor, fontSize: 12.sp),
+                              color:  provider.themeMode==ThemeMode.light?
+                              AppColor.optionalColor:AppColor.taskGreyColor, fontSize: 12.sp),
                         ),
                         TextSpan(
                           text: local.parentheses,
                           style: AppStyles.titleL.copyWith(
-                              color: AppColor.blackColor, fontSize: 13.sp),
+                              color:   provider.themeMode==ThemeMode.light?
+                              AppColor.blackColor:AppColor.whiteColor, fontSize: 13.sp),
                         ),
                       ],
                     ),
@@ -182,9 +189,12 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
                         Text(
                           local.click,
                           style: AppStyles.hintText.copyWith(
+                            color:      provider.themeMode==ThemeMode.light?
+                            AppColor.blackColor.withOpacity(.5):AppColor.whiteColor.withOpacity(.5),
                             decoration: TextDecoration.underline,
                             decorationColor:
-                                AppColor.blackColor.withOpacity(.5),
+                            provider.themeMode==ThemeMode.light?
+                                AppColor.blackColor.withOpacity(.5):AppColor.whiteColor.withOpacity(.5),
                           ),
                         ),
                       ],
@@ -221,7 +231,7 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
                     },
                     child: customButton(
                       borderColor: AppColor.primaryColor,
-                      color: AppColor.primaryColor,
+                      color: provider.themeMode==ThemeMode.light?AppColor.primaryColor:AppColor.primaryDarkColor,
                       borderRadius: BorderRadius.circular(12.r),
                       height: 46.h,
                       child: Text(

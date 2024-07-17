@@ -9,7 +9,6 @@ import 'package:todo_app/core/utils/styles.dart';
 import 'package:todo_app/features/category/add_category_screen.dart';
 import 'package:todo_app/features/category/category_item.dart';
 import 'package:todo_app/features/data/models/category_model.dart';
-import 'package:todo_app/features/home/task_item.dart';
 import 'package:todo_app/firebase/firebase_functions.dart';
 import 'package:todo_app/providers/my_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -79,7 +78,14 @@ class CategoryTab extends StatelessWidget {
               }
               if (snapshot.hasError) {
                 return Center(
-                  child: Text(local.isError),
+                  child: Text(
+                    local.error,
+                    style: AppStyles.titleL.copyWith(
+                        fontSize: 14.sp,
+                        color: provider.themeMode == ThemeMode.light
+                            ? AppColor.primaryColor
+                            : AppColor.primaryDarkColor),
+                  ),
                 );
               }
               var categories =

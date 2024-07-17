@@ -32,7 +32,11 @@ class CustomTextFormField extends StatelessWidget {
           provider.languageCode == 'ar' ? TextDirection.rtl : TextDirection.ltr,
       obscureText: obscureText,
       keyboardType: keyboardType,
-      style:  AppStyles.generalText.copyWith(fontSize: 12.sp),
+      style: AppStyles.generalText.copyWith(
+          fontSize: 12.sp,
+          color: provider.themeMode == ThemeMode.light
+              ? AppColor.primaryColor
+              : AppColor.primaryDarkColor),
       validator: onValidate,
       controller: myController,
       decoration: InputDecoration(
@@ -40,7 +44,11 @@ class CustomTextFormField extends StatelessWidget {
         prefixIcon: prefixIcon,
         suffixIcon: suffixIcon,
         hintText: hintText,
-        hintStyle: AppStyles.hintText,
+        hintStyle: AppStyles.hintText.copyWith(
+          color: provider.themeMode == ThemeMode.light
+              ? AppColor.blackColor.withOpacity(.5)
+              : AppColor.whiteColor.withOpacity(.5),
+        ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8.r),
           borderSide: const BorderSide(color: AppColor.borderColor),
