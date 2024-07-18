@@ -1,6 +1,6 @@
 # TYDOO
 
-Welcome to DoIt Now, your personal task management application designed to help you stay organized and efficient. 
+Welcome to TYDOO, your personal task management application designed to help you stay organized and efficient. 
 Below is a guide to help you understand and utilize the features of DoIt Now effectively.
 
 # Features:
