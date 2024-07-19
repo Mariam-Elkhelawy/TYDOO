@@ -165,7 +165,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                   color: provider.themeMode == ThemeMode.light
                                       ? AppColor.blackColor.withOpacity(.5)
                                       : AppColor.whiteColor.withOpacity(.5),
-                                )),
+                                ),),
                             underline: Container(height: 0.h),
                             isExpanded: true,
                             borderRadius: BorderRadius.circular(8.r),

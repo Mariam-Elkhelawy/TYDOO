@@ -47,8 +47,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   SizedBox(height: 100.h),
                   Text(
                     local.login,
-                    style:
-                        AppStyles.titleL.copyWith(color: AppColor.blackColor),
+                    style: AppStyles.titleL.copyWith(
+                        color: provider.themeMode == ThemeMode.light
+                            ? AppColor.blackColor
+                            : AppColor.whiteColor),
                   ),
                   SizedBox(height: 8.h),
                   Text(
@@ -60,19 +62,33 @@ class _LoginScreenState extends State<LoginScreen> {
                   SizedBox(height: 50.h),
                   Text(
                     local.email,
-                    style: AppStyles.regularText.copyWith(fontSize: 15.sp),
+                    style: AppStyles.regularText.copyWith(
+                        fontSize: 15.sp,
+                        color: provider.themeMode == ThemeMode.light
+                            ? AppColor.blackColor
+                            : AppColor.whiteColor),
                   ),
                   SizedBox(height: 6.h),
                   customTextFormField(
                       borderColor: AppColor.borderColor,
-                      fillColor: AppColor.whiteColor,
+                      fillColor: Colors.transparent,
                       controller: emailController,
                       contentPadding: EdgeInsets.symmetric(
                           horizontal: 16.w, vertical: 18.h),
                       radius: 10.r,
-                      hintStyle: AppStyles.hintText,
-                      textStyle:
-                          AppStyles.generalText.copyWith(fontSize: 15.sp),
+                      hintStyle: AppStyles.hintText.copyWith(
+                        color: provider.themeMode == ThemeMode.light
+                            ? AppColor.blackColor.withOpacity(.5)
+                            : AppColor.whiteColor.withOpacity(.5),
+                      ),
+                      cursorColor: provider.themeMode == ThemeMode.light
+                          ? AppColor.primaryColor
+                          : AppColor.primaryDarkColor,
+                      textStyle: AppStyles.generalText.copyWith(
+                          fontSize: 15.sp,
+                          color: provider.themeMode == ThemeMode.light
+                              ? AppColor.primaryColor
+                              : AppColor.primaryDarkColor),
                       suffixIcon: const Icon(
                         Icons.email_outlined,
                         color: AppColor.taskGreyColor,
@@ -88,19 +104,34 @@ class _LoginScreenState extends State<LoginScreen> {
                   SizedBox(height: 30.h),
                   Text(
                     local.password,
-                    style: AppStyles.regularText.copyWith(fontSize: 15.sp),
+                    style: AppStyles.regularText.copyWith(
+                        fontSize: 15.sp,
+                        color: provider.themeMode == ThemeMode.light
+                            ? AppColor.blackColor
+                            : AppColor.whiteColor),
                   ),
                   SizedBox(height: 6.h),
                   customTextFormField(
                     borderColor: AppColor.borderColor,
-                    fillColor: AppColor.whiteColor,
+                    cursorColor: provider.themeMode == ThemeMode.light
+                        ? AppColor.primaryColor
+                        : AppColor.primaryDarkColor,
+                    fillColor: Colors.transparent,
                     controller: passwordController,
                     contentPadding:
                         EdgeInsets.symmetric(horizontal: 16.w, vertical: 18.h),
                     radius: 10.r,
                     isPassword: isPassword,
-                    hintStyle: AppStyles.hintText,
-                    textStyle: AppStyles.generalText.copyWith(fontSize: 15.sp),
+                    hintStyle: AppStyles.hintText.copyWith(
+                      color: provider.themeMode == ThemeMode.light
+                          ? AppColor.blackColor.withOpacity(.5)
+                          : AppColor.whiteColor.withOpacity(.5),
+                    ),
+                    textStyle: AppStyles.generalText.copyWith(
+                        fontSize: 15.sp,
+                        color: provider.themeMode == ThemeMode.light
+                            ? AppColor.primaryColor
+                            : AppColor.primaryDarkColor),
                     suffixIcon: IconButton(
                       icon: Icon(
                         !isPassword ? Icons.visibility : Icons.visibility_off,
@@ -122,16 +153,22 @@ class _LoginScreenState extends State<LoginScreen> {
                   SizedBox(height: 24.h),
                   Row(
                     children: [
-                      const Icon(
+                      Icon(
                         Icons.check_circle,
-                        color: AppColor.primaryColor,
+                        color: provider.themeMode == ThemeMode.light
+                            ? AppColor.primaryColor
+                            : AppColor.primaryDarkColor,
                       ),
                       SizedBox(
                         width: 10.w,
                       ),
                       Text(
-                        'Remember me',
-                        style: AppStyles.regularText.copyWith(fontSize: 14.sp),
+                        local.remember,
+                        style: AppStyles.regularText.copyWith(
+                            fontSize: 14.sp,
+                            color: provider.themeMode == ThemeMode.light
+                                ? AppColor.blackColor
+                                : AppColor.whiteColor),
                       ),
                       const Spacer(),
                       InkWell(
@@ -141,8 +178,11 @@ class _LoginScreenState extends State<LoginScreen> {
                         },
                         child: Text(
                           local.forgetPassword,
-                          style:
-                              AppStyles.regularText.copyWith(fontSize: 14.sp),
+                          style: AppStyles.regularText.copyWith(
+                              fontSize: 14.sp,
+                              color: provider.themeMode == ThemeMode.light
+                                  ? AppColor.blackColor
+                                  : AppColor.whiteColor),
                         ),
                       ),
                     ],
@@ -178,8 +218,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: Padding(
                       padding: EdgeInsets.symmetric(horizontal: 20.w),
                       child: customButton(
-                          borderColor: AppColor.primaryColor,
-                          color: AppColor.primaryColor,
+                          borderColor: provider.themeMode == ThemeMode.light
+                              ? AppColor.primaryColor
+                              : AppColor.primaryDarkColor,
+                          color: provider.themeMode == ThemeMode.light
+                              ? AppColor.primaryColor
+                              : AppColor.primaryDarkColor,
                           borderRadius: BorderRadius.circular(8.r),
                           child: Text(
                             local.login,
@@ -204,7 +248,11 @@ class _LoginScreenState extends State<LoginScreen> {
                         Text(
                           local.or,
                           textAlign: TextAlign.center,
-                          style:AppStyles.regularText.copyWith(fontSize: 12.sp),
+                          style: AppStyles.regularText.copyWith(
+                              fontSize: 14.sp,
+                              color: provider.themeMode == ThemeMode.light
+                                  ? AppColor.blackColor
+                                  : AppColor.whiteColor),
                         ),
                         const Expanded(
                           child: Divider(
@@ -238,11 +286,16 @@ class _LoginScreenState extends State<LoginScreen> {
                             text: local.notHaveAccount,
                             style: AppStyles.settingTitle.copyWith(
                                 fontSize: 15.sp,
-                                color: AppColor.inactiveDayColor),
+                                color: provider.themeMode == ThemeMode.light
+                                    ? AppColor.inactiveDayColor
+                                    : AppColor.taskGreyColor),
                           ),
                           TextSpan(
                               text: local.signup,
-                              style: AppStyles.settingTitle),
+                              style: AppStyles.settingTitle.copyWith(
+                                  color: provider.themeMode == ThemeMode.light
+                                      ? AppColor.blackColor
+                                      : AppColor.whiteColor)),
                         ],
                       ),
                     ),
