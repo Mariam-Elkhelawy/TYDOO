@@ -23,26 +23,22 @@ Theme Settings: Select from a range of themes to customize the app's appearance.
 💻 Download and Install:
 
 Clone or download the DoIt Now repository from GitHub.
-
 Install the necessary dependencies and libraries as specified in the installation instructions.
 
 🔑 Firebase Authentication:
-
 Set up Firebase authentication by following the instructions provided in the README file.
-
 Configure Firebase authentication settings in the app to enable secure login.
 
 # 🚀 Getting Started:
 
-Launch the DoIt Now app on your device.
-
+Launch the TYDOO app on your device.
 Log in using your Firebase account credentials.
 
 Start managing your tasks efficiently by adding, editing, and completing them as needed.
 
 # Contribution:
 
-DoIt Now is an open-source project hosted on GitHub. You are welcome to contribute to its development by forking the repository, making changes, and submitting pull requests.
+TYDOO is an open-source project hosted on GitHub. You are welcome to contribute to its development by forking the repository, making changes, and submitting pull requests.
 
 # Support:
 
