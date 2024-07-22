@@ -203,6 +203,7 @@ class TaskItem extends StatelessWidget {
                         categoryId: '',
                         id: taskModel.id,
                         title: taskModel.title,
+                        taskColor: taskModel.taskColor,
                         date: taskModel.date,
                         description: taskModel.description,
                         startTime: taskModel.startTime,
