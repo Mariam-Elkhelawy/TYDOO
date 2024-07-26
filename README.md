@@ -31,11 +31,13 @@ Configure Firebase authentication settings in the app to enable secure login.
 
 # 🚀 Getting Started:
 Launch the TYDOO app on your device.
+
 Log in using your Firebase account credentials.
 Start managing your tasks efficiently by adding, editing, and completing them as needed.
 
 # Contribution:
-TYDOO is an open-source project hosted on GitHub. You are welcome to contribute to its development by forking the repository, making changes, and submitting pull requests.
+TYDOO is an open-source project hosted on GitHub. 
+You are welcome to contribute to its development by forking the repository, making changes, and submitting pull requests.
 
 # Support:
 
