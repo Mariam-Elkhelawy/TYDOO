@@ -26,6 +26,7 @@ Theme Settings: Select from a range of themes to customize the app's appearance.
 Clone or download the DoIt Now repository from GitHub.
 Install the necessary dependencies and libraries as specified in the installation instructions.
 
+
 🔑 Firebase Authentication:
 Set up Firebase authentication by following the instructions provided in the README file.
 Configure Firebase authentication settings in the app to enable secure login.
