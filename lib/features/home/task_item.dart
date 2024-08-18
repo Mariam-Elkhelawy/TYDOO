@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/core/utils/app_colors.dart';
+import 'package:todo_app/core/utils/app_images.dart';
 import 'package:todo_app/core/utils/styles.dart';
 import 'package:todo_app/features/data/models/task_model.dart';
 import 'package:todo_app/features/home/edit_tasks_screen.dart';
@@ -40,9 +41,18 @@ class TaskItem extends StatelessWidget {
           children: [
             SlidableAction(
               borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(12.r),
-                topLeft: Radius.circular(12.r),
-              ),
+                  bottomLeft: provider.languageCode == 'en'
+                      ? Radius.circular(12.r)
+                      : Radius.zero,
+                  topLeft: provider.languageCode == 'en'
+                      ? Radius.circular(12.r)
+                      : Radius.zero,
+                  bottomRight: provider.languageCode == 'ar'
+                      ? Radius.circular(12.r)
+                      : Radius.zero,
+                  topRight: provider.languageCode == 'ar'
+                      ? Radius.circular(12.r)
+                      : Radius.zero),
               onPressed: (context) {
                 showDialog(
                   context: context,
@@ -73,9 +83,18 @@ class TaskItem extends StatelessWidget {
           children: [
             SlidableAction(
               borderRadius: BorderRadius.only(
-                bottomRight: Radius.circular(12.r),
-                topRight: Radius.circular(12.r),
-              ),
+                  bottomRight: provider.languageCode == 'en'
+                      ? Radius.circular(12.r)
+                      : Radius.zero,
+                  topRight: provider.languageCode == 'en'
+                      ? Radius.circular(12.r)
+                      : Radius.zero,
+                  bottomLeft: provider.languageCode == 'ar'
+                      ? Radius.circular(12.r)
+                      : Radius.zero,
+                  topLeft: provider.languageCode == 'ar'
+                      ? Radius.circular(12.r)
+                      : Radius.zero),
               autoClose: false,
               onPressed: (context) async {
                 taskModel.isImportant = !taskModel.isImportant;
@@ -83,7 +102,7 @@ class TaskItem extends StatelessWidget {
               },
               backgroundColor: AppColor.importantBGColor,
               icon: taskModel.isImportant ? Icons.star : Icons.star_border,
-              label: 'Important',
+              label: local.important,
               foregroundColor: AppColor.importantColor,
             ),
           ],
@@ -92,7 +111,7 @@ class TaskItem extends StatelessWidget {
           decoration: BoxDecoration(
             color: provider.themeMode == ThemeMode.light
                 ? AppColor.whiteColor
-                : AppColor.blackColor,
+                : AppColor.inactiveColor,
             borderRadius: BorderRadius.circular(12.r),
           ),
           child: Row(
@@ -103,10 +122,19 @@ class TaskItem extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: taskModel.taskColor,
                   borderRadius: BorderRadius.only(
-                    topLeft:provider.languageCode=='en'? Radius.circular(12.r):Radius.circular(0.r),
-                    bottomLeft:provider.languageCode=='en'? Radius.circular(12.r):Radius.circular(0.r),
-                    bottomRight:provider.languageCode=='en'? Radius.circular(0.r):Radius.circular(12.r),
-                    topRight:provider.languageCode=='en'? Radius.circular(0.r):Radius.circular(12.r),),
+                    topLeft: provider.languageCode == 'en'
+                        ? Radius.circular(12.r)
+                        : Radius.circular(0.r),
+                    bottomLeft: provider.languageCode == 'en'
+                        ? Radius.circular(12.r)
+                        : Radius.circular(0.r),
+                    bottomRight: provider.languageCode == 'en'
+                        ? Radius.circular(0.r)
+                        : Radius.circular(12.r),
+                    topRight: provider.languageCode == 'en'
+                        ? Radius.circular(0.r)
+                        : Radius.circular(12.r),
+                  ),
                 ),
               ),
               SizedBox(width: 10.w),
@@ -122,16 +150,20 @@ class TaskItem extends StatelessWidget {
                     shape: BoxShape.circle,
                     color: taskModel.isDone
                         ? AppColor.doneColor
-                        : AppColor.whiteColor,
+                        : Colors.transparent,
                     border: Border.all(
                         color: taskModel.isDone
                             ? Colors.transparent
-                            : AppColor.primaryColor),
+                            : provider.themeMode == ThemeMode.light
+                                ? AppColor.primaryColor
+                                : AppColor.primaryDarkColor),
                   ),
-                  child: const Icon(
+                  child: Icon(
                     Icons.check,
                     size: 16,
-                    color: AppColor.whiteColor,
+                    color: !taskModel.isDone
+                        ? Colors.transparent
+                        : AppColor.whiteColor,
                   ),
                 ),
               ),
@@ -147,7 +179,10 @@ class TaskItem extends StatelessWidget {
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: AppStyles.titleL.copyWith(
-                          fontSize: 14.sp, color: AppColor.primaryColor),
+                          fontSize: 14.sp,
+                          color: provider.themeMode == ThemeMode.light
+                              ? AppColor.primaryColor
+                              : AppColor.primaryDarkColor),
                     ),
                     SizedBox(height: 8.h),
                     Text(
@@ -164,9 +199,11 @@ class TaskItem extends StatelessWidget {
                     context,
                     EditTaskScreen.routeName,
                     arguments: TaskModel(
-                        userId: FirebaseAuth.instance.currentUser!.uid,categoryId: '',
+                        userId: FirebaseAuth.instance.currentUser!.uid,
+                        categoryId: '',
                         id: taskModel.id,
                         title: taskModel.title,
+                        taskColor: taskModel.taskColor,
                         date: taskModel.date,
                         description: taskModel.description,
                         startTime: taskModel.startTime,
@@ -177,7 +214,7 @@ class TaskItem extends StatelessWidget {
                   padding: EdgeInsetsDirectional.only(end: 16.w),
                   child: const ImageIcon(
                     AssetImage(
-                      'assets/images/Edit.png',
+                      AppImages.edit,
                     ),
                     color: AppColor.taskGreyColor,
                   ),

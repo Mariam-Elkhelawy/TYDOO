@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 import 'package:todo_app/core/utils/app_colors.dart';
 import 'package:todo_app/core/utils/styles.dart';
+import 'package:todo_app/providers/my_provider.dart';
 
 class SignWithWidget extends StatelessWidget {
   const SignWithWidget(
@@ -11,15 +13,17 @@ class SignWithWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var provider = Provider.of<MyProvider>(context);
+
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20.w),
       child: Container(
         height: 45.h,
         decoration: BoxDecoration(
-          color: AppColor.whiteColor,
+          color: provider.themeMode==ThemeMode.light?AppColor.whiteColor:AppColor.darkColor,
           boxShadow: [
             BoxShadow(
-              color: Colors.grey.withOpacity(.5),
+              color:  provider.themeMode==ThemeMode.light?Colors.grey.withOpacity(.4):AppColor.taskGreyColor.withOpacity(.15),
               blurRadius: 13,
               offset: const Offset(0, 1),
             )
@@ -29,13 +33,13 @@ class SignWithWidget extends StatelessWidget {
         child: Row(
           children: [
             Padding(
-              padding: EdgeInsets.only(left: 20.w),
+              padding: EdgeInsetsDirectional.only(start: 20.w),
               child: Image.asset(iconPath,width: 24.w,height: 24.h,),
             ),
             SizedBox(width: 50.w),
             Text(
               iconText,
-              style: AppStyles.regularText.copyWith(fontSize: 15.sp),
+              style: AppStyles.regularText.copyWith(fontSize: 15.sp,color:  provider.themeMode==ThemeMode.light?AppColor.blackColor:AppColor.whiteColor),
             ),
           ],
         ),

@@ -7,7 +7,6 @@ import 'package:todo_app/core/utils/app_colors.dart';
 import 'package:todo_app/core/utils/app_images.dart';
 import 'package:todo_app/core/utils/styles.dart';
 import 'package:todo_app/features/home_screen.dart';
-import 'package:todo_app/features/login/login_screen.dart';
 import 'package:todo_app/firebase/firebase_functions.dart';
 import 'package:todo_app/providers/my_provider.dart';
 import 'package:todo_app/widgets/custom_dialog.dart';
@@ -41,20 +40,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
         appBar: AppBar(
           title: Text(
             local.create,
-            style: AppStyles.titleL.copyWith(color: AppColor.blackColor),
+            style: AppStyles.titleL.copyWith(
+                color: provider.themeMode == ThemeMode.light
+                    ? AppColor.blackColor
+                    : AppColor.whiteColor),
           ),
           backgroundColor: Colors.transparent,
           toolbarHeight: 140.h,
           leading: Padding(
-            padding: EdgeInsets.only(left: 24.w),
+            padding: EdgeInsetsDirectional.only(start: 24.w),
             child: InkWell(
               onTap: () {
                 Navigator.pop(context);
               },
-              child: const ImageIcon(
-                AssetImage(AppImages.arrow),
+              child: ImageIcon(
+                const AssetImage(AppImages.arrow),
                 size: 20,
-                color: AppColor.iconColor,
+                color: provider.themeMode == ThemeMode.light
+                    ? AppColor.iconColor
+                    : AppColor.whiteColor,
               ),
             ),
           ),
@@ -69,17 +73,34 @@ class _RegisterScreenState extends State<RegisterScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Text(local.fullName),
+                  Text(
+                    local.fullName,
+                    style: AppStyles.regularText.copyWith(
+                        fontSize: 15.sp,
+                        color: provider.themeMode == ThemeMode.light
+                            ? AppColor.blackColor
+                            : AppColor.whiteColor),
+                  ),
                   SizedBox(height: 6.h),
                   customTextFormField(
                     borderColor: AppColor.borderColor,
-                    fillColor: AppColor.whiteColor,
+                    fillColor: Colors.transparent,         cursorColor: provider.themeMode == ThemeMode.light
+                      ? AppColor.primaryColor
+                      : AppColor.primaryDarkColor,
                     controller: nameController,
                     contentPadding:
                         EdgeInsets.symmetric(horizontal: 16.w, vertical: 18.h),
                     radius: 10.r,
-                    hintStyle: AppStyles.hintText,
-                    textStyle: AppStyles.generalText.copyWith(fontSize: 15.sp),
+                    hintStyle: AppStyles.hintText.copyWith(
+                      color: provider.themeMode == ThemeMode.light
+                          ? AppColor.blackColor.withOpacity(.5)
+                          : AppColor.whiteColor.withOpacity(.5),
+                    ),
+                    textStyle: AppStyles.generalText.copyWith(
+                        fontSize: 15.sp,
+                        color: provider.themeMode == ThemeMode.light
+                            ? AppColor.primaryColor
+                            : AppColor.primaryDarkColor),
                     suffixIcon: const Icon(
                       Icons.person,
                       color: AppColor.taskGreyColor,
@@ -93,18 +114,34 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     },
                   ),
                   SizedBox(height: 30.h),
-                  Text(local.email),
+                  Text(
+                    local.email,
+                    style: AppStyles.regularText.copyWith(
+                        fontSize: 15.sp,
+                        color: provider.themeMode == ThemeMode.light
+                            ? AppColor.blackColor
+                            : AppColor.whiteColor),
+                  ),
                   SizedBox(height: 6.h),
                   customTextFormField(
                       borderColor: AppColor.borderColor,
-                      fillColor: AppColor.whiteColor,
-                      controller: emailController,
+                      fillColor: Colors.transparent,
+                      controller: emailController,         cursorColor: provider.themeMode == ThemeMode.light
+                      ? AppColor.primaryColor
+                      : AppColor.primaryDarkColor,
                       contentPadding: EdgeInsets.symmetric(
                           horizontal: 16.w, vertical: 18.h),
                       radius: 10.r,
-                      hintStyle: AppStyles.hintText,
-                      textStyle:
-                          AppStyles.generalText.copyWith(fontSize: 15.sp),
+                      hintStyle: AppStyles.hintText.copyWith(
+                        color: provider.themeMode == ThemeMode.light
+                            ? AppColor.blackColor.withOpacity(.5)
+                            : AppColor.whiteColor.withOpacity(.5),
+                      ),
+                      textStyle: AppStyles.generalText.copyWith(
+                          fontSize: 15.sp,
+                          color: provider.themeMode == ThemeMode.light
+                              ? AppColor.primaryColor
+                              : AppColor.primaryDarkColor),
                       suffixIcon: const Icon(
                         Icons.email_outlined,
                         color: AppColor.taskGreyColor,
@@ -124,17 +161,34 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         return null;
                       }),
                   SizedBox(height: 30.h),
-                  Text(local.phoneNumber),
+                  Text(
+                    local.phoneNumber,
+                    style: AppStyles.regularText.copyWith(
+                        fontSize: 15.sp,
+                        color: provider.themeMode == ThemeMode.light
+                            ? AppColor.blackColor
+                            : AppColor.whiteColor),
+                  ),
                   SizedBox(height: 6.h),
                   customTextFormField(
                     borderColor: AppColor.borderColor,
-                    fillColor: AppColor.whiteColor,
-                    controller: phoneController,
+                    fillColor: Colors.transparent,
+                    controller: phoneController,         cursorColor: provider.themeMode == ThemeMode.light
+                      ? AppColor.primaryColor
+                      : AppColor.primaryDarkColor,
                     contentPadding:
                         EdgeInsets.symmetric(horizontal: 16.w, vertical: 18.h),
                     radius: 10.r,
-                    hintStyle: AppStyles.hintText,
-                    textStyle: AppStyles.generalText.copyWith(fontSize: 15.sp),
+                    hintStyle: AppStyles.hintText.copyWith(
+                      color: provider.themeMode == ThemeMode.light
+                          ? AppColor.blackColor.withOpacity(.5)
+                          : AppColor.whiteColor.withOpacity(.5),
+                    ),
+                    textStyle: AppStyles.generalText.copyWith(
+                        fontSize: 15.sp,
+                        color: provider.themeMode == ThemeMode.light
+                            ? AppColor.primaryColor
+                            : AppColor.primaryDarkColor),
                     suffixIcon: const Icon(
                       Icons.phone,
                       color: AppColor.taskGreyColor,
@@ -153,18 +207,35 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     },
                   ),
                   SizedBox(height: 30.h),
-                  Text(local.password),
+                  Text(
+                    local.password,
+                    style: AppStyles.regularText.copyWith(
+                        fontSize: 15.sp,
+                        color: provider.themeMode == ThemeMode.light
+                            ? AppColor.blackColor
+                            : AppColor.whiteColor),
+                  ),
                   SizedBox(height: 6.h),
                   customTextFormField(
-                    borderColor: AppColor.borderColor,
-                    fillColor: AppColor.whiteColor,
+                    borderColor: AppColor.borderColor,         cursorColor: provider.themeMode == ThemeMode.light
+                      ? AppColor.primaryColor
+                      : AppColor.primaryDarkColor,
+                    fillColor: Colors.transparent,
                     controller: passwordController,
                     contentPadding:
                         EdgeInsets.symmetric(horizontal: 16.w, vertical: 18.h),
                     radius: 10.r,
-                    hintStyle: AppStyles.hintText,
+                    hintStyle: AppStyles.hintText.copyWith(
+                      color: provider.themeMode == ThemeMode.light
+                          ? AppColor.blackColor.withOpacity(.5)
+                          : AppColor.whiteColor.withOpacity(.5),
+                    ),
                     isPassword: isPassword,
-                    textStyle: AppStyles.generalText.copyWith(fontSize: 15.sp),
+                    textStyle: AppStyles.generalText.copyWith(
+                        fontSize: 15.sp,
+                        color: provider.themeMode == ThemeMode.light
+                            ? AppColor.primaryColor
+                            : AppColor.primaryDarkColor),
                     suffixIcon: IconButton(
                       icon: Icon(
                         !isPassword ? Icons.visibility : Icons.visibility_off,
@@ -189,18 +260,35 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     },
                   ),
                   SizedBox(height: 30.h),
-                  Text(local.confirmPassword),
+                  Text(
+                    local.confirmPassword,
+                    style: AppStyles.regularText.copyWith(
+                        fontSize: 15.sp,
+                        color: provider.themeMode == ThemeMode.light
+                            ? AppColor.blackColor
+                            : AppColor.whiteColor),
+                  ),
                   SizedBox(height: 6.h),
                   customTextFormField(
                     borderColor: AppColor.borderColor,
-                    fillColor: AppColor.whiteColor,
-                    controller: confirmPasswordController,
+                    fillColor: Colors.transparent,
+                    controller: confirmPasswordController,         cursorColor: provider.themeMode == ThemeMode.light
+                      ? AppColor.primaryColor
+                      : AppColor.primaryDarkColor,
                     contentPadding:
                         EdgeInsets.symmetric(horizontal: 16.w, vertical: 18.h),
                     radius: 10.r,
-                    hintStyle: AppStyles.hintText,
+                    hintStyle: AppStyles.hintText.copyWith(
+                      color: provider.themeMode == ThemeMode.light
+                          ? AppColor.blackColor.withOpacity(.5)
+                          : AppColor.whiteColor.withOpacity(.5),
+                    ),
                     isPassword: isPassword,
-                    textStyle: AppStyles.generalText.copyWith(fontSize: 15.sp),
+                    textStyle: AppStyles.generalText.copyWith(
+                        fontSize: 15.sp,
+                        color: provider.themeMode == ThemeMode.light
+                            ? AppColor.primaryColor
+                            : AppColor.primaryDarkColor),
                     suffixIcon: IconButton(
                       icon: Icon(
                         !isPassword ? Icons.visibility : Icons.visibility_off,
@@ -254,8 +342,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     child: Padding(
                       padding: EdgeInsets.symmetric(horizontal: 20.w),
                       child: customButton(
-                          borderColor: AppColor.primaryColor,
-                          color: AppColor.primaryColor,
+                          borderColor: provider.themeMode == ThemeMode.light
+                              ? AppColor.primaryColor
+                              : AppColor.primaryDarkColor,
+                          color: provider.themeMode == ThemeMode.light
+                              ? AppColor.primaryColor
+                              : AppColor.primaryDarkColor,
                           borderRadius: BorderRadius.circular(8.r),
                           child: Text(
                             local.create,
@@ -277,11 +369,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             color: AppColor.dividerColor,
                           ),
                         ),
-                        Text(
-                          local.or,
-                          textAlign: TextAlign.center,
-                          style:AppStyles.regularText.copyWith(fontSize: 12.sp),
-                        ),
+                        Text(local.or,
+                            textAlign: TextAlign.center,
+                            style: AppStyles.regularText.copyWith(
+                                fontSize: 14.sp,
+                                color: provider.themeMode == ThemeMode.light
+                                    ? AppColor.blackColor
+                                    : AppColor.whiteColor)),
                         const Expanded(
                           child: Divider(
                             thickness: 1,
@@ -301,10 +395,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   SizedBox(height: 30.h),
                   InkWell(
                     onTap: () {
-                      Navigator.pushNamed(
-                        context,
-                        LoginScreen.routeName,
-                      );
+                      Navigator.pop(context);
                     },
                     child: RichText(
                       textAlign: TextAlign.center,
@@ -314,10 +405,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             text: local.haveAccount,
                             style: AppStyles.settingTitle.copyWith(
                                 fontSize: 15.sp,
-                                color: AppColor.inactiveDayColor),
+                                color: provider.themeMode == ThemeMode.light
+                                    ? AppColor.inactiveDayColor
+                                    : AppColor.taskGreyColor),
                           ),
                           TextSpan(
-                              text: local.login, style: AppStyles.settingTitle),
+                            text: local.login,
+                            style: AppStyles.settingTitle.copyWith(
+                                color: provider.themeMode == ThemeMode.light
+                                    ? AppColor.blackColor
+                                    : AppColor.whiteColor),
+                          ),
                         ],
                       ),
                     ),

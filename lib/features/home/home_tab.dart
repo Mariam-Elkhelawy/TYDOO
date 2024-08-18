@@ -60,30 +60,34 @@ class _HomeTabState extends State<HomeTab> {
                 Stack(
                   children: [
                     Image.asset(
-                      AppImages.homeHeadline,
+                      provider.themeMode==ThemeMode.light?
+                      provider.languageCode == 'en'
+                          ? AppImages.homeHeadline
+                          : AppImages.homeHeadlineAr:provider.languageCode == 'en'
+                          ?AppImages.homeHeadlineDark:AppImages.homeHeadlineDarkAr,
                       fit: BoxFit.cover,
                       width: double.infinity,
                     ),
-                    Positioned(
+                    PositionedDirectional(
                       top: 110.h,
-                      left: 24.w,
+                      start: 24.w,
                       child: Text(
-                        AppStrings.hello,
+                        local.hello,
                         style: AppStyles.regularText.copyWith(
                             color: AppColor.helloColor, fontSize: 20.sp),
                       ),
                     ),
-                    Positioned(
+                    PositionedDirectional(
                       top: 135.h,
-                      left: 24.w,
+                      start: 24.w,
                       child: Text(
                         '$name 👋🏻',
                         style: AppStyles.titleL,
                       ),
                     ),
-                    Positioned(
+                    PositionedDirectional(
                       top: 180.h,
-                      left: 24.w,
+                      start: 24.w,
                       child: Text(
                         provider.languageCode == 'en'
                             ? 'You have ${tasks.length} task(s) for today'
@@ -95,6 +99,15 @@ class _HomeTabState extends State<HomeTab> {
                   ],
                 ),
                 EasyDateTimeLine(
+                  headerProps: EasyHeaderProps(monthStyle:  AppStyles.bodyS.copyWith(
+                      color: provider.themeMode == ThemeMode.light
+                          ? AppColor.blackColor
+                          : AppColor.whiteColor),
+                      selectedDateStyle:   AppStyles.bodyS.copyWith(
+                  color: provider.themeMode == ThemeMode.light
+                  ? AppColor.blackColor
+                      : AppColor.whiteColor),),
+                  locale: provider.languageCode == 'en' ? 'en' : 'ar',
                   initialDate: focusDate,
                   disabledDates: List.generate(
                     DateTime.now().difference(DateTime(2023)).inDays,
@@ -114,8 +127,10 @@ class _HomeTabState extends State<HomeTab> {
                           color: AppColor.inactiveDayColor,
                           fontWeight: FontWeight.w400,
                           fontSize: 12.sp),
-                      decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(8.r),
+                        ),
                         color: AppColor.inactiveColor,
                       ),
                     ),
@@ -129,8 +144,10 @@ class _HomeTabState extends State<HomeTab> {
                           color: AppColor.inactiveDayColor,
                           fontWeight: FontWeight.w400,
                           fontSize: 12.sp),
-                      decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                      decoration:  BoxDecoration(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(8.r),
+                        ),
                         color: AppColor.inactiveColor,
                       ),
                     ),
@@ -140,18 +157,27 @@ class _HomeTabState extends State<HomeTab> {
                           color: AppColor.activeDayColor,
                           fontWeight: FontWeight.w500,
                           fontSize: 13.sp),
-                      decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
-                        color: AppColor.primaryColor,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(8.r),
+                        ),
+                        color: provider.themeMode == ThemeMode.light
+                            ? AppColor.primaryColor
+                            : AppColor.primaryDarkColor,
                       ),
                     ),
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(left: 16.w, top: 24.h, bottom: 18.h),
+                  padding: EdgeInsetsDirectional.only(
+                      start: 16.w, top: 24.h, bottom: 18.h),
                   child: Text(
-                      '${DateFormat('d MMM').format(DateUtils.dateOnly(focusDate))} Tasks',
-                      style: AppStyles.bodyL),
+                    ' ${provider.languageCode == 'ar' ? 'مهام' : ''} ${DateFormat('d MMM', Locale(provider.languageCode == 'en' ? 'en' : 'ar').toString()).format(DateUtils.dateOnly(focusDate))} ${provider.languageCode == 'en' ? 'Tasks' : ''}',
+                    style: AppStyles.bodyL.copyWith(
+                        color: provider.themeMode == ThemeMode.light
+                            ? AppColor.blackColor
+                            : AppColor.whiteColor),
+                  ),
                 ),
                 tasks.isEmpty
                     ? Column(
@@ -168,7 +194,10 @@ class _HomeTabState extends State<HomeTab> {
                             local.noTasks,
                             textAlign: TextAlign.center,
                             style: AppStyles.titleL.copyWith(
-                                fontSize: 14.sp, color: AppColor.primaryColor),
+                                fontSize: 14.sp,
+                                color: provider.themeMode == ThemeMode.light
+                                    ? AppColor.primaryColor
+                                    : AppColor.primaryDarkColor),
                           ),
                           SizedBox(height: 26.h),
                         ],

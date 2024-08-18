@@ -8,6 +8,7 @@ import 'package:todo_app/features/login/login_screen.dart';
 import 'package:todo_app/features/onboarding/gradient_text.dart';
 import 'package:todo_app/features/onboarding/onboarding_widget.dart';
 import 'package:todo_app/firebase/firebase_functions.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -22,6 +23,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var local = AppLocalizations.of(context)!;
+
     return Scaffold(
       backgroundColor: AppColor.onboardingColor,
       body: Stack(
@@ -36,21 +39,21 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 },
               );
             },
-            children: const [
+            children:  [
               OnboardingWidget(
                 image: AppImages.onboarding3,
-                title: 'Welcome to ToDo App',
-                description: 'Keep track of your tasks easily!',
+                title: local.onBoardingT1,
+                description: local.onBoardingD1,
               ),
               OnboardingWidget(
                 image: AppImages.onboarding1,
-                title: 'Organize by Categories',
-                description: 'Categorize your tasks for better management.',
+                title: local.onBoardingT2,
+                description: local.onBoardingD2,
               ),
               OnboardingWidget(
                 image: AppImages.onboarding2,
-                title: 'Set Reminders',
-                description: 'Never miss a deadline with reminders.',
+                title: local.onBoardingT3,
+                description: local.onBoardingD3,
               ),
             ],
           ),
@@ -72,7 +75,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                   context, LoginScreen.routeName);
                         },
                         child: GradientText(
-                          'skip',
+                         local.skip,
                           style: TextStyle(fontSize: 16.sp),
                         ),
                       ),
@@ -126,7 +129,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       padding:
                           EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
                       child: Text(
-                        currentPage == 2 ? 'done' : 'next',
+                        currentPage == 2 ? local.doneO : local.next,
                         style: AppStyles.bodyM.copyWith(
                             fontSize: 14.sp, color: AppColor.whiteColor),
                       ),

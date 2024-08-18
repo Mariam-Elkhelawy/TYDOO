@@ -9,7 +9,6 @@ import 'package:todo_app/core/utils/styles.dart';
 import 'package:todo_app/features/category/add_category_screen.dart';
 import 'package:todo_app/features/category/category_item.dart';
 import 'package:todo_app/features/data/models/category_model.dart';
-import 'package:todo_app/features/home/task_item.dart';
 import 'package:todo_app/firebase/firebase_functions.dart';
 import 'package:todo_app/providers/my_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -32,27 +31,31 @@ class CategoryTab extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                // const ImageIcon(
-                //   AssetImage(AppImages.search),
-                //   color: AppColor.taskGreyColor,
-                // ),
                 InkWell(
                   child: SvgPicture.asset(
-                    'assets/images/add_category.svg',
-                    colorFilter: const ColorFilter.mode(
-                        AppColor.taskGreyColor, BlendMode.srcIn),
+                    AppImages.addCategoryIcon,
+                    colorFilter: ColorFilter.mode(
+                        provider.themeMode == ThemeMode.light
+                            ? AppColor.taskGreyColor
+                            : AppColor.whiteColor,
+                        BlendMode.srcIn),
                   ),
                   onTap: () {
                     Navigator.pushNamed(context, AddCategoryScreen.routeName);
                   },
                 ),
                 Text(
-                  'Category',
-                  style: AppStyles.bodyL.copyWith(color: AppColor.primaryColor),
+                  local.category,
+                  style: AppStyles.bodyL.copyWith(
+                      color: provider.themeMode == ThemeMode.light
+                          ? AppColor.primaryColor
+                          : AppColor.primaryDarkColor),
                 ),
-                const ImageIcon(
-                  AssetImage(AppImages.sort),
-                  color: AppColor.taskGreyColor,
+                ImageIcon(
+                  const AssetImage(AppImages.sort),
+                  color: provider.themeMode == ThemeMode.light
+                      ? AppColor.taskGreyColor
+                      : AppColor.whiteColor,
                 ),
               ],
             ),
@@ -64,16 +67,25 @@ class CategoryTab extends StatelessWidget {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return SizedBox(
                   height: 600.h,
-                  child: const Center(
+                  child: Center(
                     child: CircularProgressIndicator(
-                      color: AppColor.primaryColor,
+                      color: provider.themeMode == ThemeMode.light
+                          ? AppColor.primaryColor
+                          : AppColor.primaryDarkColor,
                     ),
                   ),
                 );
               }
               if (snapshot.hasError) {
                 return Center(
-                  child: Text(local.isError),
+                  child: Text(
+                    local.error,
+                    style: AppStyles.titleL.copyWith(
+                        fontSize: 14.sp,
+                        color: provider.themeMode == ThemeMode.light
+                            ? AppColor.primaryColor
+                            : AppColor.primaryDarkColor),
+                  ),
                 );
               }
               var categories =
@@ -90,9 +102,12 @@ class CategoryTab extends StatelessWidget {
                         ),
                         SizedBox(height: 20.h),
                         Text(
-                          'No Categories Added !',
+                          local.noCategory,
                           style: AppStyles.titleL.copyWith(
-                              fontSize: 14.sp, color: AppColor.primaryColor),
+                              fontSize: 14.sp,
+                              color: provider.themeMode == ThemeMode.light
+                                  ? AppColor.primaryColor
+                                  : AppColor.primaryDarkColor),
                         )
                       ],
                     )
