@@ -109,15 +109,18 @@ class CategoryItem extends StatelessWidget {
                     borderRadius: BorderRadius.circular(12.r)),
                 child: categoryModel.imagePath != null
                     ? ClipRRect(
-                  borderRadius: BorderRadius.circular(8.r),
-                  child: Image.file(
-                    File(categoryModel.imagePath!),
-                    width: 30.w,
-                    height: 30.h,
-                    fit: BoxFit.cover,
-                  ),
-                )
-                    : const Icon(Icons.image_not_supported_outlined,color: AppColor.taskGreyColor,),
+                        borderRadius: BorderRadius.circular(8.r),
+                        child: Image.file(
+                          File(categoryModel.imagePath!),
+                          width: 30.w,
+                          height: 30.h,
+                          fit: BoxFit.cover,
+                        ),
+                      )
+                    : const Icon(
+                        Icons.image_not_supported_outlined,
+                        color: AppColor.taskGreyColor,
+                      ),
               ),
               SizedBox(width: 12.w),
               Expanded(
@@ -146,29 +149,29 @@ class CategoryItem extends StatelessWidget {
                   ],
                 ),
               ),
-              InkWell(
-                onTap: () {
-                  // Navigator.pushNamed(
-                  //   context,
-                  //   EditTaskScreen.routeName,
-                  //   arguments: CategoryModel(
-                  //     userId: FirebaseAuth.instance.currentUser!.uid,
-                  //     id: categoryModel.id,
-                  //     name: categoryModel.name,
-                  //     note: categoryModel.note,
-                  //   ),
-                  // );
-                },
-                child: Padding(
-                  padding: EdgeInsetsDirectional.only(end: 18.w),
-                  child: const ImageIcon(
-                    AssetImage(
-                      AppImages.edit,
-                    ),
-                    color: AppColor.taskGreyColor,
-                  ),
-                ),
-              )
+              // InkWell(
+              //   onTap: () {
+              //     // Navigator.pushNamed(
+              //     //   context,
+              //     //   EditTaskScreen.routeName,
+              //     //   arguments: CategoryModel(
+              //     //     userId: FirebaseAuth.instance.currentUser!.uid,
+              //     //     id: categoryModel.id,
+              //     //     name: categoryModel.name,
+              //     //     note: categoryModel.note,
+              //     //   ),
+              //     // );
+              //   },
+              //   child: Padding(
+              //     padding: EdgeInsetsDirectional.only(end: 18.w),
+              //     child: const ImageIcon(
+              //       AssetImage(
+              //         AppImages.edit,
+              //       ),
+              //       color: AppColor.taskGreyColor,
+              //     ),
+              //   ),
+              // )
             ],
           ),
         ),
