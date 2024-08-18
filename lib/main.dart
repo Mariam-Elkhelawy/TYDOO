@@ -9,10 +9,13 @@ import 'package:todo_app/core/cache/shared_prefrences.dart';
 import 'package:todo_app/features/category/add_category_screen.dart';
 import 'package:todo_app/features/forget%20password/forget_password.dart';
 import 'package:todo_app/features/home/edit_tasks_screen.dart';
+import 'package:todo_app/features/home/notification_screen.dart';
 import 'package:todo_app/features/home_screen.dart';
 import 'package:todo_app/features/login/login_screen.dart';
 import 'package:todo_app/features/register/register_screen.dart';
 import 'package:todo_app/features/splash_screen.dart';
+import 'package:todo_app/firebase/firebase_functions.dart';
+import 'package:todo_app/firebase/firebase_notification.dart';
 import 'package:todo_app/firebase_options.dart';
 import 'package:todo_app/providers/my_provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -27,6 +30,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await FireBaseNotification.initNotifications();
   const fatalError = true;
   // Non-async exceptions
   FlutterError.onError = (errorDetails) {
@@ -94,6 +98,7 @@ class TodoApp extends StatelessWidget {
           AddTaskScreen.routeName: (context) => const AddTaskScreen(),
           AddCategoryScreen.routeName: (context) =>  const AddCategoryScreen(),
           ForgetPasswordScreen.routeName: (context) =>   ForgetPasswordScreen(),
+          NotificationScreen.routeName: (context) =>   NotificationScreen(),
         },
       ),
     );

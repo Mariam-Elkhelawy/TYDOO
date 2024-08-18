@@ -25,7 +25,7 @@ class HomeScreen extends StatelessWidget {
     return customBG(
       context: context,
       child: Scaffold(
-        backgroundColor:provider.themeMode==ThemeMode.light? Colors.transparent:Colors.transparent,
+        backgroundColor:provider.themeMode==ThemeMode.light? Colors.transparent:AppColor.darkColor,
         extendBody: true,
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: FloatingActionButton(
